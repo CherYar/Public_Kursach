@@ -29,7 +29,7 @@ int menu() {
 		else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; return 666; }
 		switch (mchoice)
 		{
-		case 1: {return 1; system("pause"); break; }//пока что это просто тест, ничего реально они не возвращают
+		case 1: {return 1; system("pause"); break; }//пока что это просто тест, меню ничего не делает
 		case 2: {return 2; system("pause"); break; }
 		case 3: {return 3; system("pause"); break; }
 		case 4: {return 4; system("pause"); break; }

@@ -53,6 +53,9 @@ public:
 	}
 	void addfio(string ln, string fn, string pr) { fname = fn; srname = ln; patrn = pr; }
 	unsigned short fiolength() { unsigned short l; l = fname.length() + srname.length() + patrn.length(); return l; }
+	unsigned short fnamelen() { unsigned short l; l = fname.length(); return l; }
+	unsigned short srnamelen() { unsigned short l; l = srname.length(); return l; }
+	unsigned short partrlen() { unsigned short l; l = patrn.length(); return l; }
 	bool validfio() {
 		return !fname.empty() && fname.length() <= 20 && all_of(fname.begin(), fname.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); }) &&
 			!srname.empty() && srname.length() <= 20 && all_of(srname.begin(), srname.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); }) &&
@@ -66,7 +69,5 @@ public:
 	string getpatr() { return patrn; }
 	bool validfname() { return !fname.empty() && fname.length() <= 20 && all_of(fname.begin(), fname.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); }); }
 	bool validsrname() { return !srname.empty() && srname.length() <= 20 && all_of(srname.begin(), srname.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); }); }
-	bool validpatr() {
-		return !patrn.empty() && patrn.length() <= 20 && all_of(patrn.begin(), patrn.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); });
-	}
+	bool validpatr() { return !patrn.empty() && patrn.length() <= 20 && all_of(patrn.begin(), patrn.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); });}
 };

@@ -2,7 +2,7 @@
 #pragma once
 #include "student.h"
 
-class StudentsList {
+class StudentsList : public student {
 private:
 	student* students;
 	unsigned int capacity;

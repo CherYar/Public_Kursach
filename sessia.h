@@ -2,6 +2,7 @@
 #pragma once 
 #include "struct.h"
 #include "misc.h"
+#include <string>
 
 class sessia {
 protected:
@@ -13,6 +14,8 @@ public:
     int kurs;
     int semestr;
     sessia() {
+        kurs = 0;
+        semestr = 0;
         examsCount = 0;
         exams = new predex[5];
         zachsCount = 0;
@@ -20,6 +23,8 @@ public:
     }
 
     sessia(const sessia& s) {
+        kurs = s.kurs;
+        semestr = s.semestr;
         examsCount = s.examsCount;
         zachsCount = s.zachsCount;
         exams = new predex[5];
@@ -29,6 +34,30 @@ public:
             zachs[i] = s.zachs[i];
         }
     }
+    bool SessiaToFile(const char* filename) {
+        FILE* file;
+        errno_t err = fopen_s(&file, filename, "wb");
+        if (err) {
+            cout << "Не удалось открыть файл для записи.\n";
+            return false;
+        }
+        fwrite(this, sizeof(sessia), 1, file);
+        fclose(file);
+        return true;
+    }
+    bool SessiaFromFile(const char* filename) {
+        FILE* file;
+        errno_t err = fopen_s(&file, filename, "rb");
+        if (err) {
+            cout << "Не удалось открыть файл для чтения.\n";
+            return false;
+        }
+        fread_s(this, sizeof(sessia), sizeof(sessia), 1, file);
+        fclose(file);
+        return true;
+    }
+
+    sessia(const char* filename) { SessiaFromFile(filename); }
 
     ~sessia() {
         delete[] exams;
@@ -84,25 +113,25 @@ public:
             cout << "Некорректный индекс зачета." << endl;
             return;
         }
-        zachs[index] = zach
+        zachs[index] = zach;
     }
     void changeZachZ(int index, int zach) {
         if (index < 0 || index >= zachsCount) {
             cout << "Некорректный индекс зачета." << endl;
             return;
         }
-        if (zach != 0 || zach != 1) {
+        if (!validzach(zach)) {
             cout << "Некорректное значение зачета." << endl;
             return;
         }
         zachs[index].zach = zach;
     }
-    void changeZachName(int index, string name) {
+    void changeZachName(int index, const string& name) {
         if (index < 0 || index >= zachsCount) {
             cout << "Некорректный индекс зачета." << endl;
             return;
         }
-        zachs.name[index] = name;
+        zachs[index].name = name;
     }
 
     bool validmark(int mark) {
@@ -172,7 +201,7 @@ public:
             predza zachet;
             CinDel;
             cout << "Введите название зачёта №" << i + 1 << ": ";
-            getline(cin, exam.name);
+            getline(cin, zachet.name);
             while (zachet.name.empty()) {
                 cout << "Название зачёта не может быть пустым. Пожалуйста, введите заново: ";
                 getline(cin, zachet.name);
@@ -181,9 +210,9 @@ public:
             cin >> zachet.zach;
             while (!validzach(zachet.zach)) {
                 cout << "Зачёт или есть, или его нет. Пожалуйста, введите заново: ";
-                cin >> zachet;
+                cin >> zachet.zach;
             }
             addZach(zachet);
         }
     }
-}//Конец
+};
