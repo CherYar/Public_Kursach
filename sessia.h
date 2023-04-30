@@ -147,15 +147,11 @@ public:
     }
 
     bool validkurs() {
-        return kurs > 0 && kurs <= 6;
+        return kurs > 0 && kurs <= 8;
     }
     bool validkurs(const int& k) {
-        return k > 0 && k <= 6;
+        return k > 0 && k <= 8;
     }
-    //bool validkurs(const string& s) {
-   //     if (!ValidInt(s)) cout <<"Введённое значение не является числом. Пожалуйста, введите заново: "
-   // }
-
     bool validsemestr() {
         return semestr > 0 && semestr <= 16;
     }
@@ -164,37 +160,59 @@ public:
     }
 
     void makesessia() {
-        string check = "\0";
+        string check;
         cout << "Введите курс: ";
-        cin >> check;
-        while (!ValidInt(check) && kurs == 0) {
-            cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
-            cin >> check;
-            if (ValidInt(check)) {
+        while (cin >> check) {
+            if (ValidIntModernised(check)) {
                 int k = stoi(check);
-                bool a = validkurs(k);
-                switch (a) {
-                case true: { kurs = k; break; }
-                case false: { cout << "Некорректное значнеие курса. Пожалуйста, введите заново: "; cin >> check; break; }
+                if (validkurs(k)) {
+                    kurs = k;
+                    break;
+                }
+                else {
+                    cout << "Некорректное значение курса. Пожалуйста, введите заново: ";
                 }
             }
+            else {
+                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+            }
         }
-        cout << "\n" << kurs << "\n";
-
+        CinDel;check = '\0';
         cout << "Введите семестр: ";
-        cin >> semestr;
-        while (!validsemestr()) {
-            cout << "Некорректный семестр. Пожалуйста, введите заново: ";
-            cin >> semestr;
+        while (cin >> check) {
+            if (ValidIntModernised(check)) {
+                int s = stoi(check);
+                if (validsemestr(s)) {
+                    semestr = s;
+                    break;
+                }
+                else {
+                    cout << "Некорректное значение семестра. Пожалуйста, введите заново: ";
+                }
+            }
+            else {
+                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+            }
         }
-
+        cout << "\nКурс " << kurs << ", Семестр " << semestr << " \n";
+        CinDel; check = '\0';int ec = 0;
         cout << "Введите количество экзаменов: ";
-        int ec;
-        cin >> ec;
-        while (ec < 0 || ec > 5) {
-            cout << "Некорректное количество. Пожалуйста, введите заново: ";
-            cin >> ec;
+        while (cin >> check) {
+            if (ValidIntModernised(check)) {
+                int c = stoi(check);
+                if (c >= 0 && c <= 5) {
+                    ec = c;
+                    break;
+                }
+                else {
+                    cout << "Некорректное количество. Пожалуйста, введите заново: ";
+                }
+            }
+            else {
+                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+            }
         }
+        CinDel; check = '\0';
         for (int i = 0; i < ec; i++) {
             predex exam;
             cout << "Введите название экзамена №" << i + 1 << ": ";
@@ -204,11 +222,20 @@ public:
                 cout << "Название экзамена не может быть пустым. Пожалуйста, введите заново: ";
                 getline(cin, exam.name);
             }
-            cout << "Введите оценку по экзамену(1 - 5): ";
-            cin >> exam.mark;
-            while (!validmark(exam.mark)) {
-                cout << "Некорректная оценка. Пожалуйста, введите заново: ";
-                cin >> exam.mark;
+            while (cin >> check) {
+                if (ValidIntModernised(check)) {
+                    int m = stoi(check);
+                    if (validmark(m)) {
+                        exam.mark = m;
+                        break;
+                    }
+                    else {
+                        cout << "Некорректное количество. Пожалуйста, введите заново: ";
+                    }
+                }
+                else {
+                    cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+                }
             }
             addExam(exam);
         }
@@ -238,4 +265,4 @@ public:
             addZach(zachet);
         }
     }
-};
+};//Это не работает)))))

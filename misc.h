@@ -41,3 +41,26 @@ bool ValidFloat(string num) {
 		return 0;
 	return 1;
 }
+
+bool ValidFloatModernised(const string& num) {
+    if (num.empty()) {
+        return false;
+    }
+    size_t start = 0;
+    if (num[0] == '-' || num[0] == '+') {
+        start = 1;
+    }
+    size_t decimal_count = 0;
+    for (size_t i = start; i < num.size(); i++) {
+        if (num[i] == '.') {
+            decimal_count++;
+            if (decimal_count > 1) {
+                return false;
+            }
+        }
+        else if (num[i] < '0' || num[i] > '9') {
+            return false;
+        }
+    }
+    return true;
+}
