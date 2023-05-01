@@ -36,6 +36,71 @@ public:
             zachs[i] = s.zachs[i];
         }
     }
+    bool SessiaToFileTXT(const char* filename) {
+        FILE* file;
+        errno_t err = fopen_s(&file, filename, "w");
+        if (err) {
+            cout << "Не удалось открыть текстовый файл для записи." << endl;
+            return false;
+        }
+        if (file != NULL) {
+            fprintf(file, "%d %d\n", kurs, semestr);
+            fprintf(file, "%d\n", examsCount);
+            for (int i = 0; i < examsCount; i++) {
+                fprintf(file, "%s %hu\n", exams[i].name.c_str(), exams[i].mark);
+            }
+            fprintf(file, "%d\n", zachsCount);
+            for (int i = 0; i < zachsCount; i++) {
+                fprintf(file, "%s %d\n", zachs[i].name.c_str(), zachs[i].zach);
+            }
+            fclose(file);
+            cout << "Сессия записана. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных фалов!" << endl;
+            return true;
+        }
+        else {
+            cout << "Не удалось записать в текстовый файл." << endl;
+            return false;
+        }
+    }
+
+    bool SessiaFromFileTXT(const char* filename) {
+        FILE* file;
+        errno_t err = fopen_s(&file, filename, "r");
+        if (err) {
+            cout << "Не удалось открыть текстовый файл для чтения." << endl;
+            return false;
+        }
+        if (file != NULL) {
+            fscanf_s(file, "%d %d", &kurs, &semestr);
+            fscanf_s(file, "%d", &examsCount);
+            exams = new predex[examsCount];
+            for (int i = 0; i < examsCount; i++) {
+                char name[512];
+                unsigned short mark;
+                fscanf_s(file, "%[^\n] %hu\n", name, &mark);
+                exams[i].name = name;
+                exams[i].mark = mark;
+            }
+            fscanf_s(file, "%d", &zachsCount);
+            zachs = new predza[zachsCount];
+            for (int i = 0; i < zachsCount; i++) {
+                char name[512];
+                int zach;
+                fscanf_s(file, "%[^\n] %d\n", name, &zach);
+                zachs[i].name = name;
+                zachs[i].zach = zach;
+            }
+            fclose(file);
+            cout << "Сессия прочитана из файла. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных фалов!" << endl;
+            return true;
+        }
+        else {
+            cout << "Не удалось открыть текстовый файл для чтения." << endl;
+            return false;
+        }
+    }
+
+
     bool SessiaToFile(const char* filename) {
         FILE* file;
         errno_t err = fopen_s(&file, filename, "wb");
@@ -44,9 +109,12 @@ public:
             return false;
         }
         fwrite(this, sizeof(sessia), 1, file);
+        fwrite(exams, sizeof(predex), examsCount, file);
+        fwrite(zachs, sizeof(predza), zachsCount, file);
         fclose(file);
         return true;
     }
+
     bool SessiaFromFile(const char* filename) {
         FILE* file;
         errno_t err = fopen_s(&file, filename, "rb");
@@ -55,6 +123,10 @@ public:
             return false;
         }
         fread_s(this, sizeof(sessia), sizeof(sessia), 1, file);
+        exams = new predex[examsCount];
+        fread_s(exams, sizeof(predex) * examsCount, sizeof(predex), examsCount, file);
+        zachs = new predza[zachsCount];
+        fread_s(zachs, sizeof(predza) * zachsCount, sizeof(predza), zachsCount, file);
         fclose(file);
         return true;
     }
@@ -161,7 +233,7 @@ public:
 
     void makesessia() {
         string check;
-        cout << "Введите курс: ";
+        cout << "Введите курс: ";  
         while (cin >> check) {
             if (ValidIntModernised(check)) {
                 int k = stoi(check);
@@ -170,15 +242,16 @@ public:
                     break;
                 }
                 else {
-                    cout << "Некорректное значение курса. Пожалуйста, введите заново: ";
+                    cout << "Некорректное значение курса. Пожалуйста, введите заново: ";  
                 }
             }
             else {
-                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
             }
         }
-        CinDel;check = '\0';
-        cout << "Введите семестр: ";
+        CinDel;
+        check = '\0';
+        cout << "Введите семестр: ";  ;
         while (cin >> check) {
             if (ValidIntModernised(check)) {
                 int s = stoi(check);
@@ -187,16 +260,17 @@ public:
                     break;
                 }
                 else {
-                    cout << "Некорректное значение семестра. Пожалуйста, введите заново: ";
+                    cout << "Некорректное значение семестра. Пожалуйста, введите заново: ";  
                 }
             }
             else {
-                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
             }
         }
-        cout << "\nКурс " << kurs << ", Семестр " << semestr << " \n";
-        CinDel; check = '\0';int ec = 0;
-        cout << "Введите количество экзаменов: ";
+        CinDel;
+        cout << "\nКурс: " << kurs << ", Семестр: " << semestr << " \n";
+        check = '\0';int ec = 0;
+        cout << "Введите количество экзаменов: ";  
         while (cin >> check) {
             if (ValidIntModernised(check)) {
                 int c = stoi(check);
@@ -205,23 +279,24 @@ public:
                     break;
                 }
                 else {
-                    cout << "Некорректное количество. Пожалуйста, введите заново: ";
+                    cout << "Некорректное количество. Пожалуйста, введите заново: ";  
                 }
             }
             else {
-                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
             }
         }
-        CinDel; check = '\0';
+        CinDel;
+        check = '\0';
         for (int i = 0; i < ec; i++) {
             predex exam;
-            cout << "Введите название экзамена №" << i + 1 << ": ";
-            CinDel;
+            cout << "Введите название экзамена №" << i + 1 << ": "; 
             getline(cin, exam.name);
             while (exam.name.empty()) {
-                cout << "Название экзамена не может быть пустым. Пожалуйста, введите заново: ";
+                //cout << "Название экзамена не может быть пустым. Пожалуйста, введите заново: ";  
                 getline(cin, exam.name);
             }
+            cout << "Введите оценку за экзамен (1 - 5): ";
             while (cin >> check) {
                 if (ValidIntModernised(check)) {
                     int m = stoi(check);
@@ -230,39 +305,61 @@ public:
                         break;
                     }
                     else {
-                        cout << "Некорректное количество. Пожалуйста, введите заново: ";
+                        cout << "Некорректная оценка. Пожалуйста, введите заново: ";  
                     }
                 }
                 else {
-                    cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";
+                    cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
                 }
             }
             addExam(exam);
         }
-
-        cout << "Введите количество зачетов: ";
-        int zc;
-        cin >> zc;
-        while (zc < 0 || zc > 5) {
-            cout << "Некорректное количество. Пожалуйста, введите заново: ";
-            cin >> zc;
+        CinDel;
+        check = '\0'; int zc = 0;
+        cout << "Введите количество зачётов: "; 
+        while (cin >> check) {
+            if (ValidIntModernised(check)) {
+                int zct = stoi(check);
+                if (zct >= 0 && zct <= 5) {
+                    zc = zct;
+                    break;
+                }
+                else {
+                    cout << "Некорректное количество. Пожалуйста, введите заново: "; 
+                }
+            }
+            else {
+                cout << "Введённое значение не является числом. Пожалуйста, введите заново: "; 
+            }
         }
+        CinDel;
+        check = '\0';
         for (int i = 0; i < zc; i++) {
-            predza zachet;
-            CinDel;
+            predza zach;
             cout << "Введите название зачёта №" << i + 1 << ": ";
-            getline(cin, zachet.name);
-            while (zachet.name.empty()) {
-                cout << "Название зачёта не может быть пустым. Пожалуйста, введите заново: ";
-                getline(cin, zachet.name);
+            getline(cin, zach.name);
+            while (zach.name.empty()) {
+                //cout << "Название зачёта не может быть пустым. Пожалуйста, введите заново: "; 
+                getline(cin, zach.name);
             }
             cout << "Получен ли зачёт (1 - да, 0 - нет): ";
-            cin >> zachet.zach;
-            while (!validzach(zachet.zach)) {
-                cout << "Зачёт или есть, или его нет. Пожалуйста, введите заново: ";
-                cin >> zachet.zach;
+            while (cin >> check) {
+                if (ValidIntModernised(check)) {
+                    int zz = stoi(check);
+                    if (validzach(zz)) {
+                        zach.zach = zz;
+                        break;
+                    }
+                    else {
+                        cout << "Зачёт или есть, или его нет. Пожалуйста, введите заново: "; 
+                    }
+                }
+                else {
+                    cout << "Введённое значение не является числом. Пожалуйста, введите заново: "; 
+                }
             }
-            addZach(zachet);
+            addZach(zach);
         }
+        CinDel;
     }
-};//Это не работает)))))
+};//Это вроде даже теперь работает

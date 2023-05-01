@@ -2,6 +2,7 @@
 #pragma once
 #include <iostream>
 #include <limits>
+#include <functional>
 using namespace std;
 #define CinDel cin.ignore((numeric_limits<streamsize>::max)(), '\n');//По идее чистит буфер ввода.
 
@@ -63,4 +64,18 @@ bool ValidFloatModernised(const string& num) {
         }
     }
     return true;
+}
+int readInt(const string& prompt, const function<bool(int)>& validator) {
+    string input;
+    cout << prompt;
+    while (cin >> input) {
+        if (ValidIntModernised(input)) {
+            int value = stoi(input);
+            if (validator(value)) {
+                return value;
+            }
+        }
+        cout << "Некорректное значение. Пожалуйста, введите заново: ";
+    }
+    return 0;
 }
