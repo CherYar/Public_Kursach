@@ -1,6 +1,7 @@
 //misc.h
 #pragma once
 #include <iostream>
+#include <string>
 #include <limits>
 #include <functional>
 using namespace std;
@@ -65,7 +66,7 @@ bool ValidFloatModernised(const string& num) {
     }
     return true;
 }
-int readInt(const string& prompt, const function<bool(int)>& validator) {
+int readIntV(const string& prompt, const function<bool(int)>& validator) {
     string input;
     cout << prompt;
     while (cin >> input) {
@@ -75,6 +76,18 @@ int readInt(const string& prompt, const function<bool(int)>& validator) {
                 return value;
             }
         }
+        cout << "Некорректное значение. Пожалуйста, введите заново: ";
+    }
+    return 0;
+}
+int readInt(const string& prompt) {
+    string input;
+    cout << prompt;
+    while (cin >> input) {
+        if (ValidIntModernised(input)) {
+            int value = stoi(input);
+            return value;
+           }
         cout << "Некорректное значение. Пожалуйста, введите заново: ";
     }
     return 0;

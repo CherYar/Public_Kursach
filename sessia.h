@@ -2,7 +2,7 @@
 #pragma once 
 #include "struct.h"
 #include "misc.h"
-#include <string>
+
 
 class sessia {
 protected:
@@ -75,7 +75,7 @@ public:
             fscanf_s(file, "%d", &examsCount);
             exams = new predex[examsCount];
             for (int i = 0; i < examsCount; i++) {
-                char name[512];
+                char name[666];
                 unsigned short mark;
                 fscanf_s(file, "%[^\n] %hu\n", name, &mark);
                 exams[i].name = name;
@@ -84,7 +84,7 @@ public:
             fscanf_s(file, "%d", &zachsCount);
             zachs = new predza[zachsCount];
             for (int i = 0; i < zachsCount; i++) {
-                char name[512];
+                char name[666];
                 int zach;
                 fscanf_s(file, "%[^\n] %d\n", name, &zach);
                 zachs[i].name = name;
@@ -145,33 +145,33 @@ public:
             examsCount++;
             return;
         }
-        cout << "Уже достигнуто максимальное количество экзаменов!\n";
+        cout << "Уже достигнуто максимальное количество экзаменов!" << endl;
     }
     void changeExam(int index, predex& exam) {
         if (index < 1 || index > examsCount) {
-            cout << "Некорректный индекс экзамена.\n" << endl;
+            cout << "Некорректный индекс экзамена." << endl;
             return;
         }
         if (!validmark(exam.mark)) {
-            cout << "Некорректная оценка.\n" << endl;
+            cout << "Некорректная оценка." << endl;
             return;
         }
         exams[index-1] = exam;
     }
     void changeExamMark(int index, int mark) {
         if (index < 1 || index > examsCount) {
-            cout << "Некорректный индекс экзамена.\n" << endl;
+            cout << "Некорректный индекс экзамена." << endl;
             return;
         }
         if (!validmark(mark)) {
-            cout << "Некорректная оценка.\n" << endl;
+            cout << "Некорректная оценка." << endl;
             return;
         }
         exams[index-1].mark = mark;
     }
     void changeExamName(int index, string name) {
         if (index < 1 || index > examsCount) {
-            cout << "Некорректный индекс экзамена.\n" << endl;
+            cout << "Некорректный индекс экзамена." << endl;
             return;
         }
         exams[index-1].name = name;
@@ -182,182 +182,74 @@ public:
             zachsCount++;
             return;
         }
-        cout << "Уже достигнуто максимальное количество зачётов!\n";
+        cout << "Уже достигнуто максимальное количество зачётов!"<< endl;
     }
     void changeZach(const int& index, const predza& zach) {
         if (index < 1 || index > zachsCount) {
-            cout << "Некорректный индекс зачета.\n" << endl;
+            cout << "Некорректный индекс зачета." << endl;
             return;
         }
         zachs[index-1] = zach;
     }
     void changeZachZ(const int& index, int zach) {
         if (index < 1 || index > zachsCount) {
-            cout << "Некорректный индекс зачета.\n" << endl;
+            cout << "Некорректный индекс зачета." << endl;
             return;
         }
         if (!validzach(zach)) {
-            cout << "Некорректное значение зачета.\n" << endl;
+            cout << "Некорректное значение зачета." << endl;
             return;
         }
         zachs[index-1].zach = zach;
     }
     void changeZachName(const int &index, const string& name) {
         if (index < 1 || index > zachsCount) {
-            cout << "Некорректный индекс зачета.\n" << endl;
+            cout << "Некорректный индекс зачета." << endl;
             return;
         }
         zachs[index-1].name = name;
     }
 
-    bool validmark(const int& mark) {
-        return mark >= 0 && mark <= 5;
-    }
-
-    bool validzach(const int& zach) {
-        return (zach == 0 || zach == 1);
-    }
-
-    bool validkurs() {
-        return kurs > 0 && kurs <= 8;
-    }
-    bool validkurs(const int& k) {
-        return k > 0 && k <= 8;
-    }
-    bool validsemestr() {
-        return semestr > 0 && semestr <= 16;
-    }
-    bool validsemestr(const int& s) {
-        return s > 0 && s <= 16;
-    }
+    bool validmark(const int& mark) { return mark >= 1 && mark <= 5; }
+    bool validzach(const int& zach) { return (zach == 0 || zach == 1); } 
+    bool validkurs() { return kurs > 0 && kurs <= 8; }
+    bool validkurs(const int& k) { return k > 0 && k <= 8; }
+    bool validsemestr() { return semestr > 0 && semestr <= 16; }
+    bool validsemestr(const int& s) { return s > 0 && s <= 16; }
+    //bool validammount(const int& a) { return a >= 1 && a <= 5; } Оказался не нужен))))
 
     void makesessia() {
-        string check;
-        cout << "Введите курс: ";  
-        while (cin >> check) {
-            if (ValidIntModernised(check)) {
-                int k = stoi(check);
-                if (validkurs(k)) {
-                    kurs = k;
-                    break;
-                }
-                else {
-                    cout << "Некорректное значение курса. Пожалуйста, введите заново: ";  
-                }
-            }
-            else {
-                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
-            }
-        }
+        kurs = readIntV("Введите курс (до 4 - бакалавр., 5 - спец., 6 магистр., до 8 - аспирант.): ", [this](int k) { return validkurs(k); });
         CinDel;
-        check = '\0';
-        cout << "Введите семестр: ";  ;
-        while (cin >> check) {
-            if (ValidIntModernised(check)) {
-                int s = stoi(check);
-                if (validsemestr(s)) {
-                    semestr = s;
-                    break;
-                }
-                else {
-                    cout << "Некорректное значение семестра. Пожалуйста, введите заново: ";  
-                }
-            }
-            else {
-                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
-            }
-        }
+        semestr = readIntV("Введите семестр (должен соответсвовать курсу): ", [this](int s) { return validsemestr(s); });
         CinDel;
+
         cout << "\nКурс: " << kurs << ", Семестр: " << semestr << " \n";
-        check = '\0';int ec = 0;
-        cout << "Введите количество экзаменов: ";  
-        while (cin >> check) {
-            if (ValidIntModernised(check)) {
-                int c = stoi(check);
-                if (c >= 0 && c <= 5) {
-                    ec = c;
-                    break;
-                }
-                else {
-                    cout << "Некорректное количество. Пожалуйста, введите заново: ";  
-                }
-            }
-            else {
-                cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
-            }
-        }
+        
+        int ec = 0;
+        ec = readIntV("\nВведите количество экзаменов (1 - 5): ", [this](int a) { return validmark(a); });
         CinDel;
-        check = '\0';
         for (int i = 0; i < ec; i++) {
             predex exam;
             cout << "Введите название экзамена №" << i + 1 << ": "; 
             getline(cin, exam.name);
             while (exam.name.empty()) {
-                //cout << "Название экзамена не может быть пустым. Пожалуйста, введите заново: ";  
                 getline(cin, exam.name);
             }
-            cout << "Введите оценку за экзамен (1 - 5): ";
-            while (cin >> check) {
-                if (ValidIntModernised(check)) {
-                    int m = stoi(check);
-                    if (validmark(m)) {
-                        exam.mark = m;
-                        break;
-                    }
-                    else {
-                        cout << "Некорректная оценка. Пожалуйста, введите заново: ";  
-                    }
-                }
-                else {
-                    cout << "Введённое значение не является числом. Пожалуйста, введите заново: ";  
-                }
-            }
+            exam.mark = readIntV("Введите оценку за экзамен (1 - 5): ", [this](int m) { return validmark(m); });
             addExam(exam);
         }
+        CinDel;int zc = 0;
+        zc = readIntV("\nВведите количество зачётов(1 - 5): ", [this](int c) { return validmark(c); });
         CinDel;
-        check = '\0'; int zc = 0;
-        cout << "Введите количество зачётов: "; 
-        while (cin >> check) {
-            if (ValidIntModernised(check)) {
-                int zct = stoi(check);
-                if (zct >= 0 && zct <= 5) {
-                    zc = zct;
-                    break;
-                }
-                else {
-                    cout << "Некорректное количество. Пожалуйста, введите заново: "; 
-                }
-            }
-            else {
-                cout << "Введённое значение не является числом. Пожалуйста, введите заново: "; 
-            }
-        }
-        CinDel;
-        check = '\0';
         for (int i = 0; i < zc; i++) {
             predza zach;
             cout << "Введите название зачёта №" << i + 1 << ": ";
             getline(cin, zach.name);
             while (zach.name.empty()) {
-                //cout << "Название зачёта не может быть пустым. Пожалуйста, введите заново: "; 
                 getline(cin, zach.name);
             }
-            cout << "Получен ли зачёт (1 - да, 0 - нет): ";
-            while (cin >> check) {
-                if (ValidIntModernised(check)) {
-                    int zz = stoi(check);
-                    if (validzach(zz)) {
-                        zach.zach = zz;
-                        break;
-                    }
-                    else {
-                        cout << "Зачёт или есть, или его нет. Пожалуйста, введите заново: "; 
-                    }
-                }
-                else {
-                    cout << "Введённое значение не является числом. Пожалуйста, введите заново: "; 
-                }
-            }
+            zach.zach = readIntV("Получен ли зачёт(1 - да, 0 - нет): ", [this](int z) { return validzach(z); });
             addZach(zach);
         }
         CinDel;
