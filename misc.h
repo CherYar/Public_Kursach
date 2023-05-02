@@ -4,6 +4,9 @@
 #include <string>
 #include <limits>
 #include <functional>
+#include <algorithm>
+#include <cctype>
+#include <windows.h>
 using namespace std;
 #define CinDel cin.ignore((numeric_limits<streamsize>::max)(), '\n');//По идее чистит буфер ввода.
 
@@ -78,6 +81,7 @@ int readIntV(const string& prompt, const function<bool(int)>& validator) {
         }
         cout << "Некорректное значение. Пожалуйста, введите заново: ";
     }
+    CinDel
     return 0;
 }
 int readInt(const string& prompt) {
@@ -90,5 +94,30 @@ int readInt(const string& prompt) {
            }
         cout << "Некорректное значение. Пожалуйста, введите заново: ";
     }
+    CinDel
     return 0;
+}
+string readStr(const string& prompt) {
+    string input;
+    cout << prompt;
+    while (getline(cin, input)) {
+        if (!input.empty()) {
+            return input;
+            }
+        }
+    CinDel
+}
+
+string readStrV(const string& prompt, const function<bool(string)>& validator) {
+    string input;
+    cout << prompt;
+    while (getline(cin, input)) {
+        if (!input.empty()) {
+            if (validator(input)) {
+                return input;
+            }
+        }
+        cout << "Некорректное значение. Пожалуйста, введите заново: ";
+    }
+    CinDel
 }

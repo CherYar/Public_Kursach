@@ -1,10 +1,7 @@
 //student.h
 #pragma once
-#include <cctype>
-#include <algorithm>
-#include "struct.h"
 #include "date_name.h"
-#include "sessia.h"
+#include "sessia_list.h"
 
 using namespace std;
 
@@ -13,15 +10,25 @@ using namespace std;
 
 
 
-class student : public sessia, public name, public date {
+class student : public SessionList, public name, public date {
+	struct insti {
+		string institut;
+		unsigned short kaf;
+		string group;
+		unsigned long progid;
+		string progname;
+		unsigned short postup;
+		unsigned short curkurs;
+		unsigned short cursemestr;
+
+	};
 public:
 	string num;
 protected:
 	insti uch;
 	name fio;
 	date born;
-	sessia* prog;
-	int sessiaCount;
+	SessionList prog;
 	unsigned short gendr; // 0 - муж., 1 - жен., 2 - небинар., 3 - не человек (например: ангел). 
 	unsigned short age;
 	short fizgroup;// 0 - осн, 1 - подготов, 2 - особ, 3 - нечеловеч.
@@ -40,34 +47,13 @@ public:
 		gendr = 0;
 		uch.progname = "Применине АКМ в городском бою";
 		uch.progid = 133777;
-		prog.kurs = 6;
-		prog.semestr = 15;
+		uch.curkurs = 6;
+		uch.cursemestr = 15;
 		fizgroup = 0;
-		sessiaCount = 0;
-		sessia = new prog[10];
 
 	};
-	~student() { delete[] sessia; cout << "\n class student destructor debug \n"; };
-	void addProg(const prog& prog) {
-		if (sessiaCount < 10) {
-			sessia[sessiaCount] = prog;
-			sessiaCount++;
-		}
-	}
-	void removeProg(int index) {
-		if (index >= 0 && index < sessiaCount) {
-			for (int i = index; i < sessiaCount - 1; i++) {
-				sessia[i] = sessia[i + 1];
-			}
-			sessiaCount--;
-		}
-	}
-	void updateProg(int index, const prog& prog) {
-		if (index >= 0 && index < sessiaCount) {
-			sessia[index] = prog;
-		}
-	}
-/*	bool validprogid() {
+	~student() {cout << "\n class student destructor debug" << endl; };
+	bool validprogid() {
 		return (uch.progid >= 100000 && uch.progid <= 999999);
 	}
 	bool validpostup() {
@@ -113,11 +99,11 @@ public:
 	}
 	void prbasic()
 	{
-		if (num != "00F0000" and validnum(num)) { cout << '\n' << num << ' '; fio.printfio(); cout <<'\n'; }
+		if (num != "00F0000" and validnum(num)) { cout << num << ' '; fio.printfio(); cout << endl; }
 		
-		else { cout << "\n Некорректный идентификационный номер! \n"; }
+		else { cout << "\n Некорректный идентификационный номер!" << endl; }
 	}
-	*/
+
 	/*void prfull()
 	{
 		if (num != "00F0000" and validnum(num)) {
@@ -209,9 +195,9 @@ public:
 
 
 		// Ввод других данных
-	}
+	}*/
 };
-*/
+
 
 
 //конец кода

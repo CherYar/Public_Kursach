@@ -1,10 +1,19 @@
 //sessia.h
-#pragma once 
-#include "struct.h"
+#pragma once
 #include "misc.h"
+using namespace std;
 
 
 class sessia {
+    struct predza {
+        string name;
+        bool zach;
+    };
+
+    struct predex {
+        string name;
+        unsigned short mark;
+    };
 protected:
     predex* exams;
     int examsCount;
@@ -209,26 +218,35 @@ public:
         }
         zachs[index-1].name = name;
     }
-
+    int getExamsCount() const {
+        return examsCount;
+    }
+    int getZachsCount() const {
+        return zachsCount;
+    }
+    const predex& getExam(int index) const {
+        return exams[index];
+    }
+    const predza& getZach(int index) const {
+        return zachs[index];
+    }
     bool validmark(const int& mark) { return mark >= 1 && mark <= 5; }
     bool validzach(const int& zach) { return (zach == 0 || zach == 1); } 
     bool validkurs() { return kurs > 0 && kurs <= 8; }
     bool validkurs(const int& k) { return k > 0 && k <= 8; }
     bool validsemestr() { return semestr > 0 && semestr <= 16; }
     bool validsemestr(const int& s) { return s > 0 && s <= 16; }
-    //bool validammount(const int& a) { return a >= 1 && a <= 5; } Оказался не нужен))))
 
     void makesessia() {
         kurs = readIntV("Введите курс (до 4 - бакалавр., 5 - спец., 6 магистр., до 8 - аспирант.): ", [this](int k) { return validkurs(k); });
-        CinDel;
+
         semestr = readIntV("Введите семестр (должен соответсвовать курсу): ", [this](int s) { return validsemestr(s); });
-        CinDel;
+
 
         cout << "\nКурс: " << kurs << ", Семестр: " << semestr << " \n";
         
         int ec = 0;
         ec = readIntV("\nВведите количество экзаменов (1 - 5): ", [this](int a) { return validmark(a); });
-        CinDel;
         for (int i = 0; i < ec; i++) {
             predex exam;
             cout << "Введите название экзамена №" << i + 1 << ": "; 
@@ -239,9 +257,10 @@ public:
             exam.mark = readIntV("Введите оценку за экзамен (1 - 5): ", [this](int m) { return validmark(m); });
             addExam(exam);
         }
-        CinDel;int zc = 0;
+        CinDel
+        int zc = 0;
         zc = readIntV("\nВведите количество зачётов(1 - 5): ", [this](int c) { return validmark(c); });
-        CinDel;
+
         for (int i = 0; i < zc; i++) {
             predza zach;
             cout << "Введите название зачёта №" << i + 1 << ": ";
@@ -252,6 +271,6 @@ public:
             zach.zach = readIntV("Получен ли зачёт(1 - да, 0 - нет): ", [this](int z) { return validzach(z); });
             addZach(zach);
         }
-        CinDel;
+        CinDel
     }
-};//Это вроде даже теперь работает
+};

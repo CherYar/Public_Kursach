@@ -1,4 +1,4 @@
-//list.h
+//stud_list.h
 #pragma once
 #include "student.h"
 
@@ -46,7 +46,7 @@ public:
 
 	void printStudent(int index) {
 		if (index >= 0 && index < size) {
-			students[index].prfull();
+			//students[index].prfull();
 		}
 	}
 

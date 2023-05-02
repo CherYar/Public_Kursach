@@ -1,7 +1,7 @@
 //date_name.h
 #pragma once 
-#include <string>
 #include "misc.h"
+using namespace std;
 
 class date {
 protected:
@@ -28,6 +28,12 @@ public:
 		return true;
 
 	}
+	int getyear() { return year; }
+	unsigned short getmonth() { return month; }
+	unsigned short getday() { return day; }
+	void setyear(int y) { year = y; }
+	void setsmon(unsigned short m) { month = m; }
+	void setday(unsigned short d) { day = d; }
 	bool validyear() {
 		return year >= 1900 && year <= 2100;
 	}

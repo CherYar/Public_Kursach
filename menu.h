@@ -2,7 +2,6 @@
 //Он посоветовал использвать "форвардное" объявление
 
 #pragma once
-#include <string>
 #include "misc.h"
 using namespace std;
 
