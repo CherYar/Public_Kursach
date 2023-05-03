@@ -156,8 +156,8 @@ public:
         }
         cout << "Уже достигнуто максимальное количество экзаменов!" << endl;
     }
-    void changeExam(int index, predex& exam) {
-        if (index < 1 || index > examsCount) {
+    void changeExam(const int& index, const predex& exam) {
+        if (index < 0 || index >= examsCount) {
             cout << "Некорректный индекс экзамена." << endl;
             return;
         }
@@ -165,10 +165,10 @@ public:
             cout << "Некорректная оценка." << endl;
             return;
         }
-        exams[index-1] = exam;
+        exams[index] = exam;
     }
-    void changeExamMark(int index, int mark) {
-        if (index < 1 || index > examsCount) {
+    void changeExamMark(const int& index, const int &mark) {
+        if (index < 0 || index >= examsCount) {
             cout << "Некорректный индекс экзамена." << endl;
             return;
         }
@@ -176,14 +176,14 @@ public:
             cout << "Некорректная оценка." << endl;
             return;
         }
-        exams[index-1].mark = mark;
+        exams[index].mark = mark;
     }
-    void changeExamName(int index, string name) {
-        if (index < 1 || index > examsCount) {
+    void changeExamName(const int& index, const string& name) {
+        if (index < 0 || index >= examsCount) {
             cout << "Некорректный индекс экзамена." << endl;
             return;
         }
-        exams[index-1].name = name;
+        exams[index].name = name;
     }
     void addZach(const predza& z) {
         if (zachsCount < 5) {
@@ -194,14 +194,14 @@ public:
         cout << "Уже достигнуто максимальное количество зачётов!"<< endl;
     }
     void changeZach(const int& index, const predza& zach) {
-        if (index < 1 || index > zachsCount) {
+        if (index < 0 || index >= zachsCount) {
             cout << "Некорректный индекс зачета." << endl;
             return;
         }
-        zachs[index-1] = zach;
+        zachs[index] = zach;
     }
     void changeZachZ(const int& index, int zach) {
-        if (index < 1 || index > zachsCount) {
+        if (index < 0 || index >= zachsCount) {
             cout << "Некорректный индекс зачета." << endl;
             return;
         }
@@ -209,14 +209,14 @@ public:
             cout << "Некорректное значение зачета." << endl;
             return;
         }
-        zachs[index-1].zach = zach;
+        zachs[index].zach = zach;
     }
     void changeZachName(const int &index, const string& name) {
-        if (index < 1 || index > zachsCount) {
+        if (index < 0 || index >= zachsCount) {
             cout << "Некорректный индекс зачета." << endl;
             return;
         }
-        zachs[index-1].name = name;
+        zachs[index].name = name;
     }
     int getExamsCount() const {
         return examsCount;
@@ -224,10 +224,10 @@ public:
     int getZachsCount() const {
         return zachsCount;
     }
-    const predex& getExam(int index) const {
+    const predex& getExam(const int &index) const {
         return exams[index];
     }
-    const predza& getZach(int index) const {
+    const predza& getZach(const int &index) const {
         return zachs[index];
     }
     bool validmark(const int& mark) { return mark >= 1 && mark <= 5; }

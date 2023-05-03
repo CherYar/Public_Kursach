@@ -44,6 +44,7 @@ public:
 		return day >= 1 && day <= 31;
 	}
 	date(const date& x) { day = x.day; month = x.month; year = x.year; }
+	date(date* d) { year = d->year; day = d->day, month = d->month; }
 };
 class name {
 protected:

@@ -17,10 +17,7 @@ public:
     ~SessionList() {
         delete[] sessions;
     }
-    /*sessia getSession(const int& i) {
-        if (i > 0 && i <= sessionCount) { return sesssions[i-1] };
-        cout << "Некорректный индекс сессии" << endl;
-    }*/
+
     sessia* getSession(const int& index) {
         if (index >= 0 && index < sessionCount) {
             return &sessions[index];
@@ -30,15 +27,9 @@ public:
             return nullptr;
         }
     }
-    void addSession(const sessia& session) {
-        if (sessionCount == capacity) {
-            capacity *= 2;
-            sessia* newSessions = new sessia[capacity];
-            for (int i = 0; i < sessionCount; i++) {
-                newSessions[i] = sessions[i];
-            }
-            delete[] sessions;
-            sessions = newSessions;
+    void addSession(const sessia& session)  {
+        if (sessionCount >= capacity) {
+            cout << "Достигнут предел количества сессий!" << endl; return;
         }
         sessions[sessionCount] = session;
         sessionCount++;
@@ -49,12 +40,15 @@ public:
                 sessions[i] = sessions[i + 1];
             }
             sessionCount--;
+            return;
         }
+        cout << "Некорректный индекс сессии" << endl;
     }
-    void updateSession(int index, const sessia& session) {
+    void updateSession(const int& index, const sessia& session) {
         if (index >= 0 && index < sessionCount) {
-            sessions[index] = session;
+            sessions[index] = session; return;
         }
+        cout << "Ошибка при изменении сессии!" << endl;
     }
     bool Troeshnik() {
         double totalMark = 0;
