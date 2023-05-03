@@ -37,7 +37,7 @@ public:
 	student()
 	{
 		num = "00F0000";
-		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х
+		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х, unnessesary due to standard constructor
 		born.adddatef(1, 1, 2000);
 		age = 23;
 		uch.postup = 2020;
@@ -85,7 +85,7 @@ public:
 			isdigit(static_cast<unsigned char>(uch.group[9]));
 	}
 
-	bool validnum(string proof)
+	bool validnum(const string& proof)
 	{
 		unsigned short len;
 		len = proof.length();
@@ -194,11 +194,6 @@ public:
 		
 
 
-		// Ввод других данных
+		// Недоделка
 	}*/
 };
-
-
-
-//конец кода
-
