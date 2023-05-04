@@ -23,7 +23,7 @@ int menu() {
 		cout << "7.Выход\n";
 		cout << "> ";
 		getline(cin, choice);//Филатов рекомендовал использовать getline, а не просто cin. Из за пробелов. getline нормально обрабатывает пробелы
-		if (ValidInt(choice))
+		if (ValidIntModernised(choice)) 
 			mchoice = stoi(choice);
 		else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; return 666; }
 		switch (mchoice)

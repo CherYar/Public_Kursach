@@ -16,12 +16,12 @@ class sessia {
     };
 protected:
     predex* exams;
-    int examsCount;
+    unsigned short examsCount;
     predza* zachs;
-    int zachsCount;
+    unsigned short zachsCount;
 public:
-    int kurs;
-    int semestr;
+    unsigned short kurs;
+    unsigned short semestr;
     sessia() {
         kurs = 0;
         semestr = 0;
@@ -218,10 +218,10 @@ public:
         }
         zachs[index].name = name;
     }
-    int getExamsCount() const {
+    const int& getExamsCount()  {
         return examsCount;
     }
-    int getZachsCount() const {
+    const int& getZachsCount()  {
         return zachsCount;
     }
     const predex& getExam(const int &index) const {

@@ -31,14 +31,14 @@ protected:
 	SessionList prog;
 	unsigned short gendr; // 0 - муж., 1 - жен., 2 - небинар., 3 - не человек (например: ангел). 
 	unsigned short age;
-	short fizgroup;// 0 - осн, 1 - подготов, 2 - особ, 3 - нечеловеч.
+	unsigned short fizgroup;// 0 - осн, 1 - подготов, 2 - особ, 3 - нечеловеч.
 
 public:
 	student()
 	{
 		num = "00F0000";
 		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х, unnessesary due to standard constructor
-		born.adddatef(1, 1, 2000);
+		born.adddatef(1, 1, 2000);//unnessesary due to standard constructor
 		age = 23;
 		uch.postup = 2020;
 		uch.institut = "ИКБ";
@@ -101,10 +101,10 @@ public:
 	{
 		if (num != "00F0000" and validnum(num)) { cout << num << ' '; fio.printfio(); cout << endl; }
 		
-		else { cout << "\n Некорректный идентификационный номер!" << endl; }
+		else { cout << "\nНекорректный идентификационный номер!" << endl; }
 	}
 
-	/*void prfull()
+	void prfull()
 	{
 		if (num != "00F0000" and validnum(num)) {
 			cout << "|----------- Студент:" << num << " -----------|" << endl;
@@ -136,7 +136,7 @@ public:
 			cout << "| Курс: " << prog.kurs << " | Семестр: " << prog.semestr; if (prog.semestr >= 10) cout.width(18); else cout.width(19); cout << right << '|' << endl << left;
 			cout.fill('-'); cout << '|'; cout.width(40); cout << right << '|' << endl << left; cout.fill(' ');
 			cout << "| Предмет:                  Зачёт/оценка|" << endl;
-			if (validsubz(z1)) { cout << "| " << z1.name; cout.width(38 - z1.name.length()); cout << right << (z1.zach ? "зач" : "незач") << '|' << endl; }
+			/*if (validsubz(z1)) { cout << "| " << z1.name; cout.width(38 - z1.name.length()); cout << right << (z1.zach ? "зач" : "незач") << '|' << endl; }
 			if (validsubz(z2)) { cout << "| " << z2.name; cout.width(38 - z2.name.length()); cout << right << (z2.zach ? "зач" : "незач") << '|' << endl; }
 			if (validsubz(z3)) { cout << "| " << z3.name; cout.width(38 - z3.name.length()); cout << right << (z3.zach ? "зач" : "незач") << '|' << endl; }
 			if (validsubz(z4)) { cout << "| " << z4.name; cout.width(38 - z4.name.length()); cout << right << (z4.zach ? "зач" : "незач") << '|' << endl; }
@@ -146,9 +146,9 @@ public:
 			if (validsubx(x3)) { cout << "| " << x3.name; cout.width(38 - x3.name.length()); cout << right << x3.mark << '|' << endl; }
 			if (validsubx(x4)) { cout << "| " << x4.name; cout.width(38 - x4.name.length()); cout << right << x4.mark << '|' << endl; }
 			if (validsubx(x5)) { cout << "| " << x5.name; cout.width(38 - x5.name.length()); cout << right << x5.mark << '|' << endl; }
-			cout.fill('-'); cout << '|'; cout.width(40); cout << right << '|' << endl << left; cout.fill(' ');
+			cout.fill('-'); cout << '|'; cout.width(40); cout << right << '|' << endl << left; cout.fill(' ');*/
 		}
-		else { cout << "\n Некорректный идентификационный номер! \n"; }
+		else { cout << "\n Некорректный идентификационный номер!"<<endl; }
 	}
 	void makestudent() {
 		cout << "Введите номер студента: ";
@@ -195,5 +195,5 @@ public:
 
 
 		// Недоделка
-	}*/
+	}
 };

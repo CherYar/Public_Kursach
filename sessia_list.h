@@ -6,12 +6,11 @@ using namespace std;
 class SessionList: public sessia {
 protected:
     sessia* sessions;
-    int sessionCount;
-    int capacity;
+    unsigned short sessionCount;
+    const unsigned short capacity = 10;
 public:
     SessionList() {
         sessionCount = 0;
-        capacity = 10;
         sessions = new sessia[capacity];
     }
     ~SessionList() {
@@ -29,7 +28,7 @@ public:
     }
     void addSession(const sessia& session)  {
         if (sessionCount >= capacity) {
-            cout << "ƒостигнут предел количества сессий!" << endl; return;
+            cout << "Ќевозможно добавить, достигнут предел количества сессий!" << endl; return;
         }
         sessions[sessionCount] = session;
         sessionCount++;
@@ -50,7 +49,7 @@ public:
         }
         cout << "ќшибка при изменении сессии!" << endl;
     }
-    bool Troeshnik() {
+    /*bool Troeshnik() {
         double totalMark = 0;
         int markCount = 0;
         int failedZachs = 0;
@@ -71,4 +70,5 @@ public:
         double failedZachRatio = totalZachs > 0 ? (double)failedZachs / totalZachs : 0;
         return averageMark < 3.7 || failedZachRatio > 0.2;
     }
+    всЄ равно надо будет делать по другому, этот bool скорее всего не поможет.*/
 };
