@@ -1,8 +1,14 @@
 //student.h
 #pragma once
-#include "name.h"
+#include "date_name.h"
 #include "sessia_list.h"
+
 using namespace std;
+
+
+
+
+
 
 class student : public SessionList, public name, public date {
 	struct insti {
@@ -91,13 +97,9 @@ public:
 		}
 		else return false;
 	}
-	friend ostream& operator<<(ostream& out, const student& s) {
-		out << left << s.num << " " << s.fio << endl;
-		return out;
-	}
 	void prbasic()
 	{
-		if (num != "00F0000" and validnum(num)) { cout << this; }
+		if (num != "00F0000" and validnum(num)) { cout << num << ' '; fio.printfio(); cout << endl; }
 		
 		else { cout << "\nНекорректный идентификационный номер!" << endl; }
 	}
@@ -106,8 +108,8 @@ public:
 	{
 		if (num != "00F0000" and validnum(num)) {
 			cout << "|----------- Студент:" << num << " -----------|" << endl;
-			cout << '|' << fio << cout.width(fio.fiolength() - 10) << right << '|' << endl << left;
-			cout << '|' << "Рожд. " << born << ", Возраст: " << age << " лет/года"; cout.width(born.datelength() + to_string(age).length()-4); cout << right << '|' << endl << left;
+			cout << '|'; fio.printfio(); cout.width(fio.fiolength() - 10); cout << right << '|' << endl << left;
+			cout << '|' << "Рожд. "; born.printdatef(); cout << ", Возраст: " << age << " лет/года"; cout.width(born.datelength() + to_string(age).length()-4); cout << right << '|' << endl << left;
 			switch (gendr)
 			{
 			case 0: {cout << '|'; cout.width(39); cout << "Пол: муж." << right << '|' << endl << left; break; }
@@ -133,7 +135,18 @@ public:
 			cout << "| Номер программы: " << uch.progid; cout.width(16);cout << right << '|' << endl << left; 
 			cout << "| Курс: " << prog.kurs << " | Семестр: " << prog.semestr; if (prog.semestr >= 10) cout.width(18); else cout.width(19); cout << right << '|' << endl << left;
 			cout.fill('-'); cout << '|'; cout.width(40); cout << right << '|' << endl << left; cout.fill(' ');
-			cout << "| Предмет:                  Зачёт/оценка|" << endl; 
+			cout << "| Предмет:                  Зачёт/оценка|" << endl;
+			/*if (validsubz(z1)) { cout << "| " << z1.name; cout.width(38 - z1.name.length()); cout << right << (z1.zach ? "зач" : "незач") << '|' << endl; }
+			if (validsubz(z2)) { cout << "| " << z2.name; cout.width(38 - z2.name.length()); cout << right << (z2.zach ? "зач" : "незач") << '|' << endl; }
+			if (validsubz(z3)) { cout << "| " << z3.name; cout.width(38 - z3.name.length()); cout << right << (z3.zach ? "зач" : "незач") << '|' << endl; }
+			if (validsubz(z4)) { cout << "| " << z4.name; cout.width(38 - z4.name.length()); cout << right << (z4.zach ? "зач" : "незач") << '|' << endl; }
+			if (validsubz(z5)) { cout << "| " << z5.name; cout.width(38 - z5.name.length()); cout << right << (z5.zach ? "зач" : "незач") << '|' << endl; }
+			if (validsubx(x1)) { cout << "| " << x1.name; cout.width(38 - x1.name.length()); cout << right << x1.mark << '|' << endl; }
+			if (validsubx(x2)) { cout << "| " << x2.name; cout.width(38 - x2.name.length()); cout << right << x2.mark << '|' << endl; }
+			if (validsubx(x3)) { cout << "| " << x3.name; cout.width(38 - x3.name.length()); cout << right << x3.mark << '|' << endl; }
+			if (validsubx(x4)) { cout << "| " << x4.name; cout.width(38 - x4.name.length()); cout << right << x4.mark << '|' << endl; }
+			if (validsubx(x5)) { cout << "| " << x5.name; cout.width(38 - x5.name.length()); cout << right << x5.mark << '|' << endl; }
+			cout.fill('-'); cout << '|'; cout.width(40); cout << right << '|' << endl << left; cout.fill(' ');*/
 		}
 		else { cout << "\n Некорректный идентификационный номер!"<<endl; }
 	}
