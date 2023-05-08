@@ -5,7 +5,8 @@
 //#include "stud_list.h"
 //#include "menu.h"
 //#include "sessia.h"
-#include "misc.h"
+#include "date.h"
+#include "name.h"
 using namespace std;
 
 
