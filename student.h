@@ -1,14 +1,8 @@
 //student.h
 #pragma once
-#include "date_name.h"
+#include "name.h"
 #include "sessia_list.h"
-
 using namespace std;
-
-
-
-
-
 
 class student : public SessionList, public name, public date {
 	struct insti {
@@ -97,9 +91,13 @@ public:
 		}
 		else return false;
 	}
+	friend ostream& operator<<(ostream& out, const student& s) {
+		out << left << s.num << " " << s.fio << endl;
+		return out;
+	}
 	void prbasic()
 	{
-		if (num != "00F0000" and validnum(num)) { cout << num << ' '; fio.printfio(); cout << endl; }
+		if (num != "00F0000" and validnum(num)) { cout << this; }
 		
 		else { cout << "\nНекорректный идентификационный номер!" << endl; }
 	}
@@ -108,8 +106,8 @@ public:
 	{
 		if (num != "00F0000" and validnum(num)) {
 			cout << "|----------- Студент:" << num << " -----------|" << endl;
-			cout << '|'; fio.printfio(); cout.width(fio.fiolength() - 10); cout << right << '|' << endl << left;
-			cout << '|' << "Рожд. "; born.printdatef(); cout << ", Возраст: " << age << " лет/года"; cout.width(born.datelength() + to_string(age).length()-4); cout << right << '|' << endl << left;
+			cout << '|' << fio << cout.width(fio.fiolength() - 10) << right << '|' << endl << left;
+			cout << '|' << "Рожд. " << born << ", Возраст: " << age << " лет/года"; cout.width(born.datelength() + to_string(age).length()-4); cout << right << '|' << endl << left;
 			switch (gendr)
 			{
 			case 0: {cout << '|'; cout.width(39); cout << "Пол: муж." << right << '|' << endl << left; break; }
