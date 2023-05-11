@@ -5,6 +5,9 @@
 using namespace std;
 
 class student : public SessionList, public name, public date {
+public:
+	string num;
+protected:
 	struct insti {
 		string institut;
 		unsigned short kaf;
@@ -16,9 +19,6 @@ class student : public SessionList, public name, public date {
 		unsigned short cursemestr;
 
 	};
-public:
-	string num;
-protected:
 	insti uch;
 	name fio;
 	date born;
@@ -95,6 +95,7 @@ public:
 		out << left << s.num << " " << s.fio << endl;
 		return out;
 	}
+	void addfio(const string& sn, const string& fn, const string& pr) { this->fio.addfio(sn, fn, pr); }
 	void prbasic()
 	{
 		if (num != "00F0000" and validnum(num)) { cout << this; }
@@ -106,8 +107,8 @@ public:
 	{
 		if (num != "00F0000" and validnum(num)) {
 			cout << "|----------- Студент:" << num << " -----------|" << endl;
-			cout << '|' << fio << cout.width(fio.fiolength() - 10) << right << '|' << endl << left;
-			cout << '|' << "Рожд. " << born << ", Возраст: " << age << " лет/года"; cout.width(born.datelength() + to_string(age).length()-4); cout << right << '|' << endl << left;
+			cout << left << '|' << fio << setw(38 - fio.fiolength()) << right << '|' << endl;
+			cout << '|' << "Рожд. " << born << ", Возраст: " << age << " лет/года"; cout.width(born.datelength() + to_string(age).length()-6); cout << right << '|' << endl << left;
 			switch (gendr)
 			{
 			case 0: {cout << '|'; cout.width(39); cout << "Пол: муж." << right << '|' << endl << left; break; }
@@ -131,11 +132,12 @@ public:
 			cout << "|---Программа, оценки и успеваемость: --|" << endl;
 			cout << "| " << uch.progname; cout.width(39- uch.progname.length()); cout << right<< '|' << endl << left;
 			cout << "| Номер программы: " << uch.progid; cout.width(16);cout << right << '|' << endl << left; 
-			cout << "| Курс: " << prog.kurs << " | Семестр: " << prog.semestr; if (prog.semestr >= 10) cout.width(18); else cout.width(19); cout << right << '|' << endl << left;
+			cout << "|Тек. курс: " << uch.curkurs << " | Тек. семестр: " << uch.cursemestr; if (uch.cursemestr >= 10) cout.width(9); else cout.width(10); cout << right << '|' << endl << left;
 			cout.fill('-'); cout << '|'; cout.width(40); cout << right << '|' << endl << left; cout.fill(' ');
-			cout << "| Предмет:                  Зачёт/оценка|" << endl; 
+			//cout << "| Предмет:                  Зачёт/оценка|" << endl;
+			cout << prog;
 		}
-		else { cout << "\n Некорректный идентификационный номер!"<<endl; }
+		else { cout << "\nНекорректный идентификационный номер!"<<endl; }
 	}
 	void makestudent() {
 		cout << "Введите номер студента: ";
@@ -183,4 +185,5 @@ public:
 
 		// Недоделка
 	}
+
 };

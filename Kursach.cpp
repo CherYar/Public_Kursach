@@ -1,12 +1,10 @@
 ﻿//main
 //#include "date_name.h"
-#include "sessia_list.h"
+//#include "sessia_list.h"
 #include "student.h"
 //#include "stud_list.h"
 //#include "menu.h"
 //#include "sessia.h"
-#include "date.h"
-#include "name.h"
 using namespace std;
 
 
@@ -20,7 +18,11 @@ sessia s2;
 s2.SessiaFromFile("test_sessia.bin");
 s2.SessiaToFileTXT("test_sessia2.txt");//Проверка, совместимы ли методы вообще блинб
 return 0;*/ 
-student vasya;
-vasya.prfull();
-
+student test;
+test.num = "91Ж1337";
+test.addfio("Тонус", "Череп", "Кек");
+sessia s; //s.SessiaFromFileTXT("test_sessia.txt");
+SessionList b; b.addSession(s);
+test.prfull();
+cout << s;
 }

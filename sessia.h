@@ -5,6 +5,7 @@ using namespace std;
 
 
 class sessia {
+protected:
     struct predza {
         string name;
         bool zach;
@@ -14,7 +15,6 @@ class sessia {
         string name;
         unsigned short mark;
     };
-protected:
     predex* exams;
     unsigned short examsCount;
     predza* zachs;
@@ -45,102 +45,78 @@ public:
             zachs[i] = s.zachs[i];
         }
     }
-    bool SessiaToFileTXT(const char* filename) {
-        FILE* file;
-        errno_t err = fopen_s(&file, filename, "w");
-        if (err) {
-            cout << "Не удалось открыть текстовый файл для записи." << endl;
+    bool SessiaToFileTXT(const string& filename) {
+        ofstream file(filename);
+        if (!file.is_open()) {
+            cout << "Не удалось открыть текстовый файл для записи!" << endl;
             return false;
         }
-        if (file != NULL) {
-            fprintf(file, "%d %d\n", kurs, semestr);
-            fprintf(file, "%d\n", examsCount);
-            for (int i = 0; i < examsCount; i++) {
-                fprintf(file, "%s %hu\n", exams[i].name.c_str(), exams[i].mark);
-            }
-            fprintf(file, "%d\n", zachsCount);
-            for (int i = 0; i < zachsCount; i++) {
-                fprintf(file, "%s %d\n", zachs[i].name.c_str(), zachs[i].zach);
-            }
-            fclose(file);
-            cout << "Сессия записана. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных фалов!" << endl;
-            return true;
+        file << kurs << ' ' << semestr << '\n';
+        file << examsCount << '\n';
+        for (int i = 0; i < examsCount; i++) {
+            file << exams[i].name << ' ' << exams[i].mark << '\n';
         }
-        else {
-            cout << "Не удалось записать в текстовый файл." << endl;
-            return false;
+        file << zachsCount << '\n';
+        for (int i = 0; i < zachsCount; i++) {
+            file << zachs[i].name << ' ' << zachs[i].zach << '\n';
         }
-    }
-
-    bool SessiaFromFileTXT(const char* filename) {
-        FILE* file;
-        errno_t err = fopen_s(&file, filename, "r");
-        if (err) {
-            cout << "Не удалось открыть текстовый файл для чтения." << endl;
-            return false;
-        }
-        if (file != NULL) {
-            fscanf_s(file, "%d %d", &kurs, &semestr);
-            fscanf_s(file, "%d", &examsCount);
-            exams = new predex[examsCount];
-            for (int i = 0; i < examsCount; i++) {
-                char name[666];
-                unsigned short mark;
-                fscanf_s(file, "%[^\n] %hu\n", name, &mark);
-                exams[i].name = name;
-                exams[i].mark = mark;
-            }
-            fscanf_s(file, "%d", &zachsCount);
-            zachs = new predza[zachsCount];
-            for (int i = 0; i < zachsCount; i++) {
-                char name[666];
-                int zach;
-                fscanf_s(file, "%[^\n] %d\n", name, &zach);
-                zachs[i].name = name;
-                zachs[i].zach = zach;
-            }
-            fclose(file);
-            cout << "Сессия прочитана из файла. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных фалов!" << endl;
-            return true;
-        }
-        else {
-            cout << "Не удалось открыть текстовый файл для чтения." << endl;
-            return false;
-        }
-    }
-
-
-    bool SessiaToFile(const char* filename) {
-        FILE* file;
-        errno_t err = fopen_s(&file, filename, "wb");
-        if (err) {
-            cout << "Не удалось открыть файл для записи.\n";
-            return false;
-        }
-        fwrite(this, sizeof(sessia), 1, file);
-        fwrite(exams, sizeof(predex), examsCount, file);
-        fwrite(zachs, sizeof(predza), zachsCount, file);
-        fclose(file);
+        file.close();
+        cout << "Сессия записана. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных файлов!" << endl;
         return true;
     }
 
-    bool SessiaFromFile(const char* filename) {
-        FILE* file;
-        errno_t err = fopen_s(&file, filename, "rb");
-        if (err) {
-            cout << "Не удалось открыть файл для чтения.\n";
+    bool SessiaFromFileTXT(const string& filename) {
+        ifstream file(filename);
+        if (!file.is_open()) {
+            cout << "Не удалось открыть текстовый файл для чтения!" << endl;
             return false;
         }
-        fread_s(this, sizeof(sessia), sizeof(sessia), 1, file);
+        file >> kurs >> semestr;
+        file >> examsCount;
         exams = new predex[examsCount];
-        fread_s(exams, sizeof(predex) * examsCount, sizeof(predex), examsCount, file);
+        for (int i = 0; i < examsCount; i++) {
+            file >> exams[i].name >> exams[i].mark;
+        }
+        file >> zachsCount;
         zachs = new predza[zachsCount];
-        fread_s(zachs, sizeof(predza) * zachsCount, sizeof(predza), zachsCount, file);
-        fclose(file);
+        for (int i = 0; i < zachsCount; i++) {
+            file >> zachs[i].name >> zachs[i].zach;
+        }
+        file.close();
+        cout << "Сессия прочитана из файла. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных файлов!" << endl;
         return true;
     }
 
-    sessia(const char* filename) { SessiaFromFile(filename); }
+
+    bool SessiaToFile(const string& filename) {
+        ofstream file(filename, ios::binary);
+        if (!file.is_open()) {
+            cout << "Не удалось открыть файл для записи!" << endl;
+            return false;
+        }
+        file.write(reinterpret_cast<const char*>(this), sizeof(sessia));
+        file.write(reinterpret_cast<const char*>(exams), sizeof(predex) * examsCount);
+        file.write(reinterpret_cast<const char*>(zachs), sizeof(predza) * zachsCount);
+        file.close();
+        return true;
+    }
+
+    bool SessiaFromFile(const string& filename) {
+        ifstream file(filename, ios::binary);
+        if (!file.is_open()) {
+            cout << "Не удалось открыть файл для чтения!" << endl;
+            return false;
+        }
+        file.read(reinterpret_cast<char*>(this), sizeof(sessia));
+        exams = new predex[examsCount];
+        file.read(reinterpret_cast<char*>(exams), sizeof(predex) * examsCount);
+        zachs = new predza[zachsCount];
+        file.read(reinterpret_cast<char*>(zachs), sizeof(predza) * zachsCount);
+        file.close();
+        return true;
+    }
+
+    sessia(const char* filename) { this->SessiaFromFile(filename); }
 
     ~sessia() {
         delete[] exams;
@@ -273,4 +249,38 @@ public:
         }
         CinDel
     }
+    sessia& operator=(const sessia& other) {
+        if (&other != this) {
+            delete[] exams;
+            delete[] zachs;
+            kurs = other.kurs;
+            semestr = other.semestr;
+            examsCount = other.examsCount;
+            zachsCount = other.zachsCount;
+            exams = new predex[5];
+            zachs = new predza[5];
+            for (int i = 0; i < examsCount; i++) {
+                exams[i] = other.exams[i];
+            }
+            for (int i = 0; i < zachsCount; i++) {
+                zachs[i] = other.zachs[i];
+            }
+        }
+        return *this;
+    }
+
+    friend ostream& operator<<(ostream& os, const sessia& s) {
+        os << '|'  << "Курс: " << s.kurs << "| сем. : " << s.semestr << "| экз. : " << s.examsCount << "| зач. : " << s.zachsCount << '|' << endl;//ЭТО НЕ РАБОАТТЕТВЫТАЫФАТФЫАФАЫФАЫ
+        os << "|------------- Экзамены: --------------|" << endl;
+        for (int i = 0; i < s.examsCount; i++) {
+            os <<'|'<< s.exams[i].name << os.width(38) << right << s.exams[i].mark << '|' << left << endl;
+        }
+        os << "|-------------- Зачёты: ---------------|" << endl;
+        for (int i = 0; i < s.zachsCount; i++) {
+            os << '|' << s.zachs[i].name << os.width(38) << right << (s.zachs[i].zach ? "зач." : "незач.") << " |" << left << endl;
+        }
+        return os;
+    }
+    friend istream& operator>>(istream& is, sessia& s) { s.makesessia(); return is; }
+
 };

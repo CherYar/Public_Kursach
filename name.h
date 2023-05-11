@@ -60,7 +60,7 @@ public:
 	}
 
 	friend ostream& operator<<(ostream& out, const name& n) {
-		out << left << n.srname << " " << n.fname << " " << n.patrn;
+		out  << n.srname  << ' '  << n.fname  << ' '  << n.patrn;
 		return out;
 	}
 };
