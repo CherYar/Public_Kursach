@@ -15,6 +15,7 @@ public:
     }
     ~SessionList() {
         delete[] sessions;
+        cout << "\n SESSION LIST destructor debug" << endl;
     }
     SessionList(const SessionList& other) {
         sessionCount = other.sessionCount;
@@ -69,11 +70,10 @@ public:
     friend ostream& operator<<(ostream& os, const SessionList& s) {
         if (s.sessionCount != 0) {
             for (int i = 0; i < s.sessionCount; i++) {
-                os << left << "|---------------- Сессия №" << i + 1; os.fill('-'); if (s.sessionCount == 9) {os << left << setw(13) << right << '|' << left << endl; }
-                else { os << left << setw(14) << right << '|' << left << endl; }
-                cout.fill(' '); cout << s.sessions[i];
+                os << setfill('-') << "|------------------------------------ Сессия №" << i + 1 << " " << setw(48 - to_string(i).length()) << '|' << endl;
+               os << setfill(' ') << s.sessions[i];
             }
-            os << left << '|' << os.fill('-') << setw(38) << '|' << os.fill(' ') << endl;
+            os << '|' << os.fill('-') << setw(94) << '|' << os.fill(' ') << endl;
         }
         return os;
     }

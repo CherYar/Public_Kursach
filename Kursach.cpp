@@ -20,9 +20,10 @@ s2.SessiaToFileTXT("test_sessia2.txt");//Проверка, совместимы 
 return 0;*/ 
 student test;
 test.num = "91Ж1337";
-test.addfio("Тонус", "Череп", "Кек");
-sessia s; //s.SessiaFromFileTXT("test_sessia.txt");
+test.addfio("Архангеле", "Гавриил", "Абрахамович");
+sessia s;
+s.SessiaFromFileTXT("test_sessia_mk2.txt");//s.SessiaFromFileTXT("test_sessia.txt");
 SessionList b; b.addSession(s);
+test.addprog(b);
 test.prfull();
-cout << s;
 }

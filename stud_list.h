@@ -15,6 +15,7 @@ public:
 	}
 	~StudentsList() {
 		delete[] students;
+		cout << "\n STUDLIST destructor debug"
 	}
 	void addStudent(const student& stud) {
 		if (size >= capacity) {

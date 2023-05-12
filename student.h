@@ -32,18 +32,18 @@ public:
 	{
 		num = "00F0000";
 		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х, unnessesary due to standard constructor
-		born.adddatef(1, 1, 2000);//unnessesary due to standard constructor
-		age = 23;
+		born.adddatef(0, 0, 0);//unnessesary due to standard constructor
+		age = 4000;
 		uch.postup = 2020;
 		uch.institut = "ИКБ";
 		uch.kaf = 2;
 		uch.group = "АБВГ-01-20";
-		gendr = 0;
-		uch.progname = "Применине АКМ в городском бою";
+		gendr = 3;
+		uch.progname = "Черепной тонус ахахахахахаха";
 		uch.progid = 133777;
-		uch.curkurs = 6;
-		uch.cursemestr = 15;
-		fizgroup = 0;
+		uch.curkurs = 666;
+		uch.cursemestr = 1024;
+		fizgroup = 1;
 
 	};
 	~student() {cout << "\n class student destructor debug" << endl; };
@@ -96,45 +96,39 @@ public:
 		return out;
 	}
 	void addfio(const string& sn, const string& fn, const string& pr) { this->fio.addfio(sn, fn, pr); }
+	void addprog(const SessionList& sl) { prog = sl; }
 	void prbasic()
 	{
 		if (num != "00F0000" and validnum(num)) { cout << this; }
 		
-		else { cout << "\nНекорректный идентификационный номер!" << endl; }
+		else { cout << "Некорректный идентификационный номер!" << endl; }
 	}
 
 	void prfull()
 	{
 		if (num != "00F0000" and validnum(num)) {
-			cout << "|----------- Студент:" << num << " -----------|" << endl;
-			cout << left << '|' << fio << setw(38 - fio.fiolength()) << right << '|' << endl;
-			cout << '|' << "Рожд. " << born << ", Возраст: " << age << " лет/года"; cout.width(born.datelength() + to_string(age).length()-6); cout << right << '|' << endl << left;
+			const int w = 90;
+			cout << "|-------------------------------------- Студент:" << num << " --------------------------------------|" << endl;
+			cout << left << "| " << fio << " |" << " Рожд. " << born << ", Возраст: " << age << " лет/года" << " |" << setw(w - fio.fiolength() - 41 - to_string(age).length());
 			switch (gendr)
 			{
-			case 0: {cout << '|'; cout.width(39); cout << "Пол: муж." << right << '|' << endl << left; break; }
-			case 1: {cout << '|'; cout.width(39); cout << "Пол: жен." << right << '|' << endl << left; break; }
-			case 2: {cout << '|'; cout.width(39); cout << "Пол: небинар." << right << '|' << endl << left; break; }
-			case 3: {cout << '|'; cout.width(39); cout << "Пол: не человек" << right << '|' << endl << left; break; }
-			default: {cout << "|Ошибка в базе данных, некорректный пол!|" << endl; break; }
+			case 0: {cout <<  " Пол: муж." << right << '|' << endl << left; break; }
+			case 1: {cout << " Пол: жен." << right << '|' << endl << left; break; }
+			case 2: {cout << " Пол: небинар." << right << '|' << endl << left; break; }
+			case 3: {cout << " Пол: не человек" << right << '|' << endl << left; break; }
+			default: {cout <<" Пол: неизв." << right << '|' << endl << left; break; }
 			}
-			cout << '|'; cout << left << "Поступил(а) в " << uch.postup << " г."; cout.width(19); cout << right << '|' << endl << left;
-			cout << '|' << "Институт:" << uch.institut; cout.width(31 - uch.institut.length()); cout << right << '|' << endl << left;
-			cout << '|' << "Кафедра №" << uch.kaf; cout.width(30); cout <<  right << '|' << endl << left;
-			cout << '|' << "Группа: " << uch.group; cout.width(22); cout << right << '|' << endl << left;
-				switch (fizgroup)
-				{
-				case 0: {cout << '|'; cout.width(39); cout << "Физ. группа: основная " << right << '|' << endl << left; break; }
-				case 1: {cout << '|'; cout.width(39); cout << "Физ. группа: подготовительная " << right << '|' << endl << left; break; }
-				case 2: {cout << '|'; cout.width(39); cout << "Физ. группа: особая " << right << '|' << endl << left; break; }
-				case 3: {cout << '|'; cout.width(39); cout << "Физ. группа: не человеч. " << right << '|' << endl << left; break; }
-				default: {cout << "|Ошибка в базе данных, неверная физ.грп!|" << endl; break; }
-				}
-			cout << "|---Программа, оценки и успеваемость: --|" << endl;
-			cout << "| " << uch.progname; cout.width(39- uch.progname.length()); cout << right<< '|' << endl << left;
-			cout << "| Номер программы: " << uch.progid; cout.width(16);cout << right << '|' << endl << left; 
-			cout << "|Тек. курс: " << uch.curkurs << " | Тек. семестр: " << uch.cursemestr; if (uch.cursemestr >= 10) cout.width(9); else cout.width(10); cout << right << '|' << endl << left;
-			cout.fill('-'); cout << '|'; cout.width(40); cout << right << '|' << endl << left; cout.fill(' ');
-			//cout << "| Предмет:                  Зачёт/оценка|" << endl;
+			cout << "| Поступил(а) в " << uch.postup << " г.| Институт: " << uch.institut << " | Кафедра №" << uch.kaf << " | Группа: " << uch.group; switch (fizgroup)
+			{
+			case 0: { cout << " | Физ. груп.: осн. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length() - uch.group.length() - 69) << right << '|' << endl; break; }
+			case 1: { cout << " | Физ. груп.: подг. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 70) << right << '|' << endl; break; }
+			case 2: { cout << " | Физ. груп.: спец. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 70) << right << '|'<< endl; break; }
+			case 3: { cout << " | Физ. груп.: неч. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 69) << right << '|' << endl; break; }
+			default: {cout << " | Физ. груп.: неизв. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 71) << right << '|' << endl; break; }
+			}
+			cout<< "|----------------------------- Программа, оценки и успеваемость: -----------------------------|" << endl;
+			cout << "| Номер программы:" << uch.progid << " | Название программы: " << uch.progname << setw(w - to_string(uch.progid).length() - uch.progname.length() - 36) << " |" << endl;
+			cout << "| Текущий курс: " << uch.curkurs << setw(46) <<"| Текущий семестр: " << uch.cursemestr << setw(w - to_string(uch.curkurs).length() - to_string(uch.cursemestr).length()-57) << " |" << endl;
 			cout << prog;
 		}
 		else { cout << "\nНекорректный идентификационный номер!"<<endl; }

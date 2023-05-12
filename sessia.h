@@ -270,14 +270,23 @@ public:
     }
 
     friend ostream& operator<<(ostream& os, const sessia& s) {
-        os << '|'  << "Êóðñ: " << s.kurs << "| ñåì. : " << s.semestr << "| ýêç. : " << s.examsCount << "| çà÷. : " << s.zachsCount << '|' << endl;//ÝÒÎ ÍÅ ÐÀÁÎÀÒÒÅÒÂÛÒÀÛÔÀÒÔÛÀÔÀÛÔÀÛ
-        os << "|------------- Ýêçàìåíû: --------------|" << endl;
-        for (int i = 0; i < s.examsCount; i++) {
-            os <<'|'<< s.exams[i].name << os.width(38) << right << s.exams[i].mark << '|' << left << endl;
-        }
-        os << "|-------------- Çà÷¸òû: ---------------|" << endl;
-        for (int i = 0; i < s.zachsCount; i++) {
-            os << '|' << s.zachs[i].name << os.width(38) << right << (s.zachs[i].zach ? "çà÷." : "íåçà÷.") << " |" << left << endl;
+        os << "| Êóðñ: " << s.kurs << setw(20) << "| ñåìåìåñòð: " << s.semestr << setw(20) << "| ýêçàìåíîâ: " << s.examsCount << setw(20) << "| çà÷¸òîâ: " << s.zachsCount << setw(25 - to_string(s.kurs).length() - to_string(s.semestr).length()) << '|' << endl;
+        os << "|----------------- Ýêçàìåíû: ------------------|------------------- Çà÷¸òû: ------------------|" << endl;
+        int maxCount = max(s.examsCount, s.zachsCount);
+        for (int i = 0; i < maxCount; i++) {
+            if (i < s.examsCount) {
+                os << '|' << left << setw(38) << s.exams[i].name + " " << right << s.exams[i].mark << " ";
+            }
+            else {
+                os << '|' << setfill('-') << setw(39) << setfill(' ');
+            }
+            if (i < s.zachsCount) {
+                os << '|' << left << setw(38) << s.zachs[i].name + " " + (s.zachs[i].zach ? "çà÷." : "íåçà÷.") << '|';
+            }
+            else {
+                os << '|' << setfill('-') << setw(39) << '|' << setfill(' ');
+            }
+            os << endl;
         }
         return os;
     }
