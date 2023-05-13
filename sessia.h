@@ -118,11 +118,7 @@ public:
 
     sessia(const char* filename) { this->SessiaFromFile(filename); }
 
-    ~sessia() {
-        delete[] exams;
-        delete[] zachs;
-        cout << " sessia destructor debug ";
-    }
+    ~sessia() {delete[] exams;delete[] zachs;}
 
     void addExam(const predex& e) {
         if (examsCount < 5) {
@@ -271,20 +267,20 @@ public:
 
     friend ostream& operator<<(ostream& os, const sessia& s) {
         os << "|  урс: " << s.kurs << setw(20) << "| семеместр: " << s.semestr << setw(20) << "| экзаменов: " << s.examsCount << setw(20) << "| зачЄтов: " << s.zachsCount << setw(25 - to_string(s.kurs).length() - to_string(s.semestr).length()) << '|' << endl;
-        os << "|----------------- Ёкзамены: ------------------|------------------- «ачЄты: ------------------|" << endl;
+        os << "| Ёкзамены: -------------------------- ќценка: | «ачЄты: ---------------- «ачтено/не зачтено: |" << endl;
         int maxCount = max(s.examsCount, s.zachsCount);
         for (int i = 0; i < maxCount; i++) {
             if (i < s.examsCount) {
-                os << '|' << left << setw(38) << s.exams[i].name + " " << right << s.exams[i].mark << " ";
+                os << '|' << left << setw(44) << " " + s.exams[i].name << right << s.exams[i].mark << " ";//работает - не трогай
             }
             else {
-                os << '|' << setfill('-') << setw(39) << setfill(' ');
+                os << "|||||||||||||||||||||||||||||||||||||||||||||||";//дилетанство, но € «јƒќЋЅјЋ—я с setfill
             }
             if (i < s.zachsCount) {
-                os << '|' << left << setw(38) << s.zachs[i].name + " " + (s.zachs[i].zach ? "зач." : "незач.") << '|';
+                os << '|' << left << setw(38) << " " + s.zachs[i].name << setw(8) << (s.zachs[i].zach ? "зач. " : "незач. ") << '|';//почти работает - не трогай
             }
             else {
-                os << '|' << setfill('-') << setw(39) << '|' << setfill(' ');
+                os << "||||||||||||||||||||||||||||||||||||||||||||||||";
             }
             os << endl;
         }

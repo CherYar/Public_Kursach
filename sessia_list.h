@@ -13,10 +13,7 @@ public:
         sessionCount = 0;
         sessions = new sessia[capacity];
     }
-    ~SessionList() {
-        delete[] sessions;
-        cout << "\n SESSION LIST destructor debug" << endl;
-    }
+    ~SessionList() {delete[] sessions;}
     SessionList(const SessionList& other) {
         sessionCount = other.sessionCount;
         sessions = new sessia[capacity];
@@ -70,10 +67,10 @@ public:
     friend ostream& operator<<(ostream& os, const SessionList& s) {
         if (s.sessionCount != 0) {
             for (int i = 0; i < s.sessionCount; i++) {
-                os << setfill('-') << "|------------------------------------ Сессия №" << i + 1 << " " << setw(48 - to_string(i).length()) << '|' << endl;
+                os << setfill('-') << '|' << setw(50) << " Сессия №" << i + 1 << " " << setw(43 - to_string(i).length()) << '|' << endl;
                os << setfill(' ') << s.sessions[i];
             }
-            os << '|' << os.fill('-') << setw(94) << '|' << os.fill(' ') << endl;
+            os << '|' << setfill('-') << setw(94) << right << '|' << endl << setfill(' ');
         }
         return os;
     }
