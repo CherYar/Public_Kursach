@@ -32,51 +32,51 @@ public:
 	{
 		num = "00F0000";
 		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х, unnessesary due to standard constructor
-		born.adddatef(0, 0, 0);//unnessesary due to standard constructor
-		age = 4000;
+		born.adddatef(1, 1, 2000);//unnessesary due to standard constructor
+		age = 23;
 		uch.postup = 2020;
 		uch.institut = "ИКБ";
 		uch.kaf = 2;
 		uch.group = "АБВГ-01-20";
-		gendr = 3;
-		uch.progname = "Черепной тонус ахахахахахаха";
+		gendr = 0;
+		uch.progname = "Безопасность радиоканалов";
 		uch.progid = 133777;
-		uch.curkurs = 666;
-		uch.cursemestr = 1024;
-		fizgroup = 1;
+		uch.curkurs = 3;
+		uch.cursemestr = 7;
+		fizgroup = 0;
 
 	};
 	~student() {cout << "\n class student destructor debug" << endl; };
-	bool validprogid() {
-		return (uch.progid >= 100000 && uch.progid <= 999999);
+	bool validprogid(const long& progid) {
+		return (progid >= 100000 && progid <= 999999);
 	}
-	bool validpostup() {
-		return uch.postup >= 1900 && uch.postup <= 2100;
+	bool validpostup(const int& postup) {
+		return postup >= 1900 && postup <= 2100;
 	}
-	bool validkaf() {
-		return uch.kaf >= 1 && uch.kaf <= 100;
+	bool validkaf(const int &kaf) {
+		return kaf >= 1 && kaf <= 100;
 	}
-	bool validgendr() {
-		return gendr >= 0 && gendr <= 3;
+	bool validgendr(const int &gender) {
+		return gender >= 0 && gender <= 3;
 	}
-	bool validage() {
-		return age >= 16 && age <= 100;
+	bool validage(const int &ages) {
+		return ages >= 16 && ages <= 100;
 	}
-	bool validfizgroup() {
-		return fizgroup >= 0 && fizgroup <= 3;
+	bool validfizgroup(const int& fzgroup) {
+		return fzgroup >= 0 && fzgroup <= 3;
 	}
-	bool validgroup() {
-		return uch.group.length() == 10 &&
-			isalpha(static_cast<unsigned char>(uch.group[0])) &&
-			isalpha(static_cast<unsigned char>(uch.group[1])) &&
-			isalpha(static_cast<unsigned char>(uch.group[2])) &&
-			isalpha(static_cast<unsigned char>(uch.group[3])) &&
-			uch.group[4] == '-' &&
-			isdigit(static_cast<unsigned char>(uch.group[5])) &&
-			isdigit(static_cast<unsigned char>(uch.group[6])) &&
-			uch.group[7] == '-' &&
-			isdigit(static_cast<unsigned char>(uch.group[8])) &&
-			isdigit(static_cast<unsigned char>(uch.group[9]));
+	bool validgroup(const string &group) {
+		return group.length() == 10 &&
+			isalpha(static_cast<unsigned char>(group[0])) &&
+			isalpha(static_cast<unsigned char>(group[1])) &&
+			isalpha(static_cast<unsigned char>(group[2])) &&
+			isalpha(static_cast<unsigned char>(group[3])) &&
+			group[4] == '-' &&
+			isdigit(static_cast<unsigned char>(group[5])) &&
+			isdigit(static_cast<unsigned char>(group[6])) &&
+			group[7] == '-' &&
+			isdigit(static_cast<unsigned char>(group[8])) &&
+			isdigit(static_cast<unsigned char>(group[9]));
 	}
 
 	bool validnum(const string& proof)
@@ -134,50 +134,19 @@ public:
 		else { cout << "\nНекорректный идентификационный номер!"<<endl; }
 	}
 	void makestudent() {
-		cout << "Введите номер студента: ";
-		cin >> num;
-		while (!validnum(num)) {
-			cout << "Некорректный номер студента. Пожалуйста, введите заново: ";
-			cin >> num;
-		}
-		cout << "Введите номер программы: ";
-		cin >> uch.progid;
-		while (!validprogid()) {
-			cout << "Некорректный номер программы. Пожалуйста, введите заново: ";
-			cin >> uch.progid;
-		}
-		string tempn;
-		string tempsn;
-		string temppt;
-		cout << "Введите фамилию студента: ";
-		cin.ignore();
-		getline(cin, tempsn); fio.setsrname(tempsn);
-		while (!fio.validsrname())
-		{
-			cout << "Некорректная фамилия. Повторите ввод: ";
-			getline(cin, tempsn); fio.setsrname(tempsn);
-		}
-
-		cout << "Введите имя студента: ";
-		getline(cin, tempn); fio.setfname(tempn);
-		while (!fio.validfname())
-		{
-			cout << "Некорректное имя. Повторите ввод: ";
-			getline(cin, tempn); fio.setfname(tempn);
-		}
-
-		cout << "Введите отчество студента: ";
-		getline(cin, temppt); fio.setsrname(temppt);
-		while (!fio.validpatr())
-		{
-			cout << "Некорректное отчество. Повторите ввод: ";
-			getline(cin, temppt); fio.setpatr(temppt);
-		}
-
-		
-
-
-		// Недоделка
+		cout << "Введите данные о студенте:" << endl;
+		num = readStrW("Идентификационный номер (Пример: 00А0000):  ", [this](const string& n) { return validnum(n); });
+		cout << "ФИО: ";
+		cin >> fio;
+		cout << "Дата рождения: ";
+		cin >> born;
+		age = readIntV("Возраст: ", [this](const int& a) { return validage(a); });
+		uch.group = readStrW("Группа (Пример: АБВГ-01-23): ", [this](const string& g) { return validgroup(g); });
+		cout << "Год поступления: ";
+		//postup = readIntV("Введите год поступления: ", validpostup);
+		cout << "Введите данные о сессиях студента:" << endl;
+		prog.makesessions();
 	}
+	void changeinstitut() { this->uch.institut = readStr("Введите название института: "); }//для меню, для него потребуются и другие методы
 
 };

@@ -1,7 +1,7 @@
 ﻿//main
 //#include "date_name.h"
 //#include "sessia_list.h"
-#include "student.h"
+//#include "student.h"
 //#include "stud_list.h"
 #include "menu.h"
 //#include "sessia.h"

@@ -5,17 +5,15 @@
 class StudentsList : public student {
 private:
 	student* students;
-	unsigned int capacity;
-	unsigned int size;
+	const unsigned short capacity = 10;
+	unsigned short size;
 public:
 	StudentsList() {
-		capacity = 10;
 		size = 0;
 		students = new student[capacity];
 	}
 	~StudentsList() {
 		delete[] students;
-		cout << "\n STUDLIST destructor debug"
 	}
 	void addStudent(const student& stud) {
 		if (size >= capacity) {
@@ -42,11 +40,11 @@ public:
 
 	void printStudent(const int& index) {
 		if (index >= 0 && index < size) {
-			//students[index].prfull();
+			students[index].prfull();
 		}
 	}
 
-/*	void ListToFile(const string& filename) {
+	void ListToFile(const string& filename) {
 		FILE* file;
 		fopen_s(&file, filename.c_str(), "wb");
 		if (file != nullptr) {
@@ -63,11 +61,6 @@ public:
 		fopen_s(&file, filename.c_str(), "rb");
 		if (file != nullptr) {
 			fread(&size, sizeof(size), 1, file);
-			if (size > capacity) {
-				capacity = size;
-				delete[] students;
-				students = new student[capacity];
-			}
 			for (int i = 0; i < size; i++) {
 				fread(&students[i], sizeof(student), 1, file);
 			}
@@ -76,9 +69,8 @@ public:
 	}
 
 	StudentsList(const string& filename) {
-		capacity = 10;
 		size = 0;
 		students = new student[capacity];
 		ListFromFile(filename);
-	}*/
+	}
 };

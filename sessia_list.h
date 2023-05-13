@@ -189,4 +189,14 @@ public:
         file.close();
         return true;
     }
+    void makesessions() {
+        int n;
+        function<bool(int)> validator = [](const int& s) { return s <= 10; };
+        n = readIntV("¬ведите количество сессий: ", validator);
+        for (int i = 0; i < n; i++) {
+            sessia s;
+            s.makesessia();
+            addSession(s);
+        }
+    }
 };
