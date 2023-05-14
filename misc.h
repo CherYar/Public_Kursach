@@ -86,6 +86,22 @@ int readIntV(const string& prompt, const function<bool(int)>& validator) {
     CinDel
     return 0;
 }
+int readIntLV(const string& prompt, const function<bool(long)>& validator) {
+    string input;
+    cout << prompt;
+    while (cin >> input) {
+        if (ValidIntModernised(input)) {
+            long value = stol(input);
+            if (validator(value)) {
+                return value;
+            }
+        }
+        cout << "Некорректное значение. Пожалуйста, введите заново: ";
+    }
+    CinDel
+    return 0;
+}
+
 int readIntV(const string& prompt, const function<bool(int)>& validator, const int& defaultValue) {
     string input;
     cout << prompt;

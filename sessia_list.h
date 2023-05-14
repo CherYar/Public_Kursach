@@ -67,13 +67,16 @@ public:
     friend ostream& operator<<(ostream& os, const SessionList& s) {
         if (s.sessionCount != 0) {
             for (int i = 0; i < s.sessionCount; i++) {
-                os << setfill('-') << '|' << setw(50) << " Сессия №" << i + 1 << " " << setw(43 - to_string(i).length()) << '|' << endl;
-               os << setfill(' ') << s.sessions[i];
+                string sessionNumber = " Сессия №" + to_string(i + 1) + " ";
+                os << setfill('-') << '|' << setw(52) <<right<< sessionNumber << setw(53 - sessionNumber.length()) << '|' << endl;
+                os << setfill(' ') << s.sessions[i];
             }
             os << '|' << setfill('-') << setw(94) << right << '|' << endl << setfill(' ');
         }
         return os;
     }
+
+
     /*bool Troeshnik() {
         double totalMark = 0;
         int markCount = 0;
@@ -107,11 +110,11 @@ public:
             file << sessions[i].kurs << ' ' << sessions[i].semestr << '\n';
             file << sessions[i].getExamsCount() << '\n';
             for (int j = 0; j < sessions[i].getExamsCount(); j++) {
-                file << sessions[i].getExam(j).name << ' ' << sessions[i].getExam(j).mark << '\n';
+                file << sessions[i].getExam(j).name << '\n' << sessions[i].getExam(j).mark << '\n';
             }
             file << sessions[i].getZachsCount() << '\n';
             for (int j = 0; j < sessions[i].getZachsCount(); j++) {
-                file << sessions[i].getZach(j).name << ' ' << sessions[i].getZach(j).zach << '\n';
+                file << sessions[i].getZach(j).name << '\n' << sessions[i].getZach(j).zach << '\n';
             }
         }
         file.close();
@@ -126,20 +129,29 @@ public:
             return false;
         }
         file >> sessionCount;
+        string line;
+        getline(file, line);
         for (int i = 0; i < sessionCount; i++) {
             file >> sessions[i].kurs >> sessions[i].semestr;
+            getline(file, line);
             int examsCount;
             file >> examsCount;
+            getline(file, line);
             for (int j = 0; j < examsCount; j++) {
                 predex exam;
-                file >> exam.name >> exam.mark;
+                getline(file, exam.name);
+                file >> exam.mark;
+                getline(file, line);
                 sessions[i].addExam(exam);
             }
             int zachsCount;
             file >> zachsCount;
+            getline(file, line);
             for (int j = 0; j < zachsCount; j++) {
                 predza zach;
-                file >> zach.name >> zach.zach;
+                getline(file, zach.name);
+                file >> zach.zach;
+                getline(file, line);
                 sessions[i].addZach(zach);
             }
         }
@@ -147,6 +159,17 @@ public:
         cout << "Список сессий прочитан из текстового файла." << endl;
         return true;
     }
+
+    void sortSessions() {
+        for (int i = 0; i < sessionCount - 1; i++) {
+            for (int j = 0; j < sessionCount - i - 1; j++) {
+                if (sessions[j].kurs > sessions[j + 1].kurs || (sessions[j].kurs == sessions[j + 1].kurs && sessions[j].semestr > sessions[j + 1].semestr)) {
+                    swap(sessions[j], sessions[j + 1]);
+                }
+            }
+        }
+    }
+
     bool SessionListToFile(const string& filename) {
         ofstream file(filename, ios::binary);
         if (!file.is_open()) {
@@ -189,14 +212,48 @@ public:
         file.close();
         return true;
     }
+    void writeToFile(ostream& out) const {
+        out << sessionCount << endl;
+        for (int i = 0; i < sessionCount; i++) {
+            sessions[i].writeToFile(out);
+        }
+    }
+
+    void readFromFile(istream& in) {
+        in >> sessionCount;
+
+        sessions = new sessia[sessionCount];
+        for (int i = 0; i < sessionCount; i++) {
+            sessions[i].readFromFile(in);
+        }
+    }
     void makesessions() {
         int n;
-        function<bool(int)> validator = [](const int& s) { return s <= 10; };
+        function<bool(int)> validator = [](const int& n) { return n <= 10 && n > 0; };
         n = readIntV("Введите количество сессий: ", validator);
         for (int i = 0; i < n; i++) {
+            string p = to_string(i + 1);
+            cout << "Сессия №" + p + '.' << endl;
             sessia s;
             s.makesessia();
             addSession(s);
         }
+        this->sortSessions();
     }
+    void writeToFileBinary(ostream& out) const {
+        out.write(reinterpret_cast<const char*>(&sessionCount), sizeof(sessionCount));
+        for (int i = 0; i < sessionCount; i++) {
+            sessions[i].writeToFileBinary(out);
+        }
+    }
+
+    void readFromFileBinary(istream& in) {
+        in.read(reinterpret_cast<char*>(&sessionCount), sizeof(sessionCount));
+
+        sessions = new sessia[sessionCount];
+        for (int i = 0; i < sessionCount; i++) {
+            sessions[i].readFromFileBinary(in);
+        }
+    }
+
 };

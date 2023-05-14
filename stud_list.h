@@ -5,7 +5,7 @@
 class StudentsList : public student {
 private:
 	student* students;
-	const unsigned short capacity = 10;
+	const unsigned short capacity = 15;
 	unsigned short size;
 public:
 	StudentsList() {
@@ -45,28 +45,67 @@ public:
 	}
 
 	void ListToFile(const string& filename) {
-		FILE* file;
-		fopen_s(&file, filename.c_str(), "wb");
-		if (file != nullptr) {
-			fwrite(&size, sizeof(size), 1, file);
-			for (int i = 0; i < size; i++) {
-				fwrite(&students[i], sizeof(student), 1, file);
-			}
+		ofstream file(filename, ios::binary);
+		if (!file.is_open()) {
+			cerr << "Не удалось открыть файл для записи" << endl;
+			return;
 		}
-		fclose(file);
+
+		file.write(reinterpret_cast<const char*>(&size), sizeof(size));
+		for (int i = 0; i < size; i++) {
+			students[i].writeToFileBinary(file);
+		}
+
+		file.close();
 	}
 
 	void ListFromFile(const string& filename) {
-		FILE* file;
-		fopen_s(&file, filename.c_str(), "rb");
-		if (file != nullptr) {
-			fread(&size, sizeof(size), 1, file);
-			for (int i = 0; i < size; i++) {
-				fread(&students[i], sizeof(student), 1, file);
-			}
+		ifstream file(filename, ios::binary);
+		if (!file.is_open()) {
+			cerr << "Не удалось открыть файл для чтения" << endl;
+			return;
 		}
-		fclose(file);
+
+		file.read(reinterpret_cast<char*>(&size), sizeof(size));
+		for (int i = 0; i < size; i++) {
+			students[i].readFromFileBinary(file);
+		}
+
+		file.close();
 	}
+	void writeToFile(const string& filename) const {
+		ofstream file(filename);
+		if (!file.is_open()) {
+			cerr << "Не удалось открыть файл для записи" << endl;
+			return;
+		}
+
+		file << size << endl;
+		for (int i = 0; i < size; i++) {
+			//students[i].writeToFile(file);
+			file << endl;
+		}
+
+		file.close();
+	}
+
+	void readFromFile(const string& filename) {
+		ifstream file(filename);
+		if (!file.is_open()) {
+			cerr << "Не удалось открыть файл для чтения" << endl;
+			return;
+		}
+
+		file >> size;
+
+		file.ignore((numeric_limits<streamsize>::max)(), '\n');
+		for (int i = 0; i < size; i++) {
+			//students[i].readFromFile(file);
+		}
+
+		file.close();
+	}
+
 
 	StudentsList(const string& filename) {
 		size = 0;

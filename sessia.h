@@ -54,11 +54,11 @@ public:
         file << kurs << ' ' << semestr << '\n';
         file << examsCount << '\n';
         for (int i = 0; i < examsCount; i++) {
-            file << exams[i].name << ' ' << exams[i].mark << '\n';
+            file << exams[i].name << '\n' << exams[i].mark << '\n';
         }
         file << zachsCount << '\n';
         for (int i = 0; i < zachsCount; i++) {
-            file << zachs[i].name << ' ' << zachs[i].zach << '\n';
+            file << zachs[i].name << '\n' << zachs[i].zach << '\n';
         }
         file.close();
         cout << "Сессия записана. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных файлов!" << endl;
@@ -74,18 +74,26 @@ public:
         file >> kurs >> semestr;
         file >> examsCount;
         exams = new predex[examsCount];
+        string line;
+        getline(file, line);
         for (int i = 0; i < examsCount; i++) {
-            file >> exams[i].name >> exams[i].mark;
+            getline(file, exams[i].name);
+            file >> exams[i].mark;
+            getline(file, line);
         }
         file >> zachsCount;
         zachs = new predza[zachsCount];
+        getline(file, line);
         for (int i = 0; i < zachsCount; i++) {
-            file >> zachs[i].name >> zachs[i].zach;
+            getline(file, zachs[i].name);
+            file >> zachs[i].zach;
+            getline(file, line);
         }
         file.close();
         cout << "Сессия прочитана из файла. ВНИМАНИЕ!!! Данный метод лишь для наглядности, в самом задании говорится об использовании бинарных файлов!" << endl;
         return true;
     }
+
 
 
     bool SessiaToFile(const string& filename) {
@@ -216,35 +224,29 @@ public:
 
 
         cout << "\nКурс: " << kurs << ", Семестр: " << semestr << " \n";
-        
+
         int ec = 0;
         ec = readIntV("\nВведите количество экзаменов (1 - 5): ", [this](int a) { return validmark(a); });
         for (int i = 0; i < ec; i++) {
             predex exam;
-            cout << "Введите название экзамена №" << i + 1 << ": "; 
-            getline(cin, exam.name);
-            while (exam.name.empty()) {
-                getline(cin, exam.name);
-            }
+            CinDel;
+            exam.name = readStrW("Введите название экзамена №" + to_string(i + 1) + ": ", [](const string& s) { return s.length() <= 20 && !s.empty(); });
             exam.mark = readIntV("Введите оценку за экзамен (1 - 5): ", [this](int m) { return validmark(m); });
             addExam(exam);
         }
-        CinDel
+
         int zc = 0;
         zc = readIntV("\nВведите количество зачётов(1 - 5): ", [this](int c) { return validmark(c); });
 
         for (int i = 0; i < zc; i++) {
             predza zach;
-            cout << "Введите название зачёта №" << i + 1 << ": ";
-            getline(cin, zach.name);
-            while (zach.name.empty()) {
-                getline(cin, zach.name);
-            }
+            CinDel;
+            zach.name = readStrW("Введите название зачёта №" + to_string(i + 1) + ": ", [](const string& s) { return s.length() <= 20 && !s.empty(); });
             zach.zach = readIntV("Получен ли зачёт(1 - да, 0 - нет): ", [this](int z) { return validzach(z); });
             addZach(zach);
         }
-        CinDel
     }
+
     sessia& operator=(const sessia& other) {
         if (&other != this) {
             delete[] exams;
@@ -287,5 +289,78 @@ public:
         return os;
     }
     friend istream& operator>>(istream& is, sessia& s) { s.makesessia(); return is; }
+    void writeToFile(ostream& out) const {
+        out << kurs << ' ' << semestr << ' ' << examsCount << ' ' << zachsCount << endl;
+
+        for (int i = 0; i < examsCount; i++) {
+            out << exams[i].name << ' ' << exams[i].mark << endl;
+        }
+
+        for (int i = 0; i < zachsCount; i++) {
+            out << zachs[i].name << ' ' << zachs[i].zach << endl;
+        }
+    }
+
+    void readFromFile(istream& in) {
+        in >> kurs >> semestr >> examsCount >> zachsCount;
+
+        exams = new predex[examsCount];
+        for (int i = 0; i < examsCount; i++) {
+            in.ignore((numeric_limits<streamsize>::max)(), '\n');
+            getline(in, exams[i].name);
+            in >> exams[i].mark;
+        }
+
+        zachs = new predza[zachsCount];
+        for (int i = 0; i < zachsCount; i++) {
+            in.ignore((numeric_limits<streamsize>::max)(), '\n');
+            getline(in, zachs[i].name);
+            in >> zachs[i].zach;
+        }
+    }
+    void writeToFileBinary(ostream& out) const {
+        out.write(reinterpret_cast<const char*>(&kurs), sizeof(kurs));
+        out.write(reinterpret_cast<const char*>(&semestr), sizeof(semestr));
+        out.write(reinterpret_cast<const char*>(&examsCount), sizeof(examsCount));
+        out.write(reinterpret_cast<const char*>(&zachsCount), sizeof(zachsCount));
+
+        for (int i = 0; i < examsCount; i++) {
+            size_t len = exams[i].name.size();
+            out.write(reinterpret_cast<const char*>(&len), sizeof(len));
+            out.write(exams[i].name.c_str(), len);
+            out.write(reinterpret_cast<const char*>(&(exams[i].mark)), sizeof(exams[i].mark));
+        }
+
+        for (int i = 0; i < zachsCount; i++) {
+            size_t len = zachs[i].name.size();
+            out.write(reinterpret_cast<const char*>(&len), sizeof(len));
+            out.write(zachs[i].name.c_str(), len);
+            out.write(reinterpret_cast<const char*>(&(zachs[i].zach)), sizeof(zachs[i].zach));
+        }
+    }
+    void readFromFileBinary(istream& in) {
+        in.read(reinterpret_cast<char*>(&kurs), sizeof(kurs));
+        in.read(reinterpret_cast<char*>(&semestr), sizeof(semestr));
+        in.read(reinterpret_cast<char*>(&examsCount), sizeof(examsCount));
+        in.read(reinterpret_cast<char*>(&zachsCount), sizeof(zachsCount));
+
+        exams = new predex[examsCount];
+        for (int i = 0; i < examsCount; i++) {
+            size_t len;
+            in.read(reinterpret_cast<char*>(&len), sizeof(len));
+            exams[i].name.resize(len);
+            in.read(&exams[i].name[0], len);
+            in.read(reinterpret_cast<char*>(&(exams[i].mark)), sizeof(exams[i].mark));
+        }
+
+        zachs = new predza[zachsCount];
+        for (int i = 0; i < zachsCount; i++) {
+            size_t len;
+            in.read(reinterpret_cast<char*>(&len), sizeof(len));
+            zachs[i].name.resize(len);
+            in.read(&zachs[i].name[0], len);
+            in.read(reinterpret_cast<char*>(&(zachs[i].zach)), sizeof(zachs[i].zach));
+        }
+    }
 
 };
