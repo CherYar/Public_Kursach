@@ -417,6 +417,105 @@ public:
 		int year;
 		unsigned short month;
 		unsigned short day;
-		//in.read(reinterpret_cast<char*>)
+		in.read(reinterpret_cast<char*>(&year), sizeof(year));
+		in.read(reinterpret_cast<char*>(&month), sizeof(month));
+		in.read(reinterpret_cast<char*>(&day), sizeof(day));
+		born.setyear(year);
+		born.setsmon(month);
+		born.setday(day);
+
+		in.read(reinterpret_cast<char*>(&age), sizeof(age));
+		in.read(reinterpret_cast<char*>(&uch.postup), sizeof(uch.postup));
+
+		in.read(reinterpret_cast<char*>(&len), sizeof(len));
+		uch.institut.resize(len);
+		in.read(&uch.institut[0], len);
+
+		in.read(reinterpret_cast<char*>(&uch.kaf), sizeof(uch.kaf));
+
+		in.read(reinterpret_cast<char*>(&len), sizeof(len));
+		uch.group.resize(len);
+		in.read(&uch.group[0], len);
+
+		in.read(reinterpret_cast<char*>(&gendr), sizeof(gendr));
+
+		in.read(reinterpret_cast<char*>(&len), sizeof(len));
+		uch.progname.resize(len);
+		in.read(&uch.progname[0], len);
+
+		in.read(reinterpret_cast<char*>(&uch.progid), sizeof(uch.progid));
+		in.read(reinterpret_cast<char*>(&uch.curkurs), sizeof(uch.curkurs));
+		in.read(reinterpret_cast<char*>(&uch.cursemestr), sizeof(uch.cursemestr));
+		in.read(reinterpret_cast<char*>(&fizgroup), sizeof(fizgroup));
+
+		prog.readFromFileBinary(in);
+	}
+
+	void writeToFile(ostream& out) const {
+		ofstream file(filename);
+		if (!file.is_open()) {
+			cerr << "Не удалось открыть файл для записи" << endl;
+			return;
+		}
+		file << num << endl;
+		file << fname << endl;
+		file << srname << endl;
+		file << patrn << endl;
+		file << born.getyear() << ' ' << born.getmonth() << ' ' << born.getday() << endl;
+		file << age << endl;
+		file << uch.postup << endl;
+		file << uch.institut << endl;
+		file << uch.kaf << endl;
+		file << uch.group << endl;
+		file << gendr << endl;
+		file << uch.progname << endl;
+		file << uch.progid << endl;
+		file << uch.curkurs << endl;
+		file << uch.cursemestr << endl;
+		file << fizgroup << endl;
+
+		prog.writeToFile(file);
+
+		file.close();
+	}
+
+	void readFromFile(istream& in) {
+		ifstream file(filename);
+		if (!file.is_open()) {
+			cerr << "Не удалось открыть файл для чтения" << endl;
+			return;
+		}
+		getline(file, num);
+		getline(file, fname);
+		getline(file, srname);
+		getline(file, patrn);
+
+		int year, month, day;
+		file >> year >> month >> day;
+		born.setyear(year);
+		born.setsmon(month);
+		born.setday(day);
+
+		file >> age;
+		file >> uch.postup;
+
+		file.ignore((numeric_limits<streamsize>::max)(), '\n');
+		getline(file, uch.institut);
+
+		file >> uch.kaf;
+
+		file.ignore((numeric_limits<streamsize>::max)(), '\n');
+		getline(file, uch.group);
+
+		file >> gendr;
+
+		file.ignore((numeric_limits<streamsize>::max)(), '\n');
+		getline(file, uch.progname);
+
+		file >> uch.progid >> uch.curkurs >> uch.cursemestr >> fizgroup;
+
+		prog.readFromFile(file);
+
+		file.close();
 	}
 };
