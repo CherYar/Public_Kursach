@@ -1,6 +1,6 @@
 //menu.h
 #pragma once
-#include "stud_list.h"
+#include "zadanie.h";
 //#include "crypto.h"// // ≈го пока нет)))))))))))))))))))))))))))))
 using namespace std;
 

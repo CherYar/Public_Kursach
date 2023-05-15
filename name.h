@@ -28,9 +28,9 @@ public:
 	void setfname(const string& n) { fname = n; }
 	void setsrname(const string& s) { srname = s; }
 	void setpatr(const string& p) { patrn = p; }
-	string& getfname() { return fname; }
-	string& getsrname() { return srname; }
-	string& getpatr() { return patrn; }
+	const string& getfname() const { return fname; }
+	const string& getsrname() const { return srname; }
+	const string& getpatr() const { return patrn; }
 	bool validfname() { return !fname.empty() && fname.length() <= 20 && all_of(fname.begin(), fname.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); }); }
 	bool validsrname() { return !srname.empty() && srname.length() <= 20 && all_of(srname.begin(), srname.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); }); }
 	bool validpatr() { return !patrn.empty() && patrn.length() <= 20 && all_of(patrn.begin(), patrn.end(), [](char c) { return !isdigit(static_cast<unsigned char>(c)); }); }

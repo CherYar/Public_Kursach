@@ -77,7 +77,7 @@ public:
     }
 
 
-    /*bool Troeshnik() {
+const bool Troeshnik() const {
         double totalMark = 0;
         int markCount = 0;
         int failedZachs = 0;
@@ -96,9 +96,9 @@ public:
         }
         double averageMark = markCount > 0 ? totalMark / markCount : 0;
         double failedZachRatio = totalZachs > 0 ? (double)failedZachs / totalZachs : 0;
-        return averageMark < 3.7 || failedZachRatio > 0.2;
+        return averageMark < 3.6 || failedZachRatio > 0.2;
     }
-    всё равно надо будет делать по другому, этот bool скорее всего не поможет.*/
+    
     bool SessionListToFileTXT(const string& filename) {
         ofstream file(filename);
         if (!file.is_open()) {
@@ -255,5 +255,15 @@ public:
             sessions[i].readFromFileBinary(in);
         }
     }
-
+    const double &average() const {
+        double sum = 0;
+        int count = 0;
+        for (int i = 0; i < sessionCount; i++) {
+            for (int j = 0; j < sessions[i].getExamsCount(); j++) {
+                sum += sessions[i].getExam(j).mark;
+                count++;
+            }
+        }
+        return count > 0 ? sum / count : 0;
+    }
 };

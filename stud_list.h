@@ -82,7 +82,7 @@ public:
 
 		file << size << endl;
 		for (int i = 0; i < size; i++) {
-			//students[i].writeToFile(file);
+			students[i].writeToFile(file);
 			file << endl;
 		}
 
@@ -100,7 +100,7 @@ public:
 
 		file.ignore((numeric_limits<streamsize>::max)(), '\n');
 		for (int i = 0; i < size; i++) {
-			//students[i].readFromFile(file);
+			students[i].readFromFile(file);
 		}
 
 		file.close();
@@ -111,5 +111,12 @@ public:
 		size = 0;
 		students = new student[capacity];
 		ListFromFile(filename);
+	}
+	const int &getSize() const {
+		return size;
+	}
+
+	const student& getStudent(int index) const {
+		return students[index];
 	}
 };

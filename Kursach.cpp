@@ -31,9 +31,17 @@ t1.SessiaFromFileTXT("s1.txt");
 t2 = t4 = t1;
 t3.SessiaFromFileTXT("s2.txt");
 SessionList b; b.addSession(t1); b.addSession(t2); b.addSession(t3); b.addSession(t4);
-cout << b;
 b.SessionListToFileTXT("l1.txt");
 SessionList b2;
 b2.SessionListFromFileTXT("l1.txt");
-cout << b2;
+student s, s1, s2;
+s.addprog(b); s1.addprog(b2); s2 = s1;
+StudentsList a;
+a.addStudent(s); a.addStudent(s1); a.addStudent(s2);
+a.writeToFile("test_full_list.txt");
+a.writeToFileBinary("test_full_list1.bin");
+s.prfull(); s1.prfull(); s2.prfull();
+//StudentsList a1("test_full_list1.bin");
+splitStudentsByGrades(a, 1984, 2034);
+// for (int i = 0; i < 3; i++) { a.printStudent(i); }
 }

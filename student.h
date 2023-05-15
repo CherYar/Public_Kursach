@@ -452,70 +452,62 @@ public:
 	}
 
 	void writeToFile(ostream& out) const {
-		ofstream file(filename);
-		if (!file.is_open()) {
-			cerr << "Не удалось открыть файл для записи" << endl;
-			return;
-		}
-		file << num << endl;
-		file << fname << endl;
-		file << srname << endl;
-		file << patrn << endl;
-		file << born.getyear() << ' ' << born.getmonth() << ' ' << born.getday() << endl;
-		file << age << endl;
-		file << uch.postup << endl;
-		file << uch.institut << endl;
-		file << uch.kaf << endl;
-		file << uch.group << endl;
-		file << gendr << endl;
-		file << uch.progname << endl;
-		file << uch.progid << endl;
-		file << uch.curkurs << endl;
-		file << uch.cursemestr << endl;
-		file << fizgroup << endl;
+		out << num << endl;
+		out << fname << endl;
+		out << srname << endl;
+		out << patrn << endl;
+		out << born.getyear() << ' ' << born.getmonth() << ' ' << born.getday() << endl;
+		out << age << endl;
+		out << uch.postup << endl;
+		out << uch.institut << endl;
+		out << uch.kaf << endl;
+		out << uch.group << endl;
+		out << gendr << endl;
+		out << uch.progname << endl;
+		out << uch.progid << endl;
+		out << uch.curkurs << endl;
+		out << uch.cursemestr << endl;
+		out << fizgroup << endl;
 
-		prog.writeToFile(file);
-
-		file.close();
+		prog.writeToFile(out);
 	}
 
 	void readFromFile(istream& in) {
-		ifstream file(filename);
-		if (!file.is_open()) {
-			cerr << "Не удалось открыть файл для чтения" << endl;
-			return;
-		}
-		getline(file, num);
-		getline(file, fname);
-		getline(file, srname);
-		getline(file, patrn);
+		getline(in, num);
+		getline(in, fname);
+		getline(in, srname);
+		getline(in, patrn);
 
 		int year, month, day;
-		file >> year >> month >> day;
+		in >> year >> month >> day;
 		born.setyear(year);
 		born.setsmon(month);
 		born.setday(day);
 
-		file >> age;
-		file >> uch.postup;
+		in >> age;
+		in >> uch.postup;
 
-		file.ignore((numeric_limits<streamsize>::max)(), '\n');
-		getline(file, uch.institut);
+		in.ignore((numeric_limits<streamsize>::max)(), '\n');
+		getline(in, uch.institut);
 
-		file >> uch.kaf;
+		in >> uch.kaf;
 
-		file.ignore((numeric_limits<streamsize>::max)(), '\n');
-		getline(file, uch.group);
+		in.ignore((numeric_limits<streamsize>::max)(), '\n');
+		getline(in, uch.group);
 
-		file >> gendr;
+		in >> gendr;
 
-		file.ignore((numeric_limits<streamsize>::max)(), '\n');
-		getline(file, uch.progname);
+		in.ignore((numeric_limits<streamsize>::max)(), '\n');
+		getline(in, uch.progname);
 
-		file >> uch.progid >> uch.curkurs >> uch.cursemestr >> fizgroup;
+		in >> uch.progid >> uch.curkurs >> uch.cursemestr >> fizgroup;
 
-		prog.readFromFile(file);
-
-		file.close();
+		prog.readFromFile(in);
+	}
+	const date& getBorn() const {
+		return born;
+	}
+	const SessionList& getProg() const {
+		return prog;
 	}
 };
