@@ -1,11 +1,11 @@
 //menu.h
 #pragma once
 #include "zadanie.h";
-#include "crypto.h"// // Его пока нет)))))))))))))))))))))))))))))
+#include "crypto.h"// 
 using namespace std;
 
 int menu() {
-	//decrypt() // Его пока нет)))))))))))))))))))))))))))))
+	//decrypt() //А что расшифровывать если базы данных нет
 	cout << "База данных расшифрована." << endl; system("pause");
 	string choice;
 	int mchoice = -1;
@@ -33,7 +33,7 @@ int menu() {
 		case 3: {return 3; system("pause"); break; }
 		case 4: {return 4; system("pause"); break; }
 		case 5: {return 5; system("pause"); break; }
-		case 0: {/*crypt()*/ cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); break; }
+		case 0: {/*crypt() что шифровать если базы данных нет*/ cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); break; }
 		default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
 
 		}
