@@ -1,7 +1,7 @@
 //menu.h
 #pragma once
 #include "zadanie.h";
-#include "crypto.h"// 
+#include "crypto.h"
 using namespace std;
 
 int menu() {

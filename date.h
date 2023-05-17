@@ -28,9 +28,9 @@ public:
 		return true;
 
 	}
-	int getyear() const { return year; }
-	unsigned short getmonth() const { return month; }
-	unsigned short getday() const { return day; }
+	const int getyear() const { return year; }
+	const unsigned short getmonth() const { return month; }
+	const unsigned short getday() const { return day; }
 	void setyear(int y) { year = y; }
 	void setsmon(unsigned short m) { month = m; }
 	void setday(unsigned short d) { day = d; }

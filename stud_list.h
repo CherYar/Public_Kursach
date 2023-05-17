@@ -44,7 +44,7 @@ public:
 		}
 	}
 
-	void ListToFile(const string& filename) {
+	void ListToFileBin(const string& filename) {
 		ofstream file(filename, ios::binary);
 		if (!file.is_open()) {
 			cerr << "Не удалось открыть файл для записи" << endl;
@@ -59,7 +59,7 @@ public:
 		file.close();
 	}
 
-	void ListFromFile(const string& filename) {
+	void ListFromFileBin(const string& filename) {
 		ifstream file(filename, ios::binary);
 		if (!file.is_open()) {
 			cerr << "Не удалось открыть файл для чтения" << endl;
@@ -73,7 +73,7 @@ public:
 
 		file.close();
 	}
-	void writeToFile(const string& filename) const {
+	void ListToFileTXT(const string& filename) const {
 		ofstream file(filename);
 		if (!file.is_open()) {
 			cerr << "Не удалось открыть файл для записи" << endl;
@@ -89,7 +89,7 @@ public:
 		file.close();
 	}
 
-	void readFromFile(const string& filename) {
+	void ListFromFileTXT(const string& filename) {
 		ifstream file(filename);
 		if (!file.is_open()) {
 			cerr << "Не удалось открыть файл для чтения" << endl;
@@ -110,7 +110,7 @@ public:
 	StudentsList(const string& filename) {
 		size = 0;
 		students = new student[capacity];
-		ListFromFile(filename);
+		ListFromFileBin(filename);
 	}
 	const int &getSize() const {
 		return size;

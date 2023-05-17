@@ -16,10 +16,10 @@ void Crypt()
 			pass += rand() % 10 + '0';
 			break;
 		case 1:
-			pass+= rand() % 26 + 'A';
+			pass += rand() % 26 + 'A';
 			break;
 		case 2:
-			pass+= rand() % 26 + 'a';
+			pass += rand() % 26 + 'a';
 		}
 	}
 	string command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -salt -in file.bin -out file.bin.enc -pass pass:";

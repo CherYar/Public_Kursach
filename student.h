@@ -30,7 +30,7 @@ protected:
 public:
 	student()
 	{
-		num = "00F0000";
+		num = "00B0000";
 		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х, unnessesary due to standard constructor
 		born.adddatef(1, 1, 2000);//unnessesary due to standard constructor
 		age = 23;
@@ -451,7 +451,7 @@ public:
 		prog.readFromFileBinary(in);
 	}
 
-	void writeToFile(ostream& out) const {
+	void writeToFile(ostream& out) const {//Причина прикола
 		out << num << endl;
 		out << fname << endl;
 		out << srname << endl;
@@ -472,7 +472,7 @@ public:
 		prog.writeToFile(out);
 	}
 
-	void readFromFile(istream& in) {
+	void readFromFile(istream& in) {//Причина прикола
 		getline(in, num);
 		getline(in, fname);
 		getline(in, srname);
@@ -504,6 +504,7 @@ public:
 
 		prog.readFromFile(in);
 	}
+
 	const date& getBorn() const {
 		return born;
 	}

@@ -293,11 +293,13 @@ public:
         out << kurs << ' ' << semestr << ' ' << examsCount << ' ' << zachsCount << endl;
 
         for (int i = 0; i < examsCount; i++) {
-            out << exams[i].name << ' ' << exams[i].mark << endl;
+            out << exams[i].name << endl;
+            out << exams[i].mark << endl;
         }
 
         for (int i = 0; i < zachsCount; i++) {
-            out << zachs[i].name << ' ' << zachs[i].zach << endl;
+            out << zachs[i].name << endl;
+            out << zachs[i].zach << endl;
         }
     }
 
@@ -318,6 +320,7 @@ public:
             in >> zachs[i].zach;
         }
     }
+
     void writeToFileBinary(ostream& out) const {
         out.write(reinterpret_cast<const char*>(&kurs), sizeof(kurs));
         out.write(reinterpret_cast<const char*>(&semestr), sizeof(semestr));
