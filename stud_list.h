@@ -73,39 +73,6 @@ public:
 
 		file.close();
 	}
-	void ListToFileTXT(const string& filename) const {
-		ofstream file(filename);
-		if (!file.is_open()) {
-			cerr << "Не удалось открыть файл для записи" << endl;
-			return;
-		}
-
-		file << size << endl;
-		for (int i = 0; i < size; i++) {
-			students[i].writeToFile(file);
-			file << endl;
-		}
-
-		file.close();
-	}
-
-	void ListFromFileTXT(const string& filename) {
-		ifstream file(filename);
-		if (!file.is_open()) {
-			cerr << "Не удалось открыть файл для чтения" << endl;
-			return;
-		}
-
-		file >> size;
-
-		file.ignore((numeric_limits<streamsize>::max)(), '\n');
-		for (int i = 0; i < size; i++) {
-			students[i].readFromFile(file);
-		}
-
-		file.close();
-	}
-
 
 	StudentsList(const string& filename) {
 		size = 0;

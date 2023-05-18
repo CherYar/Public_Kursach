@@ -451,60 +451,6 @@ public:
 		prog.readFromFileBinary(in);
 	}
 
-	void writeToFile(ostream& out) const {//Причина прикола
-		out << num << endl;
-		out << fname << endl;
-		out << srname << endl;
-		out << patrn << endl;
-		out << born.getyear() << ' ' << born.getmonth() << ' ' << born.getday() << endl;
-		out << age << endl;
-		out << uch.postup << endl;
-		out << uch.institut << endl;
-		out << uch.kaf << endl;
-		out << uch.group << endl;
-		out << gendr << endl;
-		out << uch.progname << endl;
-		out << uch.progid << endl;
-		out << uch.curkurs << endl;
-		out << uch.cursemestr << endl;
-		out << fizgroup << endl;
-
-		prog.writeToFile(out);
-	}
-
-	void readFromFile(istream& in) {//Причина прикола
-		getline(in, num);
-		getline(in, fname);
-		getline(in, srname);
-		getline(in, patrn);
-
-		int year, month, day;
-		in >> year >> month >> day;
-		born.setyear(year);
-		born.setsmon(month);
-		born.setday(day);
-
-		in >> age;
-		in >> uch.postup;
-
-		in.ignore((numeric_limits<streamsize>::max)(), '\n');
-		getline(in, uch.institut);
-
-		in >> uch.kaf;
-
-		in.ignore((numeric_limits<streamsize>::max)(), '\n');
-		getline(in, uch.group);
-
-		in >> gendr;
-
-		in.ignore((numeric_limits<streamsize>::max)(), '\n');
-		getline(in, uch.progname);
-
-		in >> uch.progid >> uch.curkurs >> uch.cursemestr >> fizgroup;
-
-		prog.readFromFile(in);
-	}
-
 	const date& getBorn() const {
 		return born;
 	}
