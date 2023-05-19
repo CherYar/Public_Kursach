@@ -43,6 +43,11 @@ public:
 			students[index].prfull();
 		}
 	}
+	void prbasic(const int& index) {
+		if (index >= 0 && index < size) students[index].prbasic();
+	}
+	void printAll() { for (int i = 0; i < size; i++) { cout << i + 1 << ". "; students[i].prbasic(); } }
+	void printMNOGO() { for (int i = 0; i < size; i++) { cout << '|' << setfill('-') << setw(55) << "    Студент №" + to_string(i + 1) + "   " << setw(40 - to_string(i + 1).length()) << right << '|' << endl; cout.fill(' '); students[i].prfull(); } }
 
 	void ListToFileBin(const string& filename) {
 		ofstream file(filename, ios::binary);
@@ -79,7 +84,7 @@ public:
 		students = new student[capacity];
 		ListFromFileBin(filename);
 	}
-	const int &getSize() const {
+	const int& getSize() const {
 		return size;
 	}
 

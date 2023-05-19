@@ -101,14 +101,14 @@ public:
 	void addprog(const SessionList& sl) { prog = sl; }
 	void prbasic()
 	{
-		if (num != "00F0000" and validnum(num)) { cout << this; }
+		if (num != "00F0000" and validnum(num)) { cout << *this; }
 	}
 
 	void prfull()
 	{
 		if (num != "00F0000" and validnum(num)) {
 			const int w = 90;
-			cout << "|-------------------------------------- Студент:" << num << " --------------------------------------|" << endl;
+			cout << "|----------------------------------------- ID:" << num << " ----------------------------------------|" << endl;
 			cout << left << "| " << fio << " |" << " Рожд. " << born << ", Возраст: " << age << " лет/года" << " |" << setw(w - fio.fiolength() - 41 - to_string(age).length());
 			switch (gendr)
 			{

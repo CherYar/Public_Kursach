@@ -236,7 +236,7 @@ public:
         }
 
         int zc = 0;
-        zc = readIntV("\n¬ведите количество зачЄтов(1 - 5): ", [this](int c) { return validmark(c); });
+        zc = readIntV("\n¬ведите количество зачЄтов      (1 - 5): ", [this](int c) { return validmark(c); });
 
         for (int i = 0; i < zc; i++) {
             predza zach;

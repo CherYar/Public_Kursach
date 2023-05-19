@@ -257,7 +257,7 @@ const bool Troeshnik() const {
     }
     const double &average() const {
         double sum = 0;
-        int count = 0;
+        unsigned short count = 0;
         for (int i = 0; i < sessionCount; i++) {
             for (int j = 0; j < sessions[i].getExamsCount(); j++) {
                 sum += sessions[i].getExam(j).mark;

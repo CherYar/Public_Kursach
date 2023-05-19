@@ -4,11 +4,17 @@
 #include "crypto.h"
 using namespace std;
 
+int studsubmenu(), instisubmenu(), progsubmenu(), sessiasubmenu();
+
+
+
 int menu() {
-	//decrypt() //А что расшифровывать если базы данных нет
-	cout << "База данных расшифрована." << endl; system("pause");
+	//decrypt() //А что расшифровывать если базы данных нет... Ну точнее она есть, но не готова
+	StudentsList list("file.bin");//Пока что тестовый файл с одинаковыми студентами.
+	cout << "База данных расшифрована. Программа готова к работе." << endl; system("pause");
 	string choice;
 	int mchoice = -1;
+	static unsigned short lsiz = list.getSize(); static string lsize = to_string(lsiz + 1);
 	for (;mchoice!=0;) 
 	{
 		system("cls");
@@ -28,12 +34,17 @@ int menu() {
 		else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; return 666; }
 		switch (mchoice)
 		{
-		case 1: {return 1; system("pause"); break; }//пока что это просто тест, меню ничего не делает((((
-		case 2: {return 2; system("pause"); break; }
-		case 3: {return 3; system("pause"); break; }
-		case 4: {return 4; system("pause"); break; }
-		case 5: {return 5; system("pause"); break; }
-		case 0: {/*crypt() что шифровать если базы данных нет*/ cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); break; }
+		case 1: {cout << endl; list.printAll(); system("pause"); break; }
+		case 2: {cout << endl; list.printMNOGO(); system("pause"); break; }
+		case 3: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
+			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz + 1); });
+			list.printStudent(index + 1); break; }
+		case 4: {studsubmenu(); system("pause"); break; }
+		case 5: {unsigned int mx, mi; mi = readIntV("Введите минимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
+			mx = readIntV("Введите максимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
+			splitStudentsByGrades(list, mi, mx); system("pause"); break; }
+		case 6:{}
+		case 0: {/*crypt() что шифровать если базы данных нет... Ну точнее она есть, но не готова*/ cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); mchoice = 0; break;/*Я НЕ МОГУ ПОНЯТЬ КАК ВЫХОДИТЬ ИЗ МЕНЮ ААААААААААААААААААААААААААААААААААА*/ }
 		default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
 
 		}
@@ -60,13 +71,26 @@ int studsubmenu() { // Для изменения данных о студенте
 	cout << "10.Изменить физ. группу\n";
 	cout << "0. Выйти и вернуться к работе с базой данных\n";
 	cout << "> ";
-	return 0;
+	switch (smchoice) {
+	case 1: {string nnum; }
+	case 2: {name nfio; }
+	case 3: {string nf; }
+	case 4: {string ni; }
+	case 5: {string no; }
+	case 6: {unsigned short ngendr; }
+	case 7: {date nborn; }
+	case 8: {instisubmenu(); }
+	case 9: {progsubmenu(); }
+	case 10: {unsigned short nfizgroup; }
+	case 0: {/*????????*/}
+	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+	}
 }
 int instisubmenu(){//Изменение данных об иснтитуте и группе студента
 	string ichoice;
 	int imchoice = -1;
 	for (; imchoice != 0;)
-		system("cls");
+	system("cls");
 	cout << "Выберете действие:\n";
 	cout << "1.Изменить институт\n";
 	cout << "2.Изменить кафедру\n";
@@ -76,9 +100,23 @@ int instisubmenu(){//Изменение данных об иснтитуте и группе студента
 	cout << "6.Изменить дату поступления\n";
 	cout << "7.Изменить текущий курс\n";
 	cout << "8.Изменить текущий семестр\n";
+	cout << "9.Ещё раз вывести информацию об институте/группе\n";
 	cout << "0.Выйти и вернуться к работе с студентом\n";
 	cout << "> ";
-	return 0;
+	switch (imchoice) {
+	case 1: {string ninsti; }
+	case 2: {unsigned short nkaf; }
+	case 3: {string ngroup; }
+	case 4: {unsigned long nprogid; }
+	case 5: {string no; }
+	case 6: {unsigned short ngendr; }
+	case 7: {unsigned short nckurs; }
+	case 8: {unsigned short ncsem; }
+	case 9:{list.studentws[i]printinsti}
+	case 10: {unsigned short nfizgroup; }
+	case 0: {/*????????*/}
+	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+	}
 }
 
 int progsubmenu() {//Изменение данных о сессииях студента
@@ -89,11 +127,20 @@ int progsubmenu() {//Изменение данных о сессииях студента
 	cout << "Выберете действие:\n";
 	cout << "1.Добавить новую сессию с вводом с клавиатуры\n";
 	cout << "2.Удалить сессию\n";
-	cout << "3.Заменить существующию сессию на вводённую с клавиатуры\n";
+	cout << "3.Заменить существующию сессию на введённую с клавиатуры\n";
 	cout << "4.Изменить данные в конкретной сессии\n";
+	cout << "5.Ещё раз показать сессии студента\n"
 	cout << "0.Выйти и вернуться к работе с студентом\n";
 	cout << "> ";
-	return 0;
+	switch (pmchoice) {
+	case 1: {sessia nsessia;if list.students[i].prog.getsize < blah blah должна быть нормалная проверка количества сессий. nssessia.makesessia();list.students[i].prog.addsessia(nsessia);  }
+	case 2: {cout << list.students[i].prog; readIntV("Введите номер сессии для удаления:") }
+	case 3: {sessia nsessia; if list.students[i].prog.getsize < blah blah должна быть нормалная проверка количества сессий.nssessia.makesessia(); list.students[i].prog.addsessia(nsessia);  }
+	case 4: {sessiasubmenu(); }
+	case 5: {cout << prog??? }
+	case 0: {/*????????*/}
+	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+	}
 }
 int sessiasubmenu() {//изменение данных об отдельной сессии
 	string lchoice;
@@ -105,12 +152,21 @@ int sessiasubmenu() {//изменение данных об отдельной сессии
 	cout << "2.Добавить экзамен\n";
 	cout << "3.Удалить зачёт\n";
 	cout << "4.Удалить экзамен\n";
-	cout << "5.Заменить зачёт\n";
-	cout << "5.Заменить экзамен\n";
+	cout << "5.Изменить зачёт с вводом с клавиатуры\n";
+	cout << "5.Изменить экзамен с вводом с клавиатуры\n";
+	cout << "6.Ещё раз вывести сессию\n"
 	cout << "0.Выйти и вернуться к работе с cписком сессий\n";
 	cout << "> ";
-	return 0;
+	switch (pmchoice) {
+	case 1: {sessia::predza newz; if this? ? ? getzachcount < 5 ReadStrW("Введите название зачёта:") и т.п. }
+	case 2: {sessia::predex newx; if this ? ? ? getexamcount < 5 ReadStrW("Введите название экзамена:") и т.п. }
+	case 3: {unsigned short index }
+	case 4: {unsigned short index }
+	case 5: {cout << prog ? ? ? }
+	case 6: {cout << this???? }
+	case 0: {/*????????*/}
+	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+	}
 }
-
 
 
