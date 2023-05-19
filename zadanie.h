@@ -11,19 +11,19 @@ struct Node {
     Node* prev;
 };
 
-class DoublyLinkedList {
+class DLList {
 public:
     Node* head;
     Node* tail;
     int size;
 
-    DoublyLinkedList() {
+    DLList() {
         head = nullptr;
         tail = nullptr;
         size = 0;
     }
 
-    ~DoublyLinkedList() {
+    ~DLList() {
         Node* current = head;
         while (current != nullptr) {
             Node* next = current->next;
@@ -57,19 +57,11 @@ public:
             }
         }
     }
-
-    void print() const {
-        Node* current = head;
-        while (current != nullptr) {
-            cout << current->data << endl;
-            current = current->next;
-        }
-    }
 };
 
 void splitStudentsByGrades(StudentsList& studentsList, int minBirthYear, int maxBirthYear) {
-    DoublyLinkedList goodStudents;
-    DoublyLinkedList badStudents;
+    DLList goodStudents;
+    DLList badStudents;
 
     for (int i = 0; i < studentsList.getSize(); i++) {
         student stud = studentsList.getStudent(i);
@@ -90,14 +82,14 @@ void splitStudentsByGrades(StudentsList& studentsList, int minBirthYear, int max
     cout << "Хорошисты и отличники:" << endl;
     Node* current = goodStudents.head;
     while (current != nullptr) {
-        cout << current->data << " Средний балл: " << cout.precision(2) << current->data.getProg().average() << endl;
+        cout << current->data << " Средний балл: "  + to_string(current->data.getProg().average()) << endl;
         current = current->next;
     }
 
     cout << "Троечники:" << endl;
     current = badStudents.head;
     while (current != nullptr) {
-        cout << current->data << " Средний балл: " << cout.precision(2) << current->data.getProg().average() << endl;
+        cout << current->data << " Средний балл: "  + to_string(current->data.getProg().average()) << endl;
         current = current->next;
     }
 }

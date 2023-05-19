@@ -4,20 +4,22 @@
 #include "crypto.h"
 using namespace std;
 
-int studsubmenu(), instisubmenu(), progsubmenu(), sessiasubmenu();
+ // instisubmenu(), progsubmenu(), sessiasubmenu();
 
 
 
 int menu() {
-	//decrypt() //А что расшифровывать если базы данных нет... Ну точнее она есть, но не готова
+	Decrypt();
 	StudentsList list("file.bin");//Пока что тестовый файл с одинаковыми студентами.
 	cout << "База данных расшифрована. Программа готова к работе." << endl; system("pause");
 	string choice;
 	int mchoice = -1;
-	static unsigned short lsiz = list.getSize(); static string lsize = to_string(lsiz + 1);
+	
 	for (;mchoice!=0;) 
 	{
+		static unsigned short lsiz = list.getSize(); static string lsize = to_string(lsiz + 1);
 		system("cls");
+		cout << "Текущее количество студентов в базе данных:" + lsize << '\n';
 		cout << "Выберете действие:\n";
 		cout << "1.Вывод краткой информации о всех студентах\n";
 		cout << "2.Вывод полной информации о всех студентах\n";
@@ -25,67 +27,83 @@ int menu() {
 		cout << "4.Изменение данных конкретного студента\n";
 		cout << "5.Добавление нового студента с вводом с клавиатуры\n";
 		cout << "6.Удаление студента из базы данных\n";
-		cout << "5.Выполнить задание варианта 69 (разбиение и сортировка)\n";
+		cout << "7.Выполнить задание варианта 69 (разбиение и сортировка)\n";
 		cout << "0.Выход из программы, с последующим шифрованием базы данных\n";
 		cout << "> ";
-		getline(cin, choice);//Филатов рекомендовал использовать getline, а не просто cin. Из за пробелов. getline нормально обрабатывает пробелы
+		getline(cin, choice);
 		if (ValidIntModernised(choice)) 
 			mchoice = stoi(choice);
-		else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; return 666; }
+		else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel;}
 		switch (mchoice)
 		{
 		case 1: {cout << endl; list.printAll(); system("pause"); break; }
 		case 2: {cout << endl; list.printMNOGO(); system("pause"); break; }
 		case 3: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
-			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz + 1); });
+			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); });
 			list.printStudent(index + 1); break; }
-		case 4: {studsubmenu(); system("pause"); break; }
-		case 5: {unsigned int mx, mi; mi = readIntV("Введите минимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
+		case 4: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
+			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); }); list.updateStudent(index, studsubmenu(list.getStudent(index))); system("pause"); break; }
+		case 5: {if (lsiz >= 15) { cout << "\nНевозможно добавить студента, достигнут предел." << endl; break; } else { student nstud; nstud.makestudent(); list.addStudent(nstud); } break; }
+		case 6:{cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
+			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); }); list.removeStudent(index); cout << "\nСтудент удалён." << endl; system("pause"); break;  }
+		case 7: {unsigned int mx, mi; mi = readIntV("Введите минимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
 			mx = readIntV("Введите максимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
 			splitStudentsByGrades(list, mi, mx); system("pause"); break; }
-		case 6:{}
-		case 0: {/*crypt() что шифровать если базы данных нет... Ну точнее она есть, но не готова*/ cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); mchoice = 0; break;/*Я НЕ МОГУ ПОНЯТЬ КАК ВЫХОДИТЬ ИЗ МЕНЮ ААААААААААААААААААААААААААААААААААА*/ }
+		case 0: {list.writeToFileBinary("file.bin"); Crypt(); cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); }
 		default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
-
 		}
 		CinDel;
 	}
 	return 0;
 }
-int studsubmenu() { // Для изменения данных о студенте
-	//a.prfull();
+
+
+
+
+
+
+
+
+/*student studsubmenu(student stud) { // Для изменения данных о студенте
 	string schoice;
 	int smchoice = -1;
-	for (; smchoice != 0;)
-	system("cls");
-	cout << "Выберете действие:\n";
-	cout << "1. Изменить индивидуальный номер студента\n";
-	cout << "2. Изменить ФИО студента\n";
-	cout << "3. Изменить фамилию студента\n";
-	cout << "4. Изменить имя студента\n";
-	cout << "5. Изменить отчество студента\n";
-	cout << "6. Изменить пол студента\n";
-	cout << "7. Изменить дату рождения и возраст\n";
-	cout << "8. Изменить данные об институте/группе\n";
-	cout << "9. Изменить данные о сессиях\n";
-	cout << "10.Изменить физ. группу\n";
-	cout << "0. Выйти и вернуться к работе с базой данных\n";
-	cout << "> ";
-	switch (smchoice) {
-	case 1: {string nnum; }
-	case 2: {name nfio; }
-	case 3: {string nf; }
-	case 4: {string ni; }
-	case 5: {string no; }
-	case 6: {unsigned short ngendr; }
-	case 7: {date nborn; }
-	case 8: {instisubmenu(); }
-	case 9: {progsubmenu(); }
-	case 10: {unsigned short nfizgroup; }
-	case 0: {/*????????*/}
-	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+	for (; smchoice != 0;) {
+		system("cls");
+		cout << stud.num << '\n';
+		cout << "Выберете действие:\n";
+		cout << "1. Изменить индивидуальный номер студента\n";
+		cout << "2. Изменить ФИО студента\n";
+		cout << "3. Изменить фамилию студента\n";
+		cout << "4. Изменить имя студента\n";
+		cout << "5. Изменить отчество студента\n";
+		cout << "6. Изменить пол студента\n";
+		cout << "7. Изменить дату рождения и возраст\n";
+		cout << "8. Изменить данные об институте/группе\n";
+		cout << "9. Изменить данные о сессиях\n";
+		cout << "10.Изменить физ. группу\n";
+		cout << "11.Повторно вывести информацию о текущем студенте.";
+		cout << "0. Выйти и вернуться к работе с базой данных\n";
+		cout << "> ";
+		getline(cin, schoice);
+		if (ValidIntModernised(schoice)) smchoice = stoi(schoice);
+		else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; }
+		switch (smchoice) {
+		case 1: {string nnum; }
+		case 2: {name nfio; }
+		case 3: {string nf; }
+		case 4: {string ni; }
+		case 5: {string no; }
+		case 6: {unsigned short ngendr; }
+		case 7: {date nborn; }
+		case 8: {instisubmenu(); }
+		case 9: {progsubmenu(); }
+		case 10: {unsigned short nfizgroup; }
+		case 11: {stud.prfull(); break; }
+		case 0: {cout << "\nВозвращение в главное меню." << endl; return stud; system("pause"); }
+		default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+		}
 	}
-}
+}*/
 int instisubmenu(){//Изменение данных об иснтитуте и группе студента
 	string ichoice;
 	int imchoice = -1;
@@ -100,7 +118,7 @@ int instisubmenu(){//Изменение данных об иснтитуте и группе студента
 	cout << "6.Изменить дату поступления\n";
 	cout << "7.Изменить текущий курс\n";
 	cout << "8.Изменить текущий семестр\n";
-	cout << "9.Ещё раз вывести информацию об институте/группе\n";
+	cout << "9.Повторно вывести информацию об институте/группе\n";
 	cout << "0.Выйти и вернуться к работе с студентом\n";
 	cout << "> ";
 	switch (imchoice) {
@@ -112,7 +130,7 @@ int instisubmenu(){//Изменение данных об иснтитуте и группе студента
 	case 6: {unsigned short ngendr; }
 	case 7: {unsigned short nckurs; }
 	case 8: {unsigned short ncsem; }
-	case 9:{list.studentws[i]printinsti}
+	case 9:{list.studentws[i]printinsti/*Такой функции на данный момент нет*/}
 	case 10: {unsigned short nfizgroup; }
 	case 0: {/*????????*/}
 	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
@@ -129,13 +147,13 @@ int progsubmenu() {//Изменение данных о сессииях студента
 	cout << "2.Удалить сессию\n";
 	cout << "3.Заменить существующию сессию на введённую с клавиатуры\n";
 	cout << "4.Изменить данные в конкретной сессии\n";
-	cout << "5.Ещё раз показать сессии студента\n"
+	cout << "5.Повторно вывести все сессии студента\n"
 	cout << "0.Выйти и вернуться к работе с студентом\n";
 	cout << "> ";
 	switch (pmchoice) {
-	case 1: {sessia nsessia;if list.students[i].prog.getsize < blah blah должна быть нормалная проверка количества сессий. nssessia.makesessia();list.students[i].prog.addsessia(nsessia);  }
+	case 1: {if list.students[i].prog.getsize() < blah blah должна быть нормалная проверка количества сессий. sessia nsessia; nssessia.makesessia(); list.students[i].prog.addsessia(nsessia);  }
 	case 2: {cout << list.students[i].prog; readIntV("Введите номер сессии для удаления:") }
-	case 3: {sessia nsessia; if list.students[i].prog.getsize < blah blah должна быть нормалная проверка количества сессий.nssessia.makesessia(); list.students[i].prog.addsessia(nsessia);  }
+	case 3: {sessia nsessia; if list.students[i].prog.getsize < blah blah должна быть нормалная проверка введённого номера сессии с ReadIntV сессий.nssessia.makesessia(); list.students[i].prog.addsessia(nsessia);  }
 	case 4: {sessiasubmenu(); }
 	case 5: {cout << prog??? }
 	case 0: {/*????????*/}
@@ -153,8 +171,8 @@ int sessiasubmenu() {//изменение данных об отдельной сессии
 	cout << "3.Удалить зачёт\n";
 	cout << "4.Удалить экзамен\n";
 	cout << "5.Изменить зачёт с вводом с клавиатуры\n";
-	cout << "5.Изменить экзамен с вводом с клавиатуры\n";
-	cout << "6.Ещё раз вывести сессию\n"
+	cout << "6.Изменить экзамен с вводом с клавиатуры\n";
+	cout << "7.Повторно вывести текущую сессию\n"
 	cout << "0.Выйти и вернуться к работе с cписком сессий\n";
 	cout << "> ";
 	switch (pmchoice) {
@@ -164,6 +182,7 @@ int sessiasubmenu() {//изменение данных об отдельной сессии
 	case 4: {unsigned short index }
 	case 5: {cout << prog ? ? ? }
 	case 6: {cout << this???? }
+	case 7: {cout << this ? ? ? ? }
 	case 0: {/*????????*/}
 	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
 	}

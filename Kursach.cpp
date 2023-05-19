@@ -2,9 +2,10 @@
 //#include "date_name.h"
 //#include "sessia_list.h"
 //#include "student.h"
-#include "stud_list.h"
-//#include "menu.h"
+//#include "stud_list.h"
+#include "menu.h"
 //#include "sessia.h"
+//#include "zadanie.h"
 using namespace std;
 
 
@@ -40,6 +41,8 @@ sb2.readFromFileBinary("bruh3.bin");
 a1.addStudent(st); a1.addStudent(st1); a1.addStudent(st2); a1.addStudent(sb); a1.addStudent(sb1); a1.addStudent(sb2);
 //a1.printStudent(0); a1.printStudent(1); a1.printStudent(2); a1.printStudent(3); a1.printStudent(4); a1.printStudent(5); a1.printStudent(6); a1.printStudent(7);
 a2.ListFromFileBin("file.bin");
+splitStudentsByGrades(a2, 0, 9999);
+//cout << st.getProg().average();
 //a2.printMNOGO();
 //a2.printAll();
 //splitStudentsByGrades(a, 0, 9999);
