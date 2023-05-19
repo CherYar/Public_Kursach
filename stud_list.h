@@ -91,4 +91,47 @@ public:
 	const student& getStudent(int index) const {
 		return students[index];
 	}
+
+	void studsubmenu(int index) {
+		student& stud = students[index];
+		string schoice;
+		int smchoice = -1;
+		for (; smchoice != 0;) {
+			system("cls");
+			cout << stud << '\n';
+			cout << "Выберете действие:\n";
+			cout << "1. Изменить индивидуальный номер студента\n";
+			cout << "2. Изменить ФИО студента\n";
+			cout << "3. Изменить фамилию студента\n";
+			cout << "4. Изменить имя студента\n";
+			cout << "5. Изменить отчество студента\n";
+			cout << "6. Изменить пол студента\n";
+			cout << "7. Изменить дату рождения и возраст\n";
+			cout << "8. Изменить данные об институте/группе\n";
+			cout << "9. Изменить данные о сессиях\n";
+			cout << "10.Изменить физ. группу\n";
+			cout << "11.Повторно вывести информацию о текущем студенте.";
+			cout << "0. Выйти и вернуться к работе с базой данных\n";
+			cout << "> ";
+			getline(cin, schoice);
+			if (ValidIntModernised(schoice)) smchoice = stoi(schoice);
+			else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; }
+			switch (smchoice) {
+			case 1: {num = readStrW("Идентификационный номер (Пример: 00А0000):  ", [this](const string& n) { return validnum(n); }); }
+			case 2: {cin >> fio; }
+			case 3: {string fn; }
+			case 4: {string ni; }
+			case 5: {string no; }
+			case 6: {unsigned short ngendr; }
+			case 7: {date nborn; }
+			case 8: {instisubmenu(); }
+			case 9: {progsubmenu(); }
+			case 10: {unsigned short nfizgroup; }
+			case 11: {stud.prfull(); break; }
+			case 0: {cout << "\nВозвращение в главное меню." << endl; return; system("pause"); }
+			default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+		}
+	}
+
+
 };

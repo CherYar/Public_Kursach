@@ -7,7 +7,6 @@ using namespace std;
  // instisubmenu(), progsubmenu(), sessiasubmenu();
 
 
-
 int menu() {
 	Decrypt();
 	StudentsList list("file.bin");//Пока что тестовый файл с одинаковыми студентами.
@@ -42,7 +41,7 @@ int menu() {
 			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); });
 			list.printStudent(index + 1); break; }
 		case 4: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
-			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); }); list.updateStudent(index, studsubmenu(list.getStudent(index))); system("pause"); break; }
+			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); }); list.studsubmenu(index); system("pause"); break; }
 		case 5: {if (lsiz >= 15) { cout << "\nНевозможно добавить студента, достигнут предел." << endl; break; } else { student nstud; nstud.makestudent(); list.addStudent(nstud); } break; }
 		case 6:{cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); }); list.removeStudent(index); cout << "\nСтудент удалён." << endl; system("pause"); break;  }
