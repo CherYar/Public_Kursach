@@ -16,9 +16,10 @@ int menu() {
 	
 	for (;mchoice!=0;) 
 	{
-		static unsigned short lsiz = list.getSize(); static string lsize = to_string(lsiz + 1);
+		 static unsigned short lsiz = list.getSize(); static string lsize = to_string(lsiz + 1);
 		system("cls");
 		cout << "Текущее количество студентов в базе данных:" + lsize << '\n';
+		cout << "-------------------------------------------------------------\n";
 		cout << "Выберете действие:\n";
 		cout << "1.Вывод краткой информации о всех студентах\n";
 		cout << "2.Вывод полной информации о всех студентах\n";
@@ -27,6 +28,7 @@ int menu() {
 		cout << "5.Добавление нового студента с вводом с клавиатуры\n";
 		cout << "6.Удаление студента из базы данных\n";
 		cout << "7.Выполнить задание варианта 69 (разбиение и сортировка)\n";
+		cout << "-------------------------------------------------------------\n";
 		cout << "0.Выход из программы, с последующим шифрованием базы данных\n";
 		cout << "> ";
 		getline(cin, choice);
@@ -39,10 +41,10 @@ int menu() {
 		case 2: {cout << endl; list.printMNOGO(); system("pause"); break; }
 		case 3: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); });
-			list.printStudent(index + 1); break; }
+			list.printStudent(index + 1); system("pause"); break; }
 		case 4: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); }); list.studsubmenu(index); system("pause"); break; }
-		case 5: {if (lsiz >= 15) { cout << "\nНевозможно добавить студента, достигнут предел." << endl; break; } else { student nstud; nstud.makestudent(); list.addStudent(nstud); } break; }
+		case 5: {if (lsiz >= 15) { cout << "\nНевозможно добавить студента, достигнут предел." << endl; system("pause"); break; } else { student nstud; nstud.makestudent(); list.addStudent(nstud); cout << "\nСтудент добавлен\n"; system("pause"); break;}  }
 		case 6:{cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [](int i) { return i >= 1 && i <= (lsiz); }); list.removeStudent(index); cout << "\nСтудент удалён." << endl; system("pause"); break;  }
 		case 7: {unsigned int mx, mi; mi = readIntV("Введите минимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
@@ -54,86 +56,6 @@ int menu() {
 		CinDel;
 	}
 	return 0;
-}
-
-
-
-
-
-
-
-
-/*student studsubmenu(student stud) { // Для изменения данных о студенте
-	string schoice;
-	int smchoice = -1;
-	for (; smchoice != 0;) {
-		system("cls");
-		cout << stud.num << '\n';
-		cout << "Выберете действие:\n";
-		cout << "1. Изменить индивидуальный номер студента\n";
-		cout << "2. Изменить ФИО студента\n";
-		cout << "3. Изменить фамилию студента\n";
-		cout << "4. Изменить имя студента\n";
-		cout << "5. Изменить отчество студента\n";
-		cout << "6. Изменить пол студента\n";
-		cout << "7. Изменить дату рождения и возраст\n";
-		cout << "8. Изменить данные об институте/группе\n";
-		cout << "9. Изменить данные о сессиях\n";
-		cout << "10.Изменить физ. группу\n";
-		cout << "11.Повторно вывести информацию о текущем студенте.";
-		cout << "0. Выйти и вернуться к работе с базой данных\n";
-		cout << "> ";
-		getline(cin, schoice);
-		if (ValidIntModernised(schoice)) smchoice = stoi(schoice);
-		else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; }
-		switch (smchoice) {
-		case 1: {string nnum; }
-		case 2: {name nfio; }
-		case 3: {string nf; }
-		case 4: {string ni; }
-		case 5: {string no; }
-		case 6: {unsigned short ngendr; }
-		case 7: {date nborn; }
-		case 8: {instisubmenu(); }
-		case 9: {progsubmenu(); }
-		case 10: {unsigned short nfizgroup; }
-		case 11: {stud.prfull(); break; }
-		case 0: {cout << "\nВозвращение в главное меню." << endl; return stud; system("pause"); }
-		default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
-		}
-	}
-}*/
-int instisubmenu(){//Изменение данных об иснтитуте и группе студента
-	string ichoice;
-	int imchoice = -1;
-	for (; imchoice != 0;)
-	system("cls");
-	cout << "Выберете действие:\n";
-	cout << "1.Изменить институт\n";
-	cout << "2.Изменить кафедру\n";
-	cout << "3.Изменить группу\n";
-	cout << "4.Изменить Id программы\n";
-	cout << "5.Изменить название программы\n";
-	cout << "6.Изменить дату поступления\n";
-	cout << "7.Изменить текущий курс\n";
-	cout << "8.Изменить текущий семестр\n";
-	cout << "9.Повторно вывести информацию об институте/группе\n";
-	cout << "0.Выйти и вернуться к работе с студентом\n";
-	cout << "> ";
-	switch (imchoice) {
-	case 1: {string ninsti; }
-	case 2: {unsigned short nkaf; }
-	case 3: {string ngroup; }
-	case 4: {unsigned long nprogid; }
-	case 5: {string no; }
-	case 6: {unsigned short ngendr; }
-	case 7: {unsigned short nckurs; }
-	case 8: {unsigned short ncsem; }
-	case 9:{list.studentws[i]printinsti/*Такой функции на данный момент нет*/}
-	case 10: {unsigned short nfizgroup; }
-	case 0: {/*????????*/}
-	default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
-	}
 }
 
 int progsubmenu() {//Изменение данных о сессииях студента

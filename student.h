@@ -98,6 +98,13 @@ public:
 		return out;
 	}
 	void addfio(const string& sn, const string& fn, const string& pr) { this->fio.addfio(sn, fn, pr); }
+	void setfname(const string& fn) { fio.setfname(fn); }
+	void setsrname(const string& sn) { fio.setsrname(sn); }
+	void setpatr(const string& pn) { fio.setfname(pn); }
+	void setgendr(const unsigned short& g) { gendr = g; }
+	void setborn(const date& b) { born = b; }
+	void setage(const unsigned short& a) { age = a; }
+	void setfizgroup(const unsigned short& f) { fizgroup = f; }
 	void addprog(const SessionList& sl) { prog = sl; }
 	void prbasic()
 	{
@@ -147,7 +154,7 @@ public:
 		uch.kaf = readIntV("Кафедра № ", [this](const int& k) { return validkaf(k); });
 		CinDel;
 		uch.group = readStrW("Группа (Пример: АБВГ-01-23): ", [this](const string& g) { return validgroup(g); });
-		fizgroup = readIntV("Физ. группа (0 - осн., 1 - подг., 2 - спец.): ", [this](const int& k) { return validkaf(k); });
+		fizgroup = readIntV("Физ. группа (0 - осн., 1 - подг., 2 - спец.): ", [this](const int& f) { return validfizgroup(f); });
 		uch.progid = readIntLV("Номер учебной программы (6ти значное число): ", [this](const long& pi) { return validprogid(pi); });
 		CinDel;
 		uch.progname = readStrW("Название учебной программы: ", [this](const string& p) { return validprogname(p); });
@@ -156,8 +163,12 @@ public:
 		cout << "Введите данные о сессиях студента:" << endl;
 		prog.makesessions();
 	}
-	void changeinstitut() { this->uch.institut = readStrW("Введите название института: ", [this](const string& i) { return validinsti(i); }); }//для меню, для него потребуются и другие методы
-
+	void changeinstitut() { uch.institut = readStrW("Введите название института: ", [this](const string& i) { return validinsti(i); }); }//для меню, для него потребуются и другие методы
+	void changekaf() { uch.kaf = readIntV("Введите номер кафедры: ", [this](const int& k) { return validkaf(k); }); }
+	void changegroup() { uch.group = readStrW("Введите гуппу (Пример: АБВГ-01-23): ", [this](const string& g) { return validgroup(g); }); }
+	void changeprogid() { uch.progid = readIntLV("Введите номер учебной программы (6ти значное число): ", [this](const long& pi) { return validprogid(pi); }); }
+	void changeprogname(){ uch.progname = readStrW("Введите название учебной программы: ", [this](const string& p) { return validprogname(p); }); }
+	void changepostup(){ uch.postup = readIntV("Введите год поступления: ", [this](const int& p) { return validpostup(p); }); }
 	void writeToFile(const string& filename) const {
 		ofstream file(filename);
 		if (!file.is_open()) {
