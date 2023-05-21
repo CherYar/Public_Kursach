@@ -92,11 +92,11 @@ public:
 		return students[index];
 	}
 
-	void studsubmenu(int index) {
+	void studsubmenu(const int& index) {
 		student& stud = students[index];
-		string schoice;
 		int smchoice = -1;
 		for (; smchoice != 0;) {
+			CinDel
 			system("cls");
 			cout << stud << '\n';
 			cout << "---------------------------------------------------\n";
@@ -109,9 +109,9 @@ public:
 			cout << "6. Изменить пол студента\n";
 			cout << "7. Изменить дату рождения и возраст\n";
 			cout << "8. Изменить данные о сессиях\n";
-			cout << "9.Изменить физ. группу\n";
+			cout << "9. Изменить физ. группу\n";
 			cout << "---------------------------------------------------\n";
-			cout << "10.Повторно вывести информацию о текущем студенте.";
+			cout << "10.Повторно вывести информацию о текущем студенте\n";
 			cout << "---------------------------------------------------\n";
 			cout << "11.Изменить институт\n";
 			cout << "12.Изменить кафедру\n";
@@ -123,34 +123,31 @@ public:
 			cout << "18.Изменить текущий семестр\n";
 			cout << "---------------------------------------------------\n";
 			cout << "0. Выйти и вернуться к работе с базой данных\n";
-			cout << "> ";
-			getline(cin, schoice);
-			if (ValidIntModernised(schoice)) smchoice = stoi(schoice);
-			else { cout << "\nНекорректная команда!\n"; system("pause"); CinDel; }
+			cout << "---------------------------------------------------\n";
+			cout << ">";
+			smchoice = readIntV(" ", [](int c) {return c >= 0 && c <= 18; });
 			switch (smchoice) {
-			case 1: {num = readStrW("Введите дентификационный номер (Пример: 00А0000):  ", [this](const string& n) { return validnum(n); }); system("pause"); break; }
-			case 2: {cin >> fio; system("pause"); break; }
-			case 3: {string sn = readStrW("Введите фамилию: ", [this](const string& n) { return validnameS(n); }); stud.setfname(sn); system("pause"); break; }
-			case 4: {string fn = readStrW("Введите имя: ", [this](const string& n) { return validnameS(n); }); stud.setsrname(fn); system("pause"); break; }
-			case 5: {string pr = readStrW("Введите отчество: ", [this](const string& n) { return validnameS(n); }); stud.setfname(pr); system("pause"); break; }
-			case 6: {unsigned short ngendr = readIntV("Введите пол (0-муж., 1-жен.): ", [this](const int& g) { return validgendr(g); }); setgendr(ngendr); system("pause"); break; }
-			case 7: {date nborn; unsigned short age; cin >> nborn; stud.setborn(nborn); age = readIntV("Введите возраст (полных лет): ", [this](const int& a) { return validage(a); }); stud.setage(age); system("pause"); break; }
-			case 8: {progsubmenu(); system("pause"); break; }
-			case 9: {unsigned short nfizgroup = readIntV("Введите физ. группу (0 - осн., 1 - подг., 2 - спец.): ", [this](const int& f) { return validfizgroup(f); }); stud.setfizgroup(nfizgroup); system("pause"); break; }
-			case 10: {stud.prfull(); system("pause"); break; }
-			case 11: {stud.changeinstitut(); system("pause"); break; }
-			case 12: {stud.changekaf(); system("pause"); break; }
-			case 13: {stud.changegroup(); system("pause"); break; }
-			case 14: {stud.changeprogid(); system("pause"); break; }
-			case 15: {stud.changeprogname(); system("pause"); break; }
-			case 16: {stud.changepostup(); system("pause"); break; }
-			case 17: {unsigned short nPs; }
-			case 18: {unsigned short ncsem; }
+			case 1: {cout << endl; stud.num = readStrW("Введите дентификационный номер (Пример: 00А0000):  ", [this](const string& n) { return validnum(n); }); system("pause"); break; }
+			case 2: {cout << endl; name nfio; cin >> nfio; stud.setfio(nfio); system("pause"); break; }
+			case 3: {cout << endl; string sn = readStrW("Введите фамилию: ", [this](const string& n) { return validnameS(n); }); stud.setfname(sn); system("pause"); break; }
+			case 4: {cout << endl; string fn = readStrW("Введите имя: ", [this](const string& n) { return validnameS(n); }); stud.setsrname(fn); system("pause"); break; }
+			case 5: {cout << endl; string pr = readStrW("Введите отчество: ", [this](const string& n) { return validnameS(n); }); stud.setpatr(pr); system("pause"); break; }
+			case 6: {cout << endl; unsigned short ngendr = readIntV("Введите пол (0-муж., 1-жен.): ", [this](const int& g) { return validgendr(g); }); stud.setgendr(ngendr); system("pause"); break; }
+			case 7: {cout << endl; date nborn; unsigned short age; cin >> nborn; stud.setborn(nborn); age = readIntV("Введите возраст (полных лет): ", [this](const int& a) { return validage(a); }); stud.setage(age); system("pause"); break; }
+			case 8: {stud.progsubmenu(); break; }
+			case 9: {cout << endl; unsigned short nfizgroup = readIntV("Введите физ. группу (0 - осн., 1 - подг., 2 - спец.): ", [this](const int& f) { return validfizgroup(f); }); stud.setfizgroup(nfizgroup); system("pause"); break; }
+			case 10: {cout << endl; stud.prfull(); system("pause"); break; }
+			case 11: {cout << endl; stud.changeinstitut(); system("pause"); break; }
+			case 12: {cout << endl; stud.changekaf(); system("pause"); break; }
+			case 13: {cout << endl; stud.changegroup(); system("pause"); break; }
+			case 14: {cout << endl; stud.changeprogid(); system("pause"); break; }
+			case 15: {cout << endl; stud.changeprogname(); system("pause"); break; }
+			case 16: {cout << endl; stud.changepostup(); system("pause"); break; }
+			case 17: {cout << endl; stud.changecurkurs(); system("pause"); break;  }
+			case 18: {cout << endl; stud.changekursem(); system("pause"); break; }
 			case 0: {students[index] = stud; cout << "\nВозвращение в главное меню." << endl; return; system("pause"); break; }
-			default: {cout << "\nНеизвестная операция!\n"; system("pause"); break; }
+			default: {cout << "\nНеизвестная операция!\n"; system("pause"); CinDel break; }
 			}
-			CinDel;
 		}
-
 	}
 };

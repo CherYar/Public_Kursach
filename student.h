@@ -98,9 +98,10 @@ public:
 		return out;
 	}
 	void addfio(const string& sn, const string& fn, const string& pr) { this->fio.addfio(sn, fn, pr); }
+	void setfio(const name& n) { fio = n; }
 	void setfname(const string& fn) { fio.setfname(fn); }
 	void setsrname(const string& sn) { fio.setsrname(sn); }
-	void setpatr(const string& pn) { fio.setfname(pn); }
+	void setpatr(const string& pn) { fio.setpatr(pn); }
 	void setgendr(const unsigned short& g) { gendr = g; }
 	void setborn(const date& b) { born = b; }
 	void setage(const unsigned short& a) { age = a; }
@@ -169,6 +170,8 @@ public:
 	void changeprogid() { uch.progid = readIntLV("Введите номер учебной программы (6ти значное число): ", [this](const long& pi) { return validprogid(pi); }); }
 	void changeprogname(){ uch.progname = readStrW("Введите название учебной программы: ", [this](const string& p) { return validprogname(p); }); }
 	void changepostup(){ uch.postup = readIntV("Введите год поступления: ", [this](const int& p) { return validpostup(p); }); }
+	void changecurkurs(){ uch.curkurs = readIntV("Введите текущий курс ", [this](const int& k) { return sessia::validkurs(k); }); }
+	void changekursem(){ uch.cursemestr = readIntV("Введите текущий семестр ", [this](const int& s) { return sessia::validsemestr(s); }); }
 	void writeToFile(const string& filename) const {
 		ofstream file(filename);
 		if (!file.is_open()) {
@@ -468,4 +471,66 @@ public:
 	const SessionList& getProg() const {
 		return prog;
 	}
+	void progsubmenu() {
+		int pmchoice = -1;
+		for (; pmchoice != 0;) {
+			CinDel
+			unsigned short psiz = prog.getcount(); string psize = to_string(psiz + 1);
+			system("cls");
+			cout << "Текущее количество сессий:" + psize << '\n';
+			cout << "--------------------------------------------------------------\n";
+			cout << "Выберете действие:\n";
+			cout << "--------------------------------------------------------------\n";
+			cout << "1.Добавить новую сессию с вводом с клавиатуры\n";
+			cout << "2.Удалить сессию\n";
+			cout << "3.Заменить существующую сессию на введённую с клавиатуры\n";
+			cout << "4.Изменить данные в конкретной сессии\n";
+			cout << "--------------------------------------------------------------\n";
+			cout << "5.Повторно вывести все сессии студента\n";
+			cout << "--------------------------------------------------------------\n";
+			cout << "0.Выйти и вернуться к работе с студентом\n";
+			cout << "--------------------------------------------------------------\n";
+			cout << "> ";
+			pmchoice = readIntV(" ", [](int c) {return c >= 0 && c <= 5; });
+			switch (pmchoice) {
+			case 1: {
+				if (psiz >= 10){ cout << "\nНевозможно добавить, достигнут предел количества сессий!" << endl; system("pause"); break; }
+				else { sessia ns; ns.makesessia(); prog.addSession(ns); prog.sortSessions(); cout << "\nСессия добавлена" << endl; system("pause"); break;}
+				
+			}
+			case 2: {
+				cout << endl; string prompt = "Введите номер сессии(1 - " + psize + "): ";
+				unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (psiz); });
+				prog.removeSession(index - 1);
+				cout << "\nСессия удалена." << endl; system("pause"); break;
+			}
+			case 3: {
+				cout << endl; string prompt = "Введите номер сессии(1 - " + psize + "): ";
+				unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (psiz); });
+				sessia nses; cout << endl; nses.makesessia();
+				prog.updateSession(index - 1, nses);
+				cout << "\nСессия заменена." << endl; system("pause"); break;
+			}
+			case 4: {
+				cout << endl; string prompt = "Введите номер сессии(1 - " + psize + "): ";
+				unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (psiz); });
+				sessiasubmenu(index - 1); break;
+			}
+			case 5: {
+				cout << endl << prog; system("pause"); break;
+			}
+			case 0: {
+				cout << "\nВозвращение в меню изменения данных студента." << endl;
+				system("pause");
+				return;
+			}
+			default: {
+				cout << "\nНеизвестная операция!\n";
+				system("pause"); CinDel
+				break;
+			}
+			}
+		}
+	}
+
 };

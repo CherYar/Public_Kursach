@@ -10,7 +10,7 @@ void Crypt()
 {
 	srand(time(NULL));
 	string pass;
-	for (int i = 0; i < 128; i++) {
+	for (int i = 0; i < 63; i++) {
 		switch (rand() % 3) {
 		case 0:
 			pass += rand() % 10 + '0';

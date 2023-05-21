@@ -124,7 +124,7 @@ public:
         return true;
     }
 
-    sessia(const char* filename) { this->SessiaFromFile(filename); }
+    sessia(const string &filename) { this->SessiaFromFile(filename); }
 
     ~sessia() {delete[] exams;delete[] zachs;}
 
@@ -198,6 +198,28 @@ public:
         }
         zachs[index].name = name;
     }
+    void removeExam(unsigned short index) {
+        if (index >= examsCount) {
+            cout << "Некорректный индекс экзамена." << endl;
+            return;
+        }
+        for (unsigned short i = index; i < examsCount - 1; i++) {
+            exams[i] = exams[i + 1];
+        }
+        examsCount--;
+    }
+
+    void removeZach(unsigned short index) {
+        if (index >= zachsCount) {
+            cout << "Некорректный индекс зачёта." << endl;
+            return;
+        }
+        for (unsigned short i = index; i < zachsCount - 1; i++) {
+            zachs[i] = zachs[i + 1];
+        }
+        zachsCount--;
+    }
+
     const int& getExamsCount()  {
         return examsCount;
     }
