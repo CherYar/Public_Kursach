@@ -105,6 +105,7 @@ public:
 	void setgendr(const unsigned short& g) { gendr = g; }
 	void setborn(const date& b) { born = b; }
 	void setage(const unsigned short& a) { age = a; }
+	void setUch(const insti& i) { uch = i; }
 	void setfizgroup(const unsigned short& f) { fizgroup = f; }
 	void addprog(const SessionList& sl) { prog = sl; }
 	void prbasic()
@@ -159,8 +160,8 @@ public:
 		uch.progid = readIntLV("Номер учебной программы (6ти значное число): ", [this](const long& pi) { return validprogid(pi); });
 		CinDel;
 		uch.progname = readStrW("Название учебной программы: ", [this](const string& p) { return validprogname(p); });
-		uch.curkurs = readIntV("Текущий курс ", [this](const int& k) { return sessia::validkurs(k); });
-		uch.cursemestr = readIntV("Текущий семестр ", [this](const int& s) { return sessia::validsemestr(s); });
+		uch.curkurs = readIntV("Текущий курс: ", [this](const int& k) { return sessia::validkurs(k); });
+		uch.cursemestr = readIntV("Текущий семестр: ", [this](const int& s) { return sessia::validsemestr(s); });
 		cout << "Введите данные о сессиях студента:" << endl;
 		prog.makesessions();
 	}
@@ -464,13 +465,17 @@ public:
 
 		prog.readFromFileBinary(in);
 	}
-
+	const insti& getUch() const { return uch; }
 	const date& getBorn() const {
 		return born;
 	}
 	const SessionList& getProg() const {
 		return prog;
 	}
+	const unsigned short& getFizgroup() { return fizgroup; }
+	const unsigned short& getAge() { return age; }
+	const unsigned short& getGendr() { return gendr; }
+	const name& getFio() const { return fio; }
 	void progsubmenu() {
 		int pmchoice = -1;
 		for (; pmchoice != 0;) {
@@ -495,23 +500,23 @@ public:
 			switch (pmchoice) {
 			case 1: {
 				if (psiz >= 10){ cout << "\nНевозможно добавить, достигнут предел количества сессий!" << endl; system("pause"); break; }
-				else { sessia ns; ns.makesessia(); prog.addSession(ns); prog.sortSessions(); cout << "\nСессия добавлена" << endl; system("pause"); break;}
+				else { CinDel sessia ns; ns.makesessia(); prog.addSession(ns); prog.sortSessions(); cout << "\nСессия добавлена" << endl; system("pause"); break;}
 				
 			}
-			case 2: {
+			case 2: {CinDel
 				cout << endl; string prompt = "Введите номер сессии(1 - " + psize + "): ";
 				unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (psiz); });
 				prog.removeSession(index - 1);
 				cout << "\nСессия удалена." << endl; system("pause"); break;
 			}
-			case 3: {
+			case 3: {CinDel
 				cout << endl; string prompt = "Введите номер сессии(1 - " + psize + "): ";
 				unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (psiz); });
 				sessia nses; cout << endl; nses.makesessia();
 				prog.updateSession(index - 1, nses);
 				cout << "\nСессия заменена." << endl; system("pause"); break;
 			}
-			case 4: {
+			case 4: {CinDel
 				cout << endl; string prompt = "Введите номер сессии(1 - " + psize + "): ";
 				unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (psiz); });
 				sessiasubmenu(index - 1); break;

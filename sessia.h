@@ -127,7 +127,8 @@ public:
     sessia(const string &filename) { this->SessiaFromFile(filename); }
 
     ~sessia() {delete[] exams;delete[] zachs;}
-
+    void setzcount(const int& z) { zachsCount = z; }
+    void setxcount(const int& x) { examsCount = x; }
     void addExam(const predex& e) {
         if (examsCount < 5) {
             exams[examsCount] = e;

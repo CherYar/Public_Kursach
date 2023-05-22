@@ -8,7 +8,7 @@ StudentsList list;
 BOOL CrashHandler(DWORD fdwCtrlType) {//Для сохранения и шифрования данных в случае нештатного завершения программы
 	switch (fdwCtrlType) {
 	case CTRL_CLOSE_EVENT:
-		list.ListToFileBin("file.bin"); Crypt();
+		list.ListToFile("file.bin"); Crypt();
 		cout << "Данные сохранены и зашифрованы из за нештатного завершения программы!" << endl;
 		return TRUE;
 	default:
@@ -19,7 +19,7 @@ BOOL CrashHandler(DWORD fdwCtrlType) {//Для сохранения и шифрования данных в слу
 
 int menu() {//Главное меню
 	Decrypt();
-	list.ListFromFileBin("file.bin");//Пока что тестовый файл с одинаковыми студентами.
+	list.ListFromFile("file.bin");//Пока что тестовый файл с одинаковыми студентами.
 	cout << "База данных расшифрована. Программа готова к работе." << endl; system("pause");
 	int mchoice = -1;
 	for (;mchoice!=0;) 
@@ -49,18 +49,18 @@ int menu() {//Главное меню
 		{
 		case 1: {cout << endl; list.printAll(); system("pause"); break; }
 		case 2: {cout << endl; list.printMNOGO(); system("pause"); break; }
-		case 3: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
+		case 3: {CinDel cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (lsiz); });
 			list.printStudent(index - 1); system("pause"); break; }
-		case 4: {cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
+		case 4: {CinDel cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (lsiz); }); list.studsubmenu(index - 1); cout << "\nСтудент изменён" << endl; system("pause"); break; }
-		case 5: {if (lsiz >= 15) { cout << "\nНевозможно добавить студента, достигнут предел." << endl; system("pause"); break; } else { student nstud; nstud.makestudent(); list.addStudent(nstud); cout << "\nСтудент добавлен\n"; system("pause"); break;}  }
-		case 6:{cout << endl; string prompt = "Введите номер студента(1 -  " + lsize + "): ";
+		case 5: {if (lsiz >= 15) { cout << "\nНевозможно добавить студента, достигнут предел." << endl; system("pause"); break; } else { CinDel student nstud; nstud.makestudent(); list.addStudent(nstud); cout << "\nСтудент добавлен\n"; system("pause"); break;}  }
+		case 6:{ CinDel cout << endl; string prompt = "Введите номер студента(1 -  " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (lsiz); }); list.removeStudent(index-1); cout << "\nСтудент удалён." << endl; system("pause"); break;  }
-		case 7: {cout << endl; unsigned int mx, mi; mi = readIntV("Введите минимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
+		case 7: { CinDel cout << endl; unsigned int mx, mi; mi = readIntV("Введите минимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
 			mx = readIntV("Введите максимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
 			splitStudentsByGrades(list, mi, mx); system("pause"); break; }
-		case 0: {list.ListToFileBin("file.bin"); Crypt(); cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); }
+		case 0: { list.ListToFile("file.bin"); Crypt(); cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); }
 		default: {cout << "\nНеизвестная операция!\n"; CinDel break; }
 		}
 	}

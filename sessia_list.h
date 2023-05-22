@@ -305,34 +305,36 @@ const bool Troeshnik() const {
         switch (smchoice) {
         case 1: {if (zacount >= 5) { cout << "\nНевозможно добавить, достигнут предел количества зачётов" << endl; system("pause"); break; }
               else {
+            CinDel
             predza newz; newz.name = readStrW("Введите название зачёта: ", [](const string& s) { return s.length() <= 20 && !s.empty(); }); newz.zach = readIntV("Получен ли зачёт(1 - да, 0 - нет): ", [this](int z) { return validzach(z); });
             ses.addZach(newz); cout << "\nЗачёт добавлен" << endl; system("pause"); break;}
         } 
         case 2: {if (excount >= 5) { cout << "\nНевозможно добавить, достигнут предел количества экзаменов" << endl; system("pause"); break; }
               else {
+            CinDel
             predex newx; newx.name = readStrW("Введите название экзамена: ", [](const string& s) { return s.length() <= 20 && !s.empty(); }); newx.mark = readIntV("Введите оценку за экзамен (1 - 5): ", [this](int m) { return validmark(m); });
             ses.addExam(newx); cout << "\nЭкзамен добавлен" << endl; system("pause"); break;}
         }
-        case 3: {
+        case 3: {CinDel
             string prompt = "Введите номер зачёта (1 - " + zacounts + "): ";
             unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (zacount); });
             ses.removeZach(index - 1); cout << "\nЗачёт удалён." << endl; system("pause"); break;
         }
-        case 4: {string prompt = "Введите номер экзамена (1 - " + excounts + "): ";
+        case 4: {CinDel string prompt = "Введите номер экзамена (1 - " + excounts + "): ";
             unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (excount); });
             ses.removeExam(index - 1); cout << "\nЭкзамен удалён." << endl; system("pause"); break;
             }
-        case 5: {string prompt = "Введите номер зачёта (1 - " + zacounts + "): ";
+        case 5: {CinDel string prompt = "Введите номер зачёта (1 - " + zacounts + "): ";
             unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (zacount); });
             predza newz; newz.name = readStrW("Введите название зачёта: ", [](const string& s) { return s.length() <= 20 && !s.empty(); });
             newz.zach = readIntV("Получен ли зачёт(1 - да, 0 - нет): ", [&](const int& z) { return validzach(z); });
             ses.changeZach(index - 1, newz); cout << "\nЗачёт изменён." << endl; system("pause"); break; }
-        case 6: {string prompt = "Введите номер экзамена (1 - " + excounts + "): ";
+        case 6: {CinDel string prompt = "Введите номер экзамена (1 - " + excounts + "): ";
             unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (excount); });
             predex newx; newx.name = readStrW("Введите название экзамена: ", [](const string& s) { return s.length() <= 20 && !s.empty(); });
             newx.mark = readIntV("Введите оценку за экзамен (1 - 5): ", [&](const int& m) { return validmark(m); });
             ses.changeExam(index - 1, newx); cout << "\nЭкзамен изменён." << endl; system("pause"); break; }
-        case 7: {string prompt = "Введите номер зачёта (1 - " + zacounts + "): ";
+        case 7: {CinDel string prompt = "Введите номер зачёта (1 - " + zacounts + "): ";
             unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (zacount); });
             predza newz = ses.getZach(index - 1);
             cout << endl << newz.name << endl;
@@ -340,15 +342,15 @@ const bool Troeshnik() const {
             ses.changeZachZ(index - 1, zach);
             cout << "\nЗачёт изменён." << endl; system("pause"); break;
         }
-        case 8: {string prompt = "Введите номер экзамена (1 - " + excounts + "): ";
+        case 8: {CinDel string prompt = "Введите номер экзамена (1 - " + excounts + "): ";
             unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (excount); });
             predex newx = ses.getExam(index - 1);
             cout << endl << newx.name << endl;
             unsigned short mark = readIntV("Введите оценку за экзамен (1 - 5): ", [this](int m) { return validmark(m); });
             ses.changeExamMark(index - 1, mark);
             cout << "\nОценка изменена." << endl; system("pause"); break; }
-        case 9:{ses.kurs = readIntV("Введите курс (до 4 - бакалавр., 5 - спец., 6 магистр., до 8 - аспирант.): ", [this](int k) { return validkurs(k); }); }
-        case 10:{ses.semestr = readIntV("Введите семестр (должен соответсвовать курсу): ", [this](int s) { return validsemestr(s); }); }
+        case 9:{CinDel ses.kurs = readIntV("Введите курс (до 4 - бакалавр., 5 - спец., 6 магистр., до 8 - аспирант.): ", [this](int k) { return validkurs(k); }); }
+        case 10:{CinDel ses.semestr = readIntV("Введите семестр (должен соответсвовать курсу): ", [this](int s) { return validsemestr(s); }); }
         case 11: {cout << ses; system("pause"); break; }
         case 0: {sessions[indx] = ses; cout << "\nВозвращение в меню работы со списком сессий" << endl; system("pause"); return; }
         default: {cout << "\nНеизвестная операция!\n"; system("pause"); CinDel break; }
