@@ -8,7 +8,7 @@ StudentsList list;
 BOOL CrashHandler(DWORD fdwCtrlType) {//Для сохранения и шифрования данных в случае нештатного завершения программы
 	switch (fdwCtrlType) {
 	case CTRL_CLOSE_EVENT:
-		list.ListToFile("file.bin"); Crypt();
+		list.ListToFileBin("file.bin"); Crypt();
 		cout << "Данные сохранены и зашифрованы из за нештатного завершения программы!" << endl;
 		return TRUE;
 	default:
@@ -19,7 +19,7 @@ BOOL CrashHandler(DWORD fdwCtrlType) {//Для сохранения и шифрования данных в слу
 
 int menu() {//Главное меню
 	Decrypt();
-	list.ListFromFile("file.bin");//Пока что тестовый файл с одинаковыми студентами.
+	list.ListFromFileBin("file.bin");//Пока что тестовый файл с одинаковыми студентами.
 	cout << "База данных расшифрована. Программа готова к работе." << endl; system("pause");
 	int mchoice = -1;
 	for (;mchoice!=0;) 
@@ -60,7 +60,7 @@ int menu() {//Главное меню
 		case 7: { CinDel cout << endl; unsigned int mx, mi; mi = readIntV("Введите минимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
 			mx = readIntV("Введите максимальный год поступления для сортировки:", [](int y) { return y >= 1984 && y <= 2030; });
 			splitStudentsByGrades(list, mi, mx); system("pause"); break; }
-		case 0: { list.ListToFile("file.bin"); Crypt(); cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); }
+		case 0: { list.ListToFileBin("file.bin"); Crypt(); cout << "\nРабота программы завершена, база данных зашифрована."; return 0; system("pause"); }
 		default: {cout << "\nНеизвестная операция!\n"; CinDel break; }
 		}
 	}
