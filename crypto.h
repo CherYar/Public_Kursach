@@ -22,10 +22,10 @@ void Crypt()
 			pass += rand() % 26 + 'a';
 		}
 	}
-	string command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -salt -in file.bin -out file.bin.enc -pass pass:";
+	string command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -salt -in database.bin -out database.bin.enc -pass pass:";
 	command += pass;
 	system(command.c_str());
-	if (remove("file.bin") != 0) {
+	if (remove("database.bin") != 0) {
 		cout << "[ERROR] - ошибка удаления файла" << endl;
 	}
 	ofstream file;
@@ -53,10 +53,10 @@ void Decrypt()
 	if (remove("key.bin") != 0) {
 		cout << "[ERROR] - ошибка удаления файла" << endl;
 	}
-	command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -d -in file.bin.enc -out file.bin -pass pass:";
+	command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -d -in database.bin.enc -out file.bin -pass pass:";
 	command += pass;
 	system(command.c_str());
-	if (remove("file.bin.enc") != 0) {
+	if (remove("database.bin.enc") != 0) {
 		cout << "[ERROR] - ошибка удаления файла" << endl;
 	}
 }

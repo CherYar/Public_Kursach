@@ -79,7 +79,7 @@ public:
 			isdigit(static_cast<unsigned char>(group[9]));
 	}
 	bool validinsti(const string& ist) { return ist.length() >= 2 && ist.length() <= 5; }
-	bool validprogname(const string& prg) { return prg.length() >= 5 && prg.length() <= 25; }
+	bool validprogname(const string& prg) { return prg.length() >= 5 && prg.length() <= 40; }
 
 	bool validnum(const string& proof)
 	{
@@ -130,13 +130,13 @@ public:
 			cout << "| Поступил(а) в " << uch.postup << " г.| Институт: " << uch.institut << " | Кафедра №" << uch.kaf << " | Группа: " << uch.group; switch (fizgroup)
 			{
 			case 0: { cout << " | Физ. груп.: осн. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length() - uch.group.length() - 69) << right << '|' << endl; break; }
-			case 1: { cout << " | Физ. груп.: подг. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 70) << right << '|' << endl; break; }
-			case 2: { cout << " | Физ. груп.: спец. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 70) << right << '|'<< endl; break; }
+			case 1: { cout << " | Физ. груп.: пдг. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 69) << right << '|' << endl; break; }
+			case 2: { cout << " | Физ. груп.: спц. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 69) << right << '|'<< endl; break; }
 			case 3: { cout << " | Физ. груп.: неч. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 69) << right << '|' << endl; break; }
-			default: {cout << " | Физ. груп.: неизв. " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 71) << right << '|' << endl; break; }
+			default: {cout << " | Физ. груп.: ??? " << setw(w - uch.institut.length() - to_string(uch.kaf).length() - to_string(uch.postup).length()- uch.group.length() - 68) << right << '|' << endl; break; }
 			}
 			cout<< "|----------------------------- Программа, оценки и успеваемость: -----------------------------|" << endl;
-			cout << "| Номер программы:" << uch.progid << " | Название программы: " << uch.progname << setw(w - to_string(uch.progid).length() - uch.progname.length() - 36) << " |" << endl;
+			cout << "| Номер программы: " << uch.progid << " | Название программы: " << uch.progname << setw(w - to_string(uch.progid).length() - uch.progname.length() - 37) << " |" << endl;
 			cout << "| Текущий курс: " << uch.curkurs << setw(46) <<"| Текущий семестр: " << uch.cursemestr << setw(w - to_string(uch.curkurs).length() - to_string(uch.cursemestr).length()-57) << " |" << endl;
 			cout << prog;
 		}
@@ -179,6 +179,7 @@ public:
 			cerr << "Не удалось открыть файл для записи" << endl;
 			return;
 		}
+		string fname = fio.getfname(); string srname = fio.getsrname(); string patrn = fio.getpatr();
 		file << num << endl;
 		file << fname << endl;
 		file << srname << endl;
@@ -207,10 +208,14 @@ public:
 			cerr << "Не удалось открыть файл для чтения" << endl;
 			return;
 		}
+		string fname, srname, patrn;
 		getline(file, num);
 		getline(file, fname);
 		getline(file, srname);
 		getline(file, patrn);
+		fio.setfname(fname);
+		fio.setsrname(srname);
+		fio.setpatr(patrn);
 
 		int year, month, day;
 		file >> year >> month >> day;
@@ -246,7 +251,7 @@ public:
 			cerr << "Не удалось открыть файл для записи" << endl;
 			return;
 		}
-
+		string fname = fio.getfname(); string srname = fio.getsrname(); string patrn = fio.getpatr();
 		size_t len = num.size();
 		file.write(reinterpret_cast<const char*>(&len), sizeof(len));
 		file.write(num.c_str(), len);
@@ -305,7 +310,7 @@ public:
 			cerr << "Не удалось открыть файл для чтения" << endl;
 			return;
 		}
-
+		string fname, srname, patrn;
 		size_t len;
 		file.read(reinterpret_cast<char*>(&len), sizeof(len));
 		num.resize(len);
@@ -322,7 +327,9 @@ public:
 		file.read(reinterpret_cast<char*>(&len), sizeof(len));
 		patrn.resize(len);
 		file.read(&patrn[0], len);
-
+		fio.setfname(fname);
+		fio.setsrname(srname);
+		fio.setpatr(patrn);
 		int year;
 		unsigned short month;
 		unsigned short day;
@@ -362,6 +369,7 @@ public:
 		file.close();
 	}
 	void writeToFileBinary(ostream& out) const {
+		string fname = fio.getfname(); string srname = fio.getsrname(); string patrn = fio.getpatr();
 		size_t len = num.size();
 		out.write(reinterpret_cast<const char*>(&len), sizeof(len));
 		out.write(num.c_str(), len);
@@ -412,6 +420,7 @@ public:
 		prog.writeToFileBinary(out);
 	}
 	void readFromFileBinary(istream& in) {
+		string fname, srname, patrn;
 		size_t len;
 		in.read(reinterpret_cast<char*>(&len), sizeof(len));
 		num.resize(len);
@@ -428,6 +437,10 @@ public:
 		in.read(reinterpret_cast<char*>(&len), sizeof(len));
 		patrn.resize(len);
 		in.read(&patrn[0], len);
+
+		fio.setfname(fname);
+		fio.setsrname(srname);
+		fio.setpatr(patrn);
 
 		int year;
 		unsigned short month;
