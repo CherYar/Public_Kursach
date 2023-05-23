@@ -98,7 +98,7 @@ public:
 	}
 
 	friend ostream& operator<<(ostream& out, const date& d) {
-		out << setfill('0') << setw(4) << d.year << '.' << setw(2) << d.month << '.' << setw(2) << d.day << setfill(' ');
+		out << setfill('0') << setw(4) << d.year << '.' << setw(2)<< right << d.month << '.' << setw(2) << right << d.day << setfill(' ') << left;
 		return out;
 	}
 };

@@ -9,7 +9,7 @@ if (!SetConsoleCtrlHandler((PHANDLER_ROUTINE)CrashHandler, TRUE)) {
 student s1, s2; //s1.makestudent(); s1.writeToFile("student1.txt");
 //s1.prfull();
 cout <<"\n\n\n";
-s2.readFromFile("student6.txt");
+s2.readFromFile("student9.txt");
 s2.prfull();
 system("pause");
 }
