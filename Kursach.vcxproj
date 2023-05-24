@@ -129,6 +129,21 @@
   <ItemGroup>
     <ClCompile Include="Kursach.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="crypto.h" />
+    <ClInclude Include="date.h" />
+    <ClInclude Include="menu.h" />
+    <ClInclude Include="misc.h" />
+    <ClInclude Include="name.h" />
+    <ClInclude Include="sessia.h" />
+    <ClInclude Include="sessia_list.h" />
+    <ClInclude Include="student.h" />
+    <ClInclude Include="stud_list.h" />
+    <ClInclude Include="zadanie.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

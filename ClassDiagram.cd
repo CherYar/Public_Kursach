@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="StudentsList">
+    <Position X="9" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAEgQIAEAAAAAIIAQAAAACAAAGAAAAACAAQCACA=</HashCode>
+      <FileName>stud_list.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="student">
+    <Position X="1.5" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="student::insti">
+        <TypeIdentifier>
+          <NewMemberFileName>student.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>FJCEAHjBQooAQEkUigAIDAQAAACFAKAAiBAABSDBUAA=</HashCode>
+      <FileName>student.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SessionList">
+    <Position X="3.75" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EQQABAABABEAIAQAAAoAgAABMAAkAAAAAAggBAAgDCA=</HashCode>
+      <FileName>sessia_list.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="sessia">
+    <Position X="6.25" Y="0.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="sessia::predza">
+        <TypeIdentifier>
+          <NewMemberFileName>sessia.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="sessia::predex">
+        <TypeIdentifier>
+          <NewMemberFileName>sessia.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>kAIIBAAFAABACuAAAMBEQEAAQAAEAAAgASQgNAQECgA=</HashCode>
+      <FileName>sessia.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="name">
+    <Position X="4" Y="0.75" Width="1.25" />
+    <TypeIdentifier>
+      <HashCode>gAAQEAAEQBAQACACggAAAQAAgACEAGAIAAAgAAcAFAA=</HashCode>
+      <FileName>name.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="date">
+    <Position X="9" Y="10" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAsAAAQAAAAAABQCAAAAQCCAAQAAAAADABgAQIBACA=</HashCode>
+      <FileName>date.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DLList">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAAAIBAAAAAEAAAAAAAAAAgAAACAgA=</HashCode>
+      <FileName>zadanie.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Node">
+    <Position X="9" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQAAIAAAA=</HashCode>
+      <FileName>zadanie.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

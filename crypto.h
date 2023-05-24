@@ -53,7 +53,7 @@ void Decrypt()
 	if (remove("key.bin") != 0) {
 		cout << "[ERROR] - ошибка удаления файла" << endl;
 	}
-	command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -d -in database.bin.enc -out file.bin -pass pass:";
+	command = "openssl\\bin\\openssl.exe enc -aes-256-cbc -d -in database.bin.enc -out database.bin -pass pass:";
 	command += pass;
 	system(command.c_str());
 	if (remove("database.bin.enc") != 0) {
