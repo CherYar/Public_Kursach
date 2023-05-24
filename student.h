@@ -30,7 +30,7 @@ protected:
 public:
 	student()
 	{
-		num = "00B0000";
+		num = "00F0000";
 		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х, unnessesary due to standard constructor
 		born.adddatef(1, 1, 2000);//unnessesary due to standard constructor
 		age = 23;
