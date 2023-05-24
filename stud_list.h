@@ -129,8 +129,8 @@ public:
 			switch (smchoice) {
 			case 1: {cout << endl; CinDel stud.num = readStrW("Введите дентификационный номер (Пример: 00А0000):  ", [this](const string& n) { return validnum(n); }); system("pause"); break; }
 			case 2: {cout << endl; CinDel name nfio; cin >> nfio; stud.setfio(nfio); system("pause"); break; }
-			case 3: {cout << endl; CinDel string sn = readStrW("Введите фамилию: ", [this](const string& n) { return validnameS(n); }); stud.setfname(sn); system("pause"); break; }
-			case 4: {cout << endl; CinDel string fn = readStrW("Введите имя: ", [this](const string& n) { return validnameS(n); }); stud.setsrname(fn); system("pause"); break; }
+			case 3: {cout << endl; CinDel string sn = readStrW("Введите фамилию: ", [this](const string& n) { return validnameS(n); }); stud.setsrname(sn); system("pause"); break; }
+			case 4: {cout << endl; CinDel string fn = readStrW("Введите имя: ", [this](const string& n) { return validnameS(n); }); stud.setfname(fn); system("pause"); break; }
 			case 5: {cout << endl; CinDel string pr = readStrW("Введите отчество: ", [this](const string& n) { return validnameS(n); }); stud.setpatr(pr); system("pause"); break; }
 			case 6: {cout << endl; CinDel unsigned short ngendr = readIntV("Введите пол (0-муж., 1-жен.): ", [this](const int& g) { return validgendr(g); }); stud.setgendr(ngendr); system("pause"); break; }
 			case 7: {cout << endl; CinDel date nborn; unsigned short age; cin >> nborn; stud.setborn(nborn); age = readIntV("Введите возраст (полных лет): ", [this](const int& a) { return validage(a); }); stud.setage(age); system("pause"); break; }
