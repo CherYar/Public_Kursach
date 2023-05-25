@@ -10,7 +10,7 @@
 #include <iomanip>
 #include <fstream>
 using namespace std;
-#define CinDel cin.ignore((numeric_limits<streamsize>::max)(), '\n');//По идее чистит буфер ввода.
+#define CinDel cin.ignore((numeric_limits<streamsize>::max)(), '\n');
 
 bool ValidInt(string num) {
 	if (num == "" || num.length() > 9)

@@ -23,7 +23,7 @@ protected:
 	name fio;
 	date born;
 	SessionList prog;
-	unsigned short gendr; // 0 - муж., 1 - жен., 2 - небинар., 3 - не человек (например: ангел). 
+	unsigned short gendr; // 0 - муж., 1 - жен., 2 - небинар., 3 - не человек.
 	unsigned short age;
 	unsigned short fizgroup;// 0 - осн, 1 - подготов, 2 - особ, 3 - нечеловеч.
 
@@ -31,8 +31,8 @@ public:
 	student()
 	{
 		num = "00F0000";
-		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х, unnessesary due to standard constructor
-		born.adddatef(1, 1, 2000);//unnessesary due to standard constructor
+		fio.addfio("Дефолтов", "Дефолт", "Дефолтович");//По заветам рыночных реформ 90х
+		born.adddatef(1, 1, 2000);
 		age = 23;
 		uch.postup = 2020;
 		uch.institut = "ИКБ";
@@ -165,7 +165,7 @@ public:
 		cout << "Введите данные о сессиях студента:" << endl;
 		prog.makesessions();
 	}
-	void changeinstitut() { uch.institut = readStrW("Введите название института: ", [this](const string& i) { return validinsti(i); }); }//для меню, для него потребуются и другие методы
+	void changeinstitut() { uch.institut = readStrW("Введите название института: ", [this](const string& i) { return validinsti(i); }); }
 	void changekaf() { uch.kaf = readIntV("Введите номер кафедры: ", [this](const int& k) { return validkaf(k); }); }
 	void changegroup() { uch.group = readStrW("Введите гуппу (Пример: АБВГ-01-23): ", [this](const string& g) { return validgroup(g); }); }
 	void changeprogid() { uch.progid = readIntLV("Введите номер учебной программы (6ти значное число): ", [this](const long& pi) { return validprogid(pi); }); }
@@ -489,7 +489,7 @@ public:
 	const unsigned short& getAge() { return age; }
 	const unsigned short& getGendr() { return gendr; }
 	const name& getFio() const { return fio; }
-	void progsubmenu() {
+	void progsubmenu() {//изменение данных о списке сессий
 		int pmchoice = -1;
 		for (; pmchoice != 0;) {
 			CinDel
@@ -532,7 +532,7 @@ public:
 			case 4: {CinDel
 				cout << endl; string prompt = "Введите номер сессии(1 - " + psize + "): ";
 				unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (psiz); });
-				sessiasubmenu(index - 1); break;
+				prog.sessiasubmenu(index - 1); break;
 			}
 			case 5: {
 				cout << endl << prog; system("pause"); break;

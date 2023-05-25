@@ -19,7 +19,7 @@ BOOL CrashHandler(DWORD fdwCtrlType) {//Для сохранения и шифрования данных в слу
 
 int menu() {//Главное меню
 	Decrypt();
-	list.ListFromFileBin("database.bin");//Пока что тестовый файл с одинаковыми студентами.
+	list.ListFromFileBin("database.bin");
 	cout << "База данных расшифрована. Программа готова к работе." << endl; system("pause");
 	int mchoice = -1;
 	for (;mchoice!=0;) 
@@ -53,9 +53,9 @@ int menu() {//Главное меню
 			unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (lsiz); });
 			list.printStudent(index - 1); system("pause"); break; }
 		case 4: {CinDel cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
-			unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (lsiz); }); list.studsubmenu(index - 1); cout << "\nСтудент изменён" << endl; system("pause"); break; }
+			unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (lsiz); }); list.studsubmenu(index - 1); system("pause"); break; }
 		case 5: {if (lsiz >= 15) { cout << "\nНевозможно добавить студента, достигнут предел." << endl; system("pause"); break; } else { CinDel student nstud; nstud.makestudent(); list.addStudent(nstud); cout << "\nСтудент добавлен" << endl; system("pause"); break; }  }
-		case 6:{ CinDel cout << endl; string prompt = "Введите номер студента(1 -  " + lsize + "): ";
+		case 6:{ CinDel cout << endl; string prompt = "Введите номер студента(1 - " + lsize + "): ";
 			unsigned short index = readIntV(prompt, [&](int i) { return i >= 1 && i <= (lsiz); }); list.removeStudent(index-1); cout << "\nСтудент удалён." << endl; system("pause"); break;  }
 		case 7: { CinDel cout << endl; unsigned int mx, mi; mi = readIntV("Введите минимальный год рождения для сортировки:", [](int y) { return y >= 1950 && y <= 2030; });
 			mx = readIntV("Введите максимальный год рождения для сортировки:", [](int y) { return y >= 1950 && y <= 2030; });

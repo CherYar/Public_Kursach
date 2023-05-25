@@ -273,8 +273,8 @@ const bool Troeshnik() const {
         int smchoice = -1;
         for (; smchoice != 0;){
         CinDel
-        unsigned short excount = ses.getExamsCount(); string excounts = to_string(excount + 1);
-        unsigned short zacount = ses.getZachsCount(); string zacounts = to_string(zacount + 1);
+        unsigned short excount = ses.getExamsCount(); string excounts = to_string(excount);
+        unsigned short zacount = ses.getZachsCount(); string zacounts = to_string(zacount);
         system("cls");
         cout << "Текущее количество зачётов: " + zacounts << '\n';
         cout << "Текущее количество экзаменов: " + excounts << '\n';
@@ -351,7 +351,7 @@ const bool Troeshnik() const {
             cout << "\nОценка изменена." << endl; system("pause"); break; }
         case 9:{CinDel ses.kurs = readIntV("Введите курс (до 4 - бакалавр., 5 - спец., 6 магистр., до 8 - аспирант.): ", [this](int k) { return validkurs(k); }); }
         case 10:{CinDel ses.semestr = readIntV("Введите семестр (должен соответсвовать курсу): ", [this](int s) { return validsemestr(s); }); }
-        case 11: {cout << ses; system("pause"); break; }
+        case 11: {cout << endl << right << ses << endl; system("pause"); break; }
         case 0: {sessions[indx] = ses; cout << "\nВозвращение в меню работы со списком сессий" << endl; system("pause"); return; }
         default: {cout << "\nНеизвестная операция!\n"; system("pause"); CinDel break; }
         }

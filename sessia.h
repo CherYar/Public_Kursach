@@ -296,13 +296,13 @@ public:
         int maxCount = max(s.examsCount, s.zachsCount);
         for (int i = 0; i < maxCount; i++) {
             if (i < s.examsCount) {
-                os << '|' << left << setw(44) << " " + s.exams[i].name << right << s.exams[i].mark << " ";//работает - не трогай
+                os << '|' << left << setw(44) << " " + s.exams[i].name << right << s.exams[i].mark << " ";
             }
             else {
-                os << "|||||||||||||||||||||||||||||||||||||||||||||||";//дилетанство, но € «јƒќЋЅјЋ—я с setfill
+                os << "|||||||||||||||||||||||||||||||||||||||||||||||";
             }
             if (i < s.zachsCount) {
-                os << '|' << left << setw(38) << " " + s.zachs[i].name << setw(8) << (s.zachs[i].zach ? "зач. " : "незач. ") << '|';//почти работает - не трогай
+                os << '|' << left << setw(38) << " " + s.zachs[i].name << setw(8) << (s.zachs[i].zach ? "зач. " : "незач. ") << '|';
             }
             else {
                 os << "||||||||||||||||||||||||||||||||||||||||||||||||";

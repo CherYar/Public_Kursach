@@ -92,7 +92,7 @@ public:
 		return students[index];
 	}
 
-	void studsubmenu(const int& index) {
+	void studsubmenu(const int& index) {//Изменение данных студента
 		student& stud = students[index];
 		int smchoice = -1;
 		for (; smchoice != 0;) {
